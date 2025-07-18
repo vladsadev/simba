@@ -9,7 +9,8 @@
                 </a>
             </div>
             <div class="flex lg:hidden">
-                <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white hover:text-gray-200">
+                <button type="button"
+                        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white hover:text-gray-200">
                     <span class="sr-only">Abrir menú principal</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
                          aria-hidden="true" class="size-6">
@@ -19,12 +20,15 @@
                 </button>
             </div>
             <div class="hidden lg:flex lg:gap-x-12">
-                <a href="#" class="text-sm/6 font-semibold text-white hover:text-gray-200 transition-colors duration-200 drop-shadow-lg">Nosotros</a>
-                <a href="#" class="text-sm/6 font-semibold text-white hover:text-gray-200 transition-colors duration-200 drop-shadow-lg">Contacto</a>
+                <a href="#"
+                   class="text-sm/6 font-semibold text-white hover:text-gray-200 transition-colors duration-200 drop-shadow-lg">Nosotros</a>
+                <a href="#"
+                   class="text-sm/6 font-semibold text-white hover:text-gray-200 transition-colors duration-200 drop-shadow-lg">Contacto</a>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                <a href="{{ route('login') }}" class="text-sm/6 font-semibold text-white hover:text-gray-200 transition-colors duration-200 drop-shadow-lg">
-                    Iniciar Sesión <span aria-hidden="true">&rarr;</span>
+                <a href="{{ route('register') }}" class="text-sm/6 font-semibold text-white hover:text-gray-200 transition-colors
+                duration-200 drop-shadow-lg">
+                    Registrarse <span aria-hidden="true">&rarr;</span>
                 </a>
             </div>
         </nav>
@@ -39,7 +43,8 @@
                         <span class="sr-only">PAN AMERICAN SILVER</span>
                         <x-application-logo/>
                     </a>
-                    <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-400 hover:text-white transition-colors duration-200">
+                    <button type="button"
+                            class="-m-2.5 rounded-md p-2.5 text-gray-400 hover:text-white transition-colors duration-200">
                         <span class="sr-only">Cerrar menú</span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
                              aria-hidden="true" class="size-6">
@@ -70,7 +75,7 @@
 
     <main>
         <!-- Hero section -->
-        <div class="relative isolate overflow-hidden bg-gray-900 pt-14 pb-16 sm:pb-20 h-[100vh]">
+        <div class="relative isolate overflow-hidden bg-gray-900 pt-14 lg:pt-20 pb-8 sm:pb-12 min-h-screen">
             <!-- Background Image -->
             <img src="{{Vite::asset('resources/images/simbaHome.webp')}}"
                  alt="Equipo minero en operación" class="absolute inset-0 -z-20 size-full object-cover"/>
@@ -88,24 +93,27 @@
             </div>
 
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
-                <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+                <div class="mx-auto max-w-2xl py-16 sm:py-20 lg:py-24 xl:pt-36">
                     <div class="text-center">
-                        <h1 class="text-5xl font-bold tracking-tight text-balance text-white sm:text-7xl drop-shadow-2xl">
+                        <h1 class="text-4xl font-bold tracking-tight text-balance text-white sm:text-6xl drop-shadow-2xl">
                             Sistema de Control
                             <span class="text-yellow-400 drop-shadow-2xl">SIMBA</span>
                         </h1>
-                        <p class="mt-8 text-lg font-medium text-pretty text-gray-200 sm:text-xl/8 drop-shadow-xl max-w-2xl mx-auto">
+                        <p class="mt-6 lg:mt-8 text-base font-medium text-pretty text-gray-200 sm:text-lg/7 drop-shadow-xl
+                        max-w-2xl mx-auto">
                             Control y monitoreo del estado de equipos pesados para operaciones mineras.
                             Gestiona inspecciones de seguridad y reportes operacionales de manera eficiente.
                         </p>
-                        <div class="mt-10 flex items-center justify-center gap-x-6">
+                        <div class="mt-8 lg:mt-10 flex items-center justify-center gap-x-6">
                             <a href="{{ route('login') }}"
                                class="rounded-md bg-yellow-600 px-6 py-3 text-sm lg:text-md font-semibold text-white
                                shadow-2xl hover:bg-yellow-500 focus-visible:outline-2 focus-visible:outline-offset-2
                                focus-visible:outline-yellow-500 transition-all duration-200 transform hover:scale-105">
                                 Iniciar Sesión
                             </a>
-                            <a href="#equipos" class="text-sm font-semibold text-white hover:text-gray-200 transition-colors duration-200 drop-shadow-lg">
+                            <a href="https://www.epiroc.com/" target="_blank" class="text-sm font-semibold text-white
+                            hover:text-gray-200
+                            transition-colors duration-200 drop-shadow-lg">
                                 Ver Equipos <span aria-hidden="true">↓</span>
                             </a>
                         </div>
@@ -113,49 +121,49 @@
                 </div>
 
                 <!-- Equipos Section -->
-                <div id="equipos" class="mx-auto max-w-7xl pb-16">
-                    <div class="text-center mb-12">
-                        <h2 class="text-3xl font-bold text-white drop-shadow-2xl mb-4">Equipos Monitoreados</h2>
+                <div id="equipos" class="mx-auto max-w-7xl pb-8">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-bold text-white drop-shadow-2xl mb-2">Equipos Monitoreados</h2>
                         <p class="text-gray-200 drop-shadow-xl">Controla el estado operacional de tu flota de equipos pesados</p>
                     </div>
 
                     <!-- Equipment Cards -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                         <!-- Excavadoras -->
-                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
                             <div class="text-center">
-                                <div class="w-16 h-16 mx-auto mb-4 bg-yellow-500 rounded-full flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <div class="w-12 h-12 mx-auto mb-3 bg-yellow-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M19 7h-3V6a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v1H7a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM11 6h2v1h-2V6zm6 13a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V9h8v10z"/>
                                     </svg>
                                 </div>
-                                <h3 class="text-xl font-semibold text-white drop-shadow-lg mb-2">Excavadoras</h3>
+                                <h3 class="text-lg font-semibold text-white drop-shadow-lg mb-1">Excavadoras</h3>
                                 <p class="text-gray-200 drop-shadow-lg text-sm">Control de palas y sistemas hidráulicos</p>
                             </div>
                         </div>
 
                         <!-- Camiones -->
-                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
                             <div class="text-center">
-                                <div class="w-16 h-16 mx-auto mb-4 bg-yellow-500 rounded-full flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <div class="w-12 h-12 mx-auto mb-3 bg-yellow-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M20 8h-3V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2v2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3v-2c1.1 0 2-.9 2-2v-3c0-1.1-.9-2-2-2zM6 17.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm12 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
                                     </svg>
                                 </div>
-                                <h3 class="text-xl font-semibold text-white drop-shadow-lg mb-2">Camiones</h3>
+                                <h3 class="text-lg font-semibold text-white drop-shadow-lg mb-1">Camiones</h3>
                                 <p class="text-gray-200 drop-shadow-lg text-sm">Monitoreo de sistemas de transporte</p>
                             </div>
                         </div>
 
                         <!-- Perforadoras -->
-                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
                             <div class="text-center">
-                                <div class="w-16 h-16 mx-auto mb-4 bg-yellow-500 rounded-full flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <div class="w-12 h-12 mx-auto mb-3 bg-yellow-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
                                     </svg>
                                 </div>
-                                <h3 class="text-xl font-semibold text-white drop-shadow-lg mb-2">Perforadoras</h3>
+                                <h3 class="text-lg font-semibold text-white drop-shadow-lg mb-1">Perforadoras</h3>
                                 <p class="text-gray-200 drop-shadow-lg text-sm">Control de equipos de perforación</p>
                             </div>
                         </div>
