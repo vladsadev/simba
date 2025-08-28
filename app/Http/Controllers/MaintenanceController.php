@@ -81,8 +81,7 @@ class MaintenanceController extends Controller
         $maintenance->equipment->updateMaintenanceCache();
 
         return redirect()
-//            ->route('maintenances.show', $maintenance)
-                ->route('equipment.index')
+            ->route('maintenances.show', $maintenance)
             ->with('success', 'Mantenimiento programado exitosamente. El equipo ha sido marcado como "En Mantenimiento".');
     }
 
@@ -115,7 +114,7 @@ class MaintenanceController extends Controller
         // Al eliminar un mantenimiento, revisar si debe cambiar el estado del equipo
         $hasOtherPendingMaintenance = $equipment->maintenances()
             ->where('id', '!=', $maintenance->id)
-            ->whereIn('status', ['programado', 'en_proceso'])
+            ->whereNull('completed_date')  // ✅ CORREGIDO: usar fechas en lugar de status
             ->exists();
 
         $maintenance->delete();
@@ -135,12 +134,12 @@ class MaintenanceController extends Controller
 
     public function start(Maintenance $maintenance): RedirectResponse
     {
-        if ($maintenance->status !== 'programado') {
-            return back()->with('error', 'Solo se pueden iniciar mantenimientos programados.');
+        // ✅ CORREGIDO: usar fechas para verificar el estado
+        if ($maintenance->started_date || $maintenance->completed_date) {
+            return back()->with('error', 'Este mantenimiento ya fue iniciado o completado.');
         }
 
         $maintenance->update([
-            'status' => 'en_proceso',
             'started_date' => now()
         ]);
 
@@ -161,8 +160,7 @@ class MaintenanceController extends Controller
         ]);
 
         $maintenance->update([
-            'status' => 'completado',
-            'completed_date' => now(),
+            'completed_date' => now(),  // ✅ CORREGIDO: solo usar fechas
             'work_performed' => $request->work_performed,
             'observations' => $request->observations,
             'cost' => $request->cost,
@@ -173,7 +171,7 @@ class MaintenanceController extends Controller
         // Verificar si hay otros mantenimientos pendientes para este equipo
         $hasPendingMaintenance = $maintenance->equipment->maintenances()
             ->where('id', '!=', $maintenance->id)
-            ->whereIn('status', ['programado', 'en_proceso'])
+            ->whereNull('completed_date')  // ✅ CORREGIDO: usar fechas
             ->exists();
 
         // Si no hay otros mantenimientos pendientes, cambiar equipo a activo
@@ -189,21 +187,24 @@ class MaintenanceController extends Controller
 
     public function cancel(Maintenance $maintenance): RedirectResponse
     {
-        if ($maintenance->status === 'completado') {
+        // ✅ CORREGIDO: verificar usando fechas
+        if ($maintenance->completed_date) {
             return back()->with('error', 'No se puede cancelar un mantenimiento completado.');
         }
 
-        $maintenance->update(['status' => 'cancelado']);
+        // Marcar como cancelado usando una fecha especial o eliminarlo
+        // Opción 1: Eliminarlo directamente
+        $equipment = $maintenance->equipment;
+        $maintenance->delete();
 
         // Verificar si hay otros mantenimientos pendientes para este equipo
-        $hasPendingMaintenance = $maintenance->equipment->maintenances()
-            ->where('id', '!=', $maintenance->id)
-            ->whereIn('status', ['programado', 'en_proceso'])
+        $hasPendingMaintenance = $equipment->maintenances()
+            ->whereNull('completed_date')  // ✅ CORREGIDO: usar fechas
             ->exists();
 
         // Si no hay otros mantenimientos pendientes, cambiar equipo a activo
         if (!$hasPendingMaintenance) {
-            $maintenance->equipment->update(['status' => 'active']);
+            $equipment->update(['status' => 'active']);
         }
 
         return back()->with('success', 'Mantenimiento cancelado.');
