@@ -16,6 +16,7 @@ class Inspection extends Model
         'inspection_date',
         'status',
         'observations',
+
         'cuchara_checked',
         'llantas_checked',
         'articulacion_checked',
@@ -26,9 +27,11 @@ class Inspection extends Model
         'brazo_checked',
         'tablero_checked',
         'extintores_checked',
-    'epp_complete',
+        'epp_complete',
         // Si tienes más campos, agrégalos aquí
 //        'checked_items',  // Si existe
+        ''
+
 //        'total_items',    // Si existe
     ];
 
@@ -43,37 +46,6 @@ class Inspection extends Model
     /**
      * Boot method para eventos del modelo
      */
-
-    // Agregar un accessor para calcular el porcentaje dinámicamente
-    public function getCompletionPercentageAttribute()
-    {
-        $checkboxFields = [
-            'cuchara_checked',
-            'llantas_checked',
-            'articulacion_checked',
-            'cilindro_checked',
-            'botellones_checked',
-            'zbar_checked',
-            'dogbone_checked',
-            'brazo_checked',
-            'tablero_checked',
-            'extintores_checked',
-        ];
-
-        $total = count($checkboxFields);
-        $checked = 0;
-
-        foreach ($checkboxFields as $field) {
-            if ($this->$field) {
-                $checked++;
-            }
-        }
-
-        return $total > 0 ? round(($checked / $total) * 100, 2) : 0;
-    }
-
-
-
     protected static function boot()
     {
         parent::boot();
@@ -98,6 +70,7 @@ class Inspection extends Model
         }
 
     }
+
 
     /**
      * Método para calcular el porcentaje de completitud
@@ -147,41 +120,6 @@ class Inspection extends Model
         return $query->where('status', 'pending');
     }
 
-    /**
-     * Accessor para obtener el porcentaje formateado
-     */
-    public function getFormattedCompletionPercentageAttribute()
-    {
-        return number_format($this->completion_percentage, 1) . '%';
-    }
-
-    /**
-     * Accessor para obtener el badge de status
-     */
-    public function getStatusBadgeAttribute()
-    {
-        $badges = [
-            'completed' => 'bg-green-100 text-green-800',
-            'incomplete' => 'bg-yellow-100 text-yellow-800',
-            'pending' => 'bg-gray-100 text-gray-800',
-        ];
-
-        return $badges[$this->status] ?? $badges['pending'];
-    }
-
-    /**
-     * Accessor para obtener el texto del status
-     */
-    public function getStatusTextAttribute()
-    {
-        $texts = [
-            'completed' => 'Completada',
-            'incomplete' => 'Incompleta',
-            'pending' => 'Pendiente',
-        ];
-
-        return $texts[$this->status] ?? 'Desconocido';
-    }
 
     /**
      * Método para obtener los items aprobados

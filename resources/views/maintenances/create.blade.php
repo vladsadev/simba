@@ -50,7 +50,7 @@
                     label="Fecha Programada"
                     name="scheduled_date"
                     type="date"
-                    value="{{ old('scheduled_date', now()->addDays(1)->format('Y-m-d')) }}"
+                    value="{{ old('scheduled_date', now()->format('Y-m-d')) }}"
                     required
                 />
             </div>

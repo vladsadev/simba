@@ -47,10 +47,21 @@ return new class extends Migration {
             $table->decimal('bucket_capacity', 8, 2)->nullable()->comment('Capacidad de cuchara en m³');
             $table->decimal('max_load', 8, 2)->nullable()->comment('Carga máxima en toneladas');
 
-            // Información operacional
+            // Mantenimiento
             $table->date('last_maintenance')->nullable();
             $table->date('next_maintenance')->nullable();
-            $table->text('notes')->nullable();
+
+            //Trabajo
+            $table->integer('engine_hours')->nullable();
+            $table->integer('percussion_hours')->nullable();
+            $table->integer('position_hours')->nullable();
+
+            //Imagen del equipo
+            $table->string('equipment_img_path')->nullable();
+
+            //Manuales del equipo
+            $table->string('pdf_file')->nullable();
+
 
             $table->timestamps();
 

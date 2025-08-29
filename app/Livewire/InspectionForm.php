@@ -30,19 +30,15 @@ class InspectionForm extends Component
         'accion_recomendada' => 'Monitoreo continuo'
     ];
 
-    // MANTÉN tu estructura actual pero organizándola mejor
     public $inspectionItems = [
-        // Sección 1: Componentes Principales
         'cuchara' => 'Revisar el estado de la cuchara',
         'llantas' => 'Revisar el estado de las llantas',
         'articulacion' => 'Revisar engrase en la articulación central superior e inferior',
         'cilindro' => 'Revisar engrase en cilindro de dirección',
         'botellones' => 'Revisar engrase en los botellones de levante y volteo',
 
-        // Separador
         'br' => 'Este será un subtítulo',
 
-        // Sección 2: Sistema Hidráulico
         'zbar' => 'Revisar engrase en Z-BAR',
         'dogbone' => 'Revisar engrase en DOG-BONE',
         'brazo' => 'Revisar engrase en el brazo/puño de cuchara',
@@ -50,9 +46,8 @@ class InspectionForm extends Component
         'extintores' => 'Revisar extintores y verificar que esté cargado',
     ];
 
-    // Títulos para las secciones (nuevo)
     public $sectionTitles = [
-        'br' => 'Sistema Hidráulico y Control'
+        'br' => 'Sistema Hidráulico y Control',
     ];
 
     // Reglas de validación
@@ -110,10 +105,8 @@ class InspectionForm extends Component
     public function toggleItem($key)
     {
         if (in_array($key, $this->checkedItems)) {
-            // Si estaba marcado, lo desmarcamos
             $this->checkedItems = array_values(array_diff($this->checkedItems, [$key]));
         } else {
-            // Si no estaba marcado, lo marcamos
             $this->checkedItems[] = $key;
             // Si tenía un problema reportado, lo quitamos
             unset($this->reportedIssues[$key]);

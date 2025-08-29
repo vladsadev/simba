@@ -35,13 +35,9 @@ if($estado === 'active'){
         </div>
 
         <hr class="mb-1.5">
-        <div class="grid grid-cols-1 gap-x-4 gap-y-1 text-xs text-gray-600 mb-3">
+        <div class="grid grid-cols-1 gap-x-4 gap-y-1 text-xs text-gray-600 mb-2">
             <x-machine.field name="Último Mantenimiento">{{$machine->lastmaintenance}} </x-machine.field>
-        </div>
-
-        <!-- Datos en 1 columna -->
-        <div class="grid grid-cols-1 gap-x-4 gap-y-1 text-xs text-gray-600 mb-3">
-            <x-machine.field name="Total Horas Trabajadas"> 248</x-machine.field>
+            <x-machine.field name="Próximo Mantenimiento">{{$machine->next_maintenance}} </x-machine.field>
         </div>
 
         <!-- Botone(s) de acción-->

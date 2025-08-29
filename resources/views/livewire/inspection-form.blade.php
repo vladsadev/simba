@@ -38,7 +38,6 @@
                         @endif
                     </div>
 
-                    {{-- Reemplaza la lista de items con esto --}}
                     <div class="p-6 space-y-3">
                         @foreach($inspectionItems as $key => $item)
                             @if($key === 'br')
