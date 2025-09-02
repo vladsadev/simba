@@ -23,7 +23,7 @@
         @foreach($inspectionConfig['sections'] as $sectionKey => $section)
             <div class="mb-8">
                 {{-- Título de sección con indicador de progreso --}}
-                <div class="bg-gray-900 text-white px-4 py-3 rounded-t-lg flex items-center justify-between">
+                <div class="bg-blue-main text-white px-4 py-3 rounded-t-lg flex items-center justify-between">
                     <h3 class="font-semibold text-lg">{{ $section['title'] }}</h3>
                     <div class="flex items-center space-x-3">
                         @if($this->isSectionComplete($sectionKey))

@@ -30,6 +30,12 @@ return new class extends Migration
             $table->boolean('purgar_agua_filtro_checked')->default(false);
             $table->boolean('polvo_valvula_vacio_checked')->default(false);
             $table->boolean('correas_alternador_checked')->default(false);
+            $table->boolean('filtro_de_aire_checked')->default(false);
+            $table->boolean('reservorio_de_grasa_checked')->default(false);
+            $table->boolean('bornes_de_bateria_checked')->default(false);
+            $table->boolean('mangueras_de_admision_checked')->default(false);
+            $table->boolean('gatas_checked')->default(false);
+
 
             // SECCIÓN 2: REVISIÓN DESPUÉS DE ARRANCAR EL MOTOR
             $table->boolean('presencia_fugas_checked')->default(false);

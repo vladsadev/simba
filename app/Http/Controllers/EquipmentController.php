@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Equipment;
 use App\Http\Requests\StoreEquipmentRequest;
 use App\Http\Requests\UpdateEquipmentRequest;
+use Illuminate\Http\Request;
+
 use App\Models\EquipmentType;
 
 class EquipmentController extends Controller

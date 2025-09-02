@@ -36,6 +36,8 @@ class InspectionController extends Controller
      */
     public function store(StoreInspectionRequest $request)
     {
+
+        dump($request);
         try {
             if ($request->expectsJson()) {
 
@@ -46,17 +48,6 @@ class InspectionController extends Controller
                     'inspection_date' => Carbon::now(),
                     'status' => 'completada',
                     'observations' => $request->observations ?? null,
-                    'cuchara_checked' => $request->has('cuchara'),
-                    'llantas_checked' => $request->has('llantas'),
-                    'articulacion_checked' => $request->has('articulacion'),
-                    'cilindro_checked' => $request->has('cilindro'),
-                    'botellones_checked' => $request->has('botellones'),
-                    'zbar_checked' => $request->has('zbar'),
-                    'dogbone_checked' => $request->has('dogbone'),
-                    'brazo_checked' => $request->has('brazo'),
-                    'tablero_checked' => $request->has('tablero'),
-                    'extintores_checked' => $request->has('extintores'),
-                    'epp_complete' => $request->has('epp'),
                 ]);
 
                 // Procesar issues reportados si existen

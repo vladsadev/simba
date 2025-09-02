@@ -13,6 +13,11 @@ return [
                 'purgar_agua_filtro' => 'Purgar Agua Del Filtro Separador',
                 'polvo_valvula_vacio' => 'Purgar El Polvo De La Válvula De Vacío Del Filtro De Aire',
                 'correas_alternador' => 'Revisar Las Correas Del Alternador, Ventilador Y De Combustible',
+                'filtro_de_aire'=> 'Revisar El Filtro De Aire Con El Indicador De Restricción De Admisión',
+                'reservorio_de_grasa' => 'Verificar Nivel De Grasa En El Reservorio De Engrase Automático',
+                'bornes_de_bateria' => 'Revisar Los Bornes De Las Baterías',
+                'mangueras_de_admision' => 'Revisar El Estado De Mangueras Flexibles De Admisión',
+                'gatas'=> 'Gatas delanteras y posteriores'
             ]
         ],
 
@@ -58,32 +63,10 @@ return [
         ],
     ],
 
-    // Mapeo de campos a la base de datos actual
-    // Este mapeo te permitirá mantener compatibilidad con tu estructura actual
-    'database_mapping' => [
-        // Mapeo de los items anteriores que ya tienes en la base de datos
-        'cuchara' => 'cuchara_checked',
-        'llantas' => 'llantas_checked',
-        'articulacion' => 'articulacion_checked',
-        'cilindro' => 'cilindro_checked',
-        'botellones' => 'botellones_checked',
-        'zbar' => 'zbar_checked',
-        'dogbone' => 'dogbone_checked',
-        'brazo' => 'brazo_checked',
-        'tablero' => 'tablero_checked',
-        'extintores' => 'extintores_checked',
-
-        // Aquí agregarás el mapeo para los nuevos campos cuando actualices la base de datos
-        // Por ejemplo:
-        // 'nivel_combustible' => 'nivel_combustible_checked',
-        // 'nivel_aceite_motor' => 'nivel_aceite_motor_checked',
-        // etc...
-    ],
-
     // Configuración adicional
     'settings' => [
-        'require_all_items' => true, // Todos los items son obligatorios
+        'require_all_items' =>true, // Todos los items son obligatorios
         'allow_partial_sections' => false, // No permitir secciones parciales
-        'show_progress_by_section' => true, // Mostrar progreso por sección
+        'show_progress_by_section' =>true, // Mostrar progreso por sección
     ]
 ];
