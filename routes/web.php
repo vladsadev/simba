@@ -30,12 +30,15 @@ Route::middleware([
     Route::get('/catalogo/crear', [EquipmentController::class, 'create'])->name('equipment.create');
     Route::get('/catalogo/{equipment}/edit', [EquipmentController::class, 'edit'])->name('equipment.edit');
     Route::get('/catalogo/{equipment}', [EquipmentController::class, 'show'])->name('equipment.show');
+
+    Route::get('/catalogo/{equipment}/delete-confirm', [EquipmentController::class, 'confirmDelete'])->name('equipment.confirm-delete');
+
     Route::post('/catalogo', [EquipmentController::class, 'store'])->name('equipment.store');
     Route::patch('/catalog/{equipment}', [EquipmentController::class, 'update'])->name('equipment.update');
     Route::delete('/catalog/{equipment}', [EquipmentController::class, 'destroy'])->name('equipment.destroy');
 
     //Inspecciones
-    Route::view('/inspecciones','dashboard.reportes');
+    Route::view('/inspecciones', 'dashboard.reportes');
     Route::get('/inspecciones/crear/{equipment}', [InspectionController::class, 'create'])->name('inspection.create');
     Route::post('/inspecciones', [InspectionController::class, 'store'])->name('inspection.store');
 

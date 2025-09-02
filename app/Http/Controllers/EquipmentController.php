@@ -94,11 +94,55 @@ class EquipmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Equipment $equipment)
+    public function destroy(Request $request, Equipment $equipment)
     {
-//        return 'ok, lo hago';
-        $equipment->delete();
+        // Verificar si el equipo tiene inspecciones asociadas
+        $hasInspections = $equipment->inspections()->exists();
 
-        return redirect()->route('equipment.index')->with('success', 'Equipo eliminado exitosamente');
+        if ($hasInspections && !$request->has('force_delete')) {
+            // Contar las inspecciones para mostrar información al usuario
+            $inspectionCount = $equipment->inspections()->count();
+
+            return redirect()
+                ->back()
+                ->with('warning', "Este equipo tiene {$inspectionCount} inspección(es) asociada(s). ¿Estás seguro de que deseas eliminarlo junto con todas sus inspecciones?")
+                ->with('equipment_to_delete', $equipment->id);
+        }
+
+        try {
+            // Si el usuario confirmó la eliminación o no hay inspecciones
+            if ($hasInspections) {
+                // Eliminar primero las inspecciones asociadas
+                $equipment->inspections()->delete();
+            }
+
+            // Eliminar también los mantenimientos si existen
+            if ($equipment->maintenances()->exists()) {
+                $equipment->maintenances()->delete();
+            }
+
+            // Finalmente eliminar el equipo
+            $equipment->delete();
+
+            return redirect()
+                ->route('equipment.index')
+                ->with('success', 'Equipo eliminado exitosamente junto con todos sus registros asociados.');
+
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Error al eliminar el equipo: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Método para confirmar eliminación forzada
+     */
+    public function confirmDelete(Equipment $equipment)
+    {
+        $inspectionCount = $equipment->inspections()->count();
+        $maintenanceCount = $equipment->maintenances()->count();
+
+        return view('equipment.confirm-delete', compact('equipment', 'inspectionCount', 'maintenanceCount'));
     }
 }

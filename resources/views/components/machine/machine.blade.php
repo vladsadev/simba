@@ -41,11 +41,11 @@ if($estado === 'active'){
         <div class="flex flex-col gap-2 justify-start items-end text-center">
             <div class="flex gap-2">
 
-                <x-forms.button form="delete-form">Borrar
-                </x-forms.button>
+                <x-link-btn variant="danger" href="{{route('equipment.confirm-delete',$equipment)}}" class="text-center">Borrar</x-link-btn>
 
                 <x-link-btn variant="danger" href="{{route('equipment.edit',$equipment)}}" class="text-center">Editar</x-link-btn>
             </div>
+
 
         </div>
         <form id="delete-form" method="POST" action="{{route('equipment.destroy',$equipment)}}" class="hidden">
