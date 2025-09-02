@@ -19,6 +19,10 @@ class InspectionForm extends Component
     public $reportedIssues = [];
     public $epp = false;
 
+    // Configuración de inspección
+    public $inspectionConfig = [];
+    public $sectionProgress = [];
+
     // Modal de problemas
     public $showIssueModal = false;
     public $currentIssueComponent = '';
@@ -28,26 +32,6 @@ class InspectionForm extends Component
         'severidad' => 'media',
         'descripcion' => '',
         'accion_recomendada' => 'Monitoreo continuo'
-    ];
-
-    public $inspectionItems = [
-        'cuchara' => 'Revisar el estado de la cuchara',
-        'llantas' => 'Revisar el estado de las llantas',
-        'articulacion' => 'Revisar engrase en la articulación central superior e inferior',
-        'cilindro' => 'Revisar engrase en cilindro de dirección',
-        'botellones' => 'Revisar engrase en los botellones de levante y volteo',
-
-        'br' => 'Este será un subtítulo',
-
-        'zbar' => 'Revisar engrase en Z-BAR',
-        'dogbone' => 'Revisar engrase en DOG-BONE',
-        'brazo' => 'Revisar engrase en el brazo/puño de cuchara',
-        'tablero' => 'Verificar estado del tablero del control y display',
-        'extintores' => 'Revisar extintores y verificar que esté cargado',
-    ];
-
-    public $sectionTitles = [
-        'br' => 'Sistema Hidráulico y Control',
     ];
 
     // Reglas de validación
@@ -70,35 +54,99 @@ class InspectionForm extends Component
     public function mount(Equipment $equipment)
     {
         $this->equipment = $equipment;
+        $this->loadInspectionConfig();
+        $this->initializeSectionProgress();
     }
 
-    // Propiedad computada para el progreso - CORREGIDA
-    public function getProgressProperty()
+    // Cargar configuración desde el archivo
+    private function loadInspectionConfig()
     {
-        // Contar solo los items que NO son separadores
-        $totalItems = 0;
-        foreach ($this->inspectionItems as $key => $item) {
-            if ($key !== 'br') { // Excluir separadores
-                $totalItems++;
+        $this->inspectionConfig = config('inspection-items');
+    }
+
+    // Inicializar el progreso por sección
+    private function initializeSectionProgress()
+    {
+        foreach ($this->inspectionConfig['sections'] as $sectionKey => $section) {
+            $this->sectionProgress[$sectionKey] = [
+                'total' => count($section['items']),
+                'checked' => 0,
+                'issues' => 0
+            ];
+        }
+    }
+
+    // Actualizar progreso de sección
+    private function updateSectionProgress($sectionKey)
+    {
+        $checked = 0;
+        $issues = 0;
+
+        foreach ($this->inspectionConfig['sections'][$sectionKey]['items'] as $itemKey => $itemLabel) {
+            if (in_array($itemKey, $this->checkedItems)) {
+                $checked++;
+            }
+            if (isset($this->reportedIssues[$itemKey])) {
+                $issues++;
             }
         }
 
-        $checked = count($this->checkedItems);
-        return $totalItems > 0 ? round(($checked / $totalItems) * 100) : 0;
+        $this->sectionProgress[$sectionKey]['checked'] = $checked;
+        $this->sectionProgress[$sectionKey]['issues'] = $issues;
     }
 
-    // Propiedad computada para contar items reales - NUEVA
+    // Obtener sección de un item
+    private function getItemSection($itemKey)
+    {
+        foreach ($this->inspectionConfig['sections'] as $sectionKey => $section) {
+            if (array_key_exists($itemKey, $section['items'])) {
+                return $sectionKey;
+            }
+        }
+        return null;
+    }
+
+    // Propiedad computada para el progreso total
+    public function getProgressProperty()
+    {
+        $totalItems = 0;
+        $checkedItems = 0;
+
+        foreach ($this->inspectionConfig['sections'] as $section) {
+            $totalItems += count($section['items']);
+        }
+
+        $checkedItems = count($this->checkedItems);
+
+        return $totalItems > 0 ? round(($checkedItems / $totalItems) * 100) : 0;
+    }
+
+    // Propiedad computada para contar items totales
     public function getTotalItemsProperty()
     {
-        return count(array_filter($this->inspectionItems, function($key) {
-            return $key !== 'br';
-        }, ARRAY_FILTER_USE_KEY));
+        $total = 0;
+        foreach ($this->inspectionConfig['sections'] as $section) {
+            $total += count($section['items']);
+        }
+        return $total;
     }
 
     // Propiedad computada para el número de problemas
     public function getIssuesCountProperty()
     {
         return count($this->reportedIssues);
+    }
+
+    // Verificar si una sección está completa
+    public function isSectionComplete($sectionKey)
+    {
+        $section = $this->inspectionConfig['sections'][$sectionKey];
+        foreach ($section['items'] as $itemKey => $itemLabel) {
+            if (!in_array($itemKey, $this->checkedItems) && !isset($this->reportedIssues[$itemKey])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // Cuando se marca/desmarca un checkbox
@@ -110,6 +158,12 @@ class InspectionForm extends Component
             $this->checkedItems[] = $key;
             // Si tenía un problema reportado, lo quitamos
             unset($this->reportedIssues[$key]);
+        }
+
+        // Actualizar progreso de la sección
+        $sectionKey = $this->getItemSection($key);
+        if ($sectionKey) {
+            $this->updateSectionProgress($sectionKey);
         }
     }
 
@@ -151,6 +205,12 @@ class InspectionForm extends Component
         // Asegurarse de que el item no esté marcado como OK
         $this->checkedItems = array_values(array_diff($this->checkedItems, [$this->currentIssueComponent]));
 
+        // Actualizar progreso de la sección
+        $sectionKey = $this->getItemSection($this->currentIssueComponent);
+        if ($sectionKey) {
+            $this->updateSectionProgress($sectionKey);
+        }
+
         // Cerrar modal
         $this->closeIssueModal();
 
@@ -167,6 +227,13 @@ class InspectionForm extends Component
     public function removeIssue($componentKey)
     {
         unset($this->reportedIssues[$componentKey]);
+
+        // Actualizar progreso de la sección
+        $sectionKey = $this->getItemSection($componentKey);
+        if ($sectionKey) {
+            $this->updateSectionProgress($sectionKey);
+        }
+
         session()->flash('issue_removed', 'Problema eliminado');
     }
 
@@ -179,29 +246,37 @@ class InspectionForm extends Component
             return;
         }
 
+        // Verificar que todas las secciones estén completas si es requerido
+        if ($this->inspectionConfig['settings']['require_all_items']) {
+            foreach ($this->inspectionConfig['sections'] as $sectionKey => $section) {
+                if (!$this->isSectionComplete($sectionKey)) {
+                    $this->addError('inspection', 'Debe completar todos los elementos de la sección: ' . $section['title']);
+                    return;
+                }
+            }
+        }
+
         DB::beginTransaction();
 
         try {
-            // Crear la inspección
-            $inspection = Inspection::create([
+            // Preparar datos para guardar
+            $inspectionData = [
                 'equipment_id' => $this->equipment->id,
                 'user_id' => Auth::id(),
                 'inspection_date' => now(),
                 'status' => $this->determineStatus(),
                 'observations' => $this->observations,
-                // Guardar estado de cada checkbox
-                'cuchara_checked' => in_array('cuchara', $this->checkedItems),
-                'llantas_checked' => in_array('llantas', $this->checkedItems),
-                'articulacion_checked' => in_array('articulacion', $this->checkedItems),
-                'cilindro_checked' => in_array('cilindro', $this->checkedItems),
-                'botellones_checked' => in_array('botellones', $this->checkedItems),
-                'zbar_checked' => in_array('zbar', $this->checkedItems),
-                'dogbone_checked' => in_array('dogbone', $this->checkedItems),
-                'brazo_checked' => in_array('brazo', $this->checkedItems),
-                'tablero_checked' => in_array('tablero', $this->checkedItems),
-                'extintores_checked' => in_array('extintores', $this->checkedItems),
                 'epp_complete' => $this->epp,
-            ]);
+            ];
+
+            // Agregar todos los campos checked dinámicamente
+            foreach ($this->checkedItems as $itemKey) {
+                $columnName = $itemKey . '_checked';
+                $inspectionData[$columnName] = true;
+            }
+
+            // Crear la inspección
+            $inspection = Inspection::create($inspectionData);
 
             // Guardar los problemas reportados
             foreach ($this->reportedIssues as $issue) {
@@ -226,8 +301,8 @@ class InspectionForm extends Component
 
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error al guardar inspección:', ['message' => $e->getMessage()]);
-            $this->addError('save', 'Error: ' . $e->getMessage());
+            Log::error('Error al guardar inspección:', ['message' => $e->getMessage()]);
+            $this->addError('save', 'Error al guardar la inspección: ' . $e->getMessage());
         }
     }
 
