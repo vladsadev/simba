@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Livewire;
 
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Inspection;
+
 //use Rappasoft\LaravelLivewireTables\Views\Columns\ButtonGroupColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 
@@ -17,7 +19,7 @@ class InspectionTable extends DataTableComponent
         $this->setPrimaryKey('id');
 
         // Configuración para mejor presentación visual
-        $this->setDefaultSort('id', 'desc');
+        $this->setDefaultSort('inspection_date', 'desc');
 
     }
 
@@ -42,12 +44,14 @@ class InspectionTable extends DataTableComponent
             Column::make("Modelo", "equipment.model")
                 ->sortable()
                 ->searchable(),
+            Column::make('Fecha', "inspection_date")
+                ->sortable(),
 
             // Columna de acciones con botón estilizado
             LinkColumn::make('Acciones')
                 ->title(fn() => 'Ver Inspección')
                 ->location(fn($row) => route('inspection.show', $row->id))
-                ->attributes(fn ($row) => [
+                ->attributes(fn($row) => [
                     'class' => 'bg-yellow-main hover:bg-blue-main cursor-pointer px-4 py-2 text-sm font-semibold rounded-md text-white transition-colors duration-300 inline-flex items-center justify-center',
                 ]),
         ];
