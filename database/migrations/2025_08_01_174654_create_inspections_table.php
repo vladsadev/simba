@@ -70,6 +70,7 @@ return new class extends Migration {
             $table->decimal('position_hours', 10, 1);
 
 
+
             //epp
             $table->boolean('epp_complete')->default(false);
 

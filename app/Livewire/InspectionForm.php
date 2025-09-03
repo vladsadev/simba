@@ -58,10 +58,16 @@ class InspectionForm extends Component
         'currentIssue.descripcion.min' => 'La descripción debe tener al menos 10 caracteres',
         'currentIssue.accion_recomendada.required' => 'Debe seleccionar una acción recomendada',
 
-        'engineHours' => 'Debe contener valores positivos y ser numérico',
-        'percussionHours' => 'Debe contener valores positivos y ser numérico',
-        'positionHours' => 'Debe contener valores positivos y ser numérico',
-        'epp' => 'Debes indicar que cuentas con los EPP requeridos'
+        'engineHours.required' => 'Las horas del motor son requeridas',
+        'engineHours.numeric' => 'Las horas del motor deben ser un número válido',
+        'engineHours.min' => 'Las horas del motor no pueden ser negativas',
+        'percussionHours.required' => 'Las horas de percusión son requeridas',
+        'percussionHours.numeric' => 'Las horas de percusión deben ser un número válido',
+        'percussionHours.min' => 'Las horas de percusión no pueden ser negativas',
+        'positionHours.required' => 'Las horas de posicionamiento son requeridas',
+        'positionHours.numeric' => 'Las horas de posicionamiento deben ser un número válido',
+        'positionHours.min' => 'Las horas de posicionamiento no pueden ser negativas',
+        'epp.accepted' => 'Debe confirmar que cuenta con el EPP requerido'
     ];
 
     // Montar el componente con el equipo
@@ -70,6 +76,12 @@ class InspectionForm extends Component
         $this->equipment = $equipment;
         $this->loadInspectionConfig();
         $this->initializeSectionProgress();
+
+        // Prellenar los horómetros con los valores actuales del equipo
+        // Esto facilita al operador ya que normalmente los valores aumentan
+        $this->engineHours = $equipment->engine_hours ?? 0;
+        $this->percussionHours = $equipment->percussion_hours ?? 0;
+        $this->positionHours = $equipment->position_hours ?? 0;
     }
 
     // Cargar configuración desde el archivo
@@ -90,8 +102,7 @@ class InspectionForm extends Component
         }
     }
 
-    // Actualizar progreso de sección
-
+    // Propiedades computadas existentes...
     public function getProgressProperty()
     {
         $totalItems = 0;
@@ -106,8 +117,6 @@ class InspectionForm extends Component
         return $totalItems > 0 ? round(($checkedItems / $totalItems) * 100) : 0;
     }
 
-    // Obtener sección de un item
-
     public function getTotalItemsProperty()
     {
         $total = 0;
@@ -117,15 +126,12 @@ class InspectionForm extends Component
         return $total;
     }
 
-    // Propiedad computada para el progreso total
-
     public function getIssuesCountProperty()
     {
         return count($this->reportedIssues);
     }
 
-    // Propiedad computada para contar items totales
-
+    // Métodos de toggle y gestión de issues (mantener los existentes)
     public function toggleItem($key)
     {
         if (in_array($key, $this->checkedItems)) {
@@ -143,8 +149,6 @@ class InspectionForm extends Component
         }
     }
 
-    // Propiedad computada para el número de problemas
-
     private function getItemSection($itemKey)
     {
         foreach ($this->inspectionConfig['sections'] as $sectionKey => $section) {
@@ -154,8 +158,6 @@ class InspectionForm extends Component
         }
         return null;
     }
-
-    // Verificar si una sección está completa
 
     private function updateSectionProgress($sectionKey)
     {
@@ -175,25 +177,18 @@ class InspectionForm extends Component
         $this->sectionProgress[$sectionKey]['issues'] = $issues;
     }
 
-    // Cuando se marca/desmarca un checkbox
-
-    public function openIssueModal($componentKey)
+    // Métodos para el modal de problemas (mantener los existentes)
+    public function openIssueModal($component)
     {
-        // Si el item está marcado como OK, lo desmarcamos
-        if (in_array($componentKey, $this->checkedItems)) {
-            $this->checkedItems = array_values(array_diff($this->checkedItems, [$componentKey]));
-        }
+        $this->currentIssueComponent = $component;
 
-        $this->currentIssueComponent = $componentKey;
-        $this->currentIssue['component'] = $componentKey;
-
-        // Si ya había un problema reportado para este componente, cargarlo
-        if (isset($this->reportedIssues[$componentKey])) {
-            $this->currentIssue = $this->reportedIssues[$componentKey];
+        // Si ya existe un problema reportado, cargar sus datos
+        if (isset($this->reportedIssues[$component])) {
+            $this->currentIssue = $this->reportedIssues[$component];
         } else {
             // Resetear el formulario
             $this->currentIssue = [
-                'component' => $componentKey,
+                'component' => $component,
                 'tipo_problema' => '',
                 'severidad' => 'media',
                 'descripcion' => '',
@@ -204,73 +199,65 @@ class InspectionForm extends Component
         $this->showIssueModal = true;
     }
 
-    // Abrir modal para reportar problema
-
     public function saveIssue()
     {
-        $this->validate();
+        $this->validate([
+            'currentIssue.tipo_problema' => 'required|string',
+            'currentIssue.severidad' => 'required|in:baja,media,alta,critica',
+            'currentIssue.descripcion' => 'required|string|min:10',
+            'currentIssue.accion_recomendada' => 'required|string',
+        ]);
 
-        // Guardar en el array de problemas
+        // Guardar el problema
         $this->reportedIssues[$this->currentIssueComponent] = $this->currentIssue;
 
-        // Asegurarse de que el item no esté marcado como OK
+        // Quitar el item de los checkeados si estaba marcado
         $this->checkedItems = array_values(array_diff($this->checkedItems, [$this->currentIssueComponent]));
 
-        // Actualizar progreso de la sección
+        // Actualizar el progreso
         $sectionKey = $this->getItemSection($this->currentIssueComponent);
         if ($sectionKey) {
             $this->updateSectionProgress($sectionKey);
         }
 
-        // Cerrar modal
+        // Cerrar el modal
         $this->closeIssueModal();
 
-        // Mensaje de éxito
-        session()->flash('issue_saved', 'Problema reportado correctamente');
+        session()->flash('issue_saved', 'Problema reportado exitosamente');
     }
 
     public function closeIssueModal()
     {
         $this->showIssueModal = false;
-        $this->reset(['currentIssue', 'currentIssueComponent']);
+        $this->resetValidation();
     }
 
-    public function removeIssue($componentKey)
+    public function removeIssue($component)
     {
-        unset($this->reportedIssues[$componentKey]);
+        unset($this->reportedIssues[$component]);
 
-        // Actualizar progreso de la sección
-        $sectionKey = $this->getItemSection($componentKey);
+        // Actualizar el progreso
+        $sectionKey = $this->getItemSection($component);
         if ($sectionKey) {
             $this->updateSectionProgress($sectionKey);
         }
-
-        session()->flash('issue_removed', 'Problema eliminado');
     }
 
+    // MÉTODO PRINCIPAL DE ENVÍO - ACTUALIZADO CON EL NUEVO ENFOQUE
+//    public function submitInspection()
     public function submit()
     {
-        // Validaciones existentes...
+        // Validaciones
         $this->validate([
             'epp' => 'accepted',
             'engineHours' => 'required|numeric|min:0',
             'percussionHours' => 'required|numeric|min:0',
             'positionHours' => 'required|numeric|min:0',
-        ], [
-            'epp.accepted' => 'Debe confirmar que cuenta con el EPP requerido',
-            'engineHours.required' => 'Las horas del motor son requeridas',
-            'engineHours.numeric' => 'Las horas del motor deben ser un número válido',
-            'engineHours.min' => 'Las horas del motor no pueden ser negativas',
-            'percussionHours.required' => 'Las horas de percusión son requeridas',
-            'percussionHours.numeric' => 'Las horas de percusión deben ser un número válido',
-            'percussionHours.min' => 'Las horas de percusión no pueden ser negativas',
-            'positionHours.required' => 'Las horas de posicionamiento son requeridas',
-            'positionHours.numeric' => 'Las horas de posicionamiento deben ser un número válido',
-            'positionHours.min' => 'Las horas de posicionamiento no pueden ser negativas',
         ]);
-        // Validación personalizada
-        if (count($this->checkedItems) === 0 && count($this->reportedIssues) === 0) {
-            $this->addError('inspection', 'Debe revisar al menos un elemento o reportar problemas encontrados.');
+
+        // Verificar que se haya realizado al menos una inspección
+        if (count($this->checkedItems) == 0 && count($this->reportedIssues) == 0) {
+            $this->addError('inspection', 'Debe inspeccionar al menos un elemento antes de enviar el formulario');
             return;
         }
 
@@ -284,6 +271,26 @@ class InspectionForm extends Component
             }
         }
 
+        // VALIDACIÓN ADICIONAL: Las lecturas actuales no pueden ser menores que las anteriores
+        $currentEngineHours = $this->equipment->engine_hours ?? 0;
+        $currentPercussionHours = $this->equipment->percussion_hours ?? 0;
+        $currentPositionHours = $this->equipment->position_hours ?? 0;
+
+        if ($this->engineHours < $currentEngineHours) {
+            $this->addError('engineHours', "Las horas del motor no pueden ser menores al valor actual registrado ({$currentEngineHours} horas)");
+            return;
+        }
+
+        if ($this->percussionHours < $currentPercussionHours) {
+            $this->addError('percussionHours', "Las horas de percusión no pueden ser menores al valor actual registrado ({$currentPercussionHours} horas)");
+            return;
+        }
+
+        if ($this->positionHours < $currentPositionHours) {
+            $this->addError('positionHours', "Las horas de posicionamiento no pueden ser menores al valor actual registrado ({$currentPositionHours} horas)");
+            return;
+        }
+
         DB::beginTransaction();
 
         try {
@@ -294,30 +301,29 @@ class InspectionForm extends Component
                 'inspection_date' => now(),
                 'status' => $this->determineStatus(),
                 'observations' => $this->observations,
+                // Guardar las lecturas actuales de los horómetros
                 'engine_hours' => $this->engineHours,
                 'percussion_hours' => $this->percussionHours,
                 'position_hours' => $this->positionHours,
                 'epp_complete' => $this->epp,
             ];
 
-
-            // IMPORTANTE: Establecer TODOS los campos booleanos
-            // Primero, establecer todos como false por defecto
+            // Establecer TODOS los campos booleanos
             foreach ($this->inspectionConfig['sections'] as $sectionKey => $section) {
                 foreach ($section['items'] as $itemKey => $itemLabel) {
                     $columnName = $itemKey . '_checked';
-                    $inspectionData[$columnName] = false; // Por defecto false
+                    $inspectionData[$columnName] = false;
                 }
             }
 
-            // Ahora, establecer como true solo los que están marcados
+            // Establecer como true solo los que están marcados
             foreach ($this->checkedItems as $itemKey) {
                 $columnName = $itemKey . '_checked';
                 $inspectionData[$columnName] = true;
             }
 
             // Debug para verificar los datos antes de guardar
-            \Log::info('Datos de inspección a guardar:', $inspectionData);
+            Log::info('Datos de inspección a guardar:', $inspectionData);
 
             // Crear la inspección
             $inspection = Inspection::create($inspectionData);
@@ -336,27 +342,62 @@ class InspectionForm extends Component
                     'status' => 'abierto'
                 ]);
             }
+
+            // Calcular las horas trabajadas desde la última lectura
+            $hoursWorkedEngine = $this->engineHours - $currentEngineHours;
+            $hoursWorkedPercussion = $this->percussionHours - $currentPercussionHours;
+            $hoursWorkedPosition = $this->positionHours - $currentPositionHours;
+
+            // ACTUALIZAR EL EQUIPO con las nuevas lecturas
             $this->equipment->update([
-                'engine_hours' => max($this->equipment->engine_hours ?? 0, $this->engineHours),
-                'percussion_hours' => max($this->equipment->percussion_hours ?? 0, $this->percussionHours),
-                'position_hours' => max($this->equipment->position_hours ?? 0, $this->positionHours),
+                'engine_hours' => $this->engineHours,
+                'percussion_hours' => $this->percussionHours,
+                'position_hours' => $this->positionHours,
             ]);
 
             DB::commit();
 
-            session()->flash('success', 'Inspección guardada exitosamente');
+            // Log de éxito con información detallada
+            Log::info('Inspección guardada exitosamente', [
+                'inspection_id' => $inspection->id,
+                'equipment_id' => $this->equipment->id,
+                'lecturas' => [
+                    'motor' => ['actual' => $this->engineHours, 'anterior' => $currentEngineHours, 'trabajadas' => $hoursWorkedEngine],
+                    'percusion' => ['actual' => $this->percussionHours, 'anterior' => $currentPercussionHours, 'trabajadas' => $hoursWorkedPercussion],
+                    'posicionamiento' => ['actual' => $this->positionHours, 'anterior' => $currentPositionHours, 'trabajadas' => $hoursWorkedPosition],
+                ],
+                'issues_count' => count($this->reportedIssues)
+            ]);
+
+            // Mensaje de éxito detallado
+            $successMessage = 'Inspección guardada exitosamente. ';
+            if ($hoursWorkedEngine > 0 || $hoursWorkedPercussion > 0 || $hoursWorkedPosition > 0) {
+                $successMessage .= sprintf(
+                    'Horas registradas - Motor: %.1f (+%.1f), Percusión: %.1f (+%.1f), Posicionamiento: %.1f (+%.1f)',
+                    $this->engineHours,
+                    $hoursWorkedEngine,
+                    $this->percussionHours,
+                    $hoursWorkedPercussion,
+                    $this->positionHours,
+                    $hoursWorkedPosition
+                );
+            }
+
+            session()->flash('success', $successMessage);
 
             return redirect()->route('equipment.show', $this->equipment);
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error al guardar inspección:', ['message' => $e->getMessage()]);
+            Log::error('Error al guardar inspección:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             $this->addError('save', 'Error al guardar la inspección: ' . $e->getMessage());
         }
     }
 
-    // Enviar formulario completo
-
+    // Verificar si una sección está completa
     public function isSectionComplete($sectionKey)
     {
         $section = $this->inspectionConfig['sections'][$sectionKey];
@@ -369,7 +410,6 @@ class InspectionForm extends Component
     }
 
     // Determinar el estado basado en los problemas
-
     private function determineStatus()
     {
         if (count($this->reportedIssues) === 0) {

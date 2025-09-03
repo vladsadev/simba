@@ -18,7 +18,7 @@
         <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
 
             <x-machine.machine :$equipment/>
-
+            <x-equipment.horometer-status :equipment="$equipment" />
         </div>
 
     </x-panels.main>
