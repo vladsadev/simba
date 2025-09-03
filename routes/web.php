@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DrillingGridController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\InspectionIssueController;
 use App\Http\Controllers\MaintenanceController;
+use App\Models\Equipment;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,9 +18,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/reportes', function () {
         return view('dashboard.reportes');

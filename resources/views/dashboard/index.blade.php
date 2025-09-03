@@ -10,6 +10,7 @@
         <!-- Estadísticas Generales -->
         <x-description-heading>Resumen General</x-description-heading>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-8 mb-8">
+            <!-- Operativas -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
@@ -21,11 +22,12 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-500">Operativas</p>
-                        <p class="text-2xl font-semibold text-gray-900">16</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ $stats['operational'] }}</p>
                     </div>
                 </div>
             </div>
 
+            <!-- En Mantenimiento -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
@@ -37,11 +39,12 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-500">En Mantenimiento</p>
-                        <p class="text-2xl font-semibold text-gray-900">6</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ $stats['in_maintenance'] }}</p>
                     </div>
                 </div>
             </div>
 
+            <!-- Fuera de Servicio -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
@@ -53,11 +56,12 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-500">Fuera de Servicio</p>
-                        <p class="text-2xl font-semibold text-gray-900">3</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ $stats['out_of_service'] }}</p>
                     </div>
                 </div>
             </div>
 
+            <!-- Total Flota -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
@@ -69,106 +73,154 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-500">Total Flota</p>
-                        <p class="text-2xl font-semibold text-gray-900">33</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ $stats['total_fleet'] }}</p>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Detalle por Tipo de Máquina -->
         <x-description-heading>Detalle por Tipo de Máquina</x-description-heading>
-        <!-- Categorías de Equipos -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 w-3/4 mx-auto">
-            <!-- Perforadoras -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-                <div class="bg-gradient-to-r from-yellow-600/85 to-yellow-600 px-6 py-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
-                                </svg>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            @forelse($equipmentTypeDetails as $typeDetail)
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                    <!-- Header del tipo de equipo -->
+                    <div class="bg-gradient-to-r {{ $typeDetail['gradient_class'] }} px-6 py-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                                    <i class="{{ $typeDetail['icon_class'] ?? 'fas fa-cog' }} text-white text-lg"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h3 class="text-lg font-semibold text-white">{{ $typeDetail['type_name'] }}</h3>
+                                    <p class="text-amber-100 text-sm">{{ $typeDetail['total_equipment'] }} equipos</p>
+                                </div>
                             </div>
-                            <div class="ml-3">
-                                <h3 class="text-lg font-semibold text-white">Perforadoras</h3>
-                                <p class="text-sm text-white/80">12 equipos</p>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-white">{{ $typeDetail['total_equipment'] }}</div>
+                                <div class="text-amber-100 text-xs">Total</div>
                             </div>
                         </div>
-                        <a href="#" class="text-white hover:text-white/80
-                            transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
                     </div>
-                </div>
-                <div class="p-6">
-                    <div class="space-y-3">
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Operativas:</span>
-                            <span class="font-medium text-green-600">10</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Mantenimiento:</span>
-                            <span class="font-medium text-yellow-600">2</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Fuera de servicio:</span>
-                            <span class="font-medium text-red-600">0</span>
-                        </div>
-                    </div>
-                    <div class="mt-4 pt-4 border-t border-gray-200">
-                        <div class="text-xs text-gray-500 mb-2">Última inspección</div>
-                        <div class="text-sm font-medium text-gray-900">Hace 2 horas</div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- De Acareo-->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-                <div class="bg-gradient-to-r from-yellow-600/85 to-yellow-600 px-6 py-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M19 7h-3V6a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v1H7a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM11 6h2v1h-2V6zm6 13a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V9h8v10z"/>
-                                </svg>
+                    <!-- Detalles del estado -->
+                    <div class="p-6">
+                        <div class="space-y-3">
+                            <!-- Operativas -->
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600 flex items-center">
+                                    <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                                    Operativas:
+                                </span>
+                                <span class="font-medium text-green-600">{{ $typeDetail['operational'] }}</span>
                             </div>
-                            <div class="ml-3">
-                                <h3 class="text-lg font-semibold text-white">De Acarreo</h3>
-                                <p class="text-sm text-white/80">8 equipos</p>
-                            </div>
-                        </div>
-                        <a href="#" class="text-white hover:text-white/80 transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <div class="space-y-3">
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Operativas:</span>
-                            <span class="font-medium text-green-600">6</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Mantenimiento:</span>
-                            <span class="font-medium text-yellow-600">2</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Fuera de servicio:</span>
-                            <span class="font-medium text-red-600">0</span>
-                        </div>
-                    </div>
-                    <div class="mt-4 pt-4 border-t border-gray-200">
-                        <div class="text-xs text-gray-500 mb-2">Última inspección</div>
-                        <div class="text-sm font-medium text-gray-900">Hace 4 horas</div>
-                    </div>
-                </div>
-            </div>
 
+                            <!-- Mantenimiento -->
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600 flex items-center">
+                                    <div class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+                                    Mantenimiento:
+                                </span>
+                                <span class="font-medium text-yellow-600">{{ $typeDetail['maintenance'] }}</span>
+                            </div>
+
+                            <!-- Fuera de servicio -->
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600 flex items-center">
+                                    <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                                    Fuera de servicio:
+                                </span>
+                                <span class="font-medium text-red-600">{{ $typeDetail['out_of_service'] }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Información de última inspección -->
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <div class="text-xs text-gray-500 mb-2">Última inspección</div>
+                            @if($typeDetail['last_inspection_hours_ago'])
+                                @if($typeDetail['last_inspection_hours_ago'] < 24)
+                                    <div class="text-sm font-medium text-green-600">
+                                        Hace {{ $typeDetail['last_inspection_hours_ago'] }} horas
+                                    </div>
+                                @elseif($typeDetail['last_inspection_hours_ago'] < 168) {{-- 7 días --}}
+                                <div class="text-sm font-medium text-yellow-600">
+                                    Hace {{ round($typeDetail['last_inspection_hours_ago'] / 24) }} días
+                                </div>
+                                @else
+                                    <div class="text-sm font-medium text-red-600">
+                                        Hace {{ round($typeDetail['last_inspection_hours_ago'] / 24) }} días
+                                        <span class="text-xs block">⚠️ Requiere atención</span>
+                                    </div>
+                                @endif
+                            @else
+                                <div class="text-sm font-medium text-red-600">
+                                    Sin inspecciones registradas
+                                    <span class="text-xs block">⚠️ Requiere inspección</span>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Botón de acción opcional -->
+                        <div class="mt-4">
+                            <a href="{{ route('equipment.index', ['type' => $typeDetail['type_id']]) }}"
+                               class="text-sm text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
+                                Ver equipos
+                                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-2 text-center py-8 text-gray-500">
+                    <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
+                    <p>No hay tipos de equipos configurados</p>
+                    <a href="{{ route('equipment.create') }}" class="text-blue-600 hover:underline">Agregar primer equipo</a>
+                </div>
+            @endforelse
         </div>
+
+        <!-- Sección de alertas (opcional) -->
+        @if($stats['in_maintenance'] > 0 || $stats['out_of_service'] > 0)
+            <div class="mt-8">
+                <x-description-heading>Alertas del Sistema</x-description-heading>
+                <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-amber-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-amber-700">
+                                <strong>Atención requerida:</strong>
+                                @if($stats['in_maintenance'] > 0)
+                                    {{ $stats['in_maintenance'] }} equipo(s) en mantenimiento.
+                                @endif
+                                @if($stats['out_of_service'] > 0)
+                                    {{ $stats['out_of_service'] }} equipo(s) fuera de servicio.
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
 
     </x-panels.main>
 
+    <!-- Scripts adicionales para funcionalidades dinámicas -->
+    @push('scripts')
+        <script>
+            // Función para actualizar datos en tiempo real (opcional)
+            function refreshDashboard() {
+                // Implementar aquí llamada AJAX si es necesario
+                console.log('Actualizando dashboard...');
+            }
+
+            // Auto-refresh cada 5 minutos (opcional)
+            // setInterval(refreshDashboard, 300000);
+        </script>
+    @endpush
 </x-app-layout>

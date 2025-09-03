@@ -42,7 +42,6 @@
                     <option value="preventivo" selected>Preventivo</option>
                     <option value="correctivo">Correctivo</option>
                     <option value="emergencia">Emergencia</option>
-                    <option value="inspeccion">Inspección</option>
                 </x-forms.select>
 
                 <!-- Fecha Programada -->

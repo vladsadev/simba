@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained(); // Quien programa/ejecuta
 
             // Tipo y estado del mantenimiento
-            $table->enum('type', ['preventivo', 'correctivo', 'emergencia', 'inspeccion'])
+            $table->enum('type', ['preventivo', 'correctivo', 'emergencia'])
                 ->default('preventivo');
 
             // Fechas importantes
