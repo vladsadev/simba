@@ -1,5 +1,8 @@
 <x-app-layout>
 
-    {{$inspection->id}}
+    <pre>
+
+    {{$inspection}}
+    </pre>
 
 </x-app-layout>
