@@ -42,94 +42,15 @@
     display: none;
 }
 
+/* Estilos para Laravel Livewire Tables */
+.livewire-tables table {
+    @apply min-w-full divide-y divide-gray-200;
+}
 
-/*!* Estilos personalizados para inspecciones *!*/
-/*@layer components {*/
-/*    !* Estilo para checkboxes marcados *!*/
-/*    .inspection-check:checked + label {*/
-/*        color: #059669;*/
-/*        font-weight: 600;*/
-/*    }*/
+.livewire-tables thead {
+    @apply bg-gray-50;
+}
 
-/*    .inspection-check:checked {*/
-/*        background-color: #10b981;*/
-/*        border-color: #10b981;*/
-/*    }*/
-
-/*    !* Estados de los items de inspección *!*/
-/*    .inspection-item.checked {*/
-/*        border-color: #10b981;*/
-/*        background-color: #ecfdf5;*/
-/*    }*/
-
-/*    .inspection-item.with-issue {*/
-/*        border-color: #ef4444;*/
-/*        background-color: #fef2f2;*/
-/*    }*/
-
-/*    !* Efecto hover mejorado *!*/
-/*    .inspection-item:hover {*/
-/*        transform: translateY(-1px);*/
-/*        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);*/
-/*    }*/
-
-/*    !* Barra de progreso dinámica *!*/
-/*    .progress-bar.low {*/
-/*        background-color: #ef4444;*/
-/*    }*/
-
-/*    .progress-bar.medium {*/
-/*        background-color: #f59e0b;*/
-/*    }*/
-
-/*    .progress-bar.high {*/
-/*        background-color: #10b981;*/
-/*    }*/
-
-/*    !* Modal backdrop con blur *!*/
-/*    #issueModal {*/
-/*        backdrop-filter: blur(4px);*/
-/*    }*/
-
-/*    !* Animaciones suaves *!*/
-/*    .fade-in {*/
-/*        animation: fadeIn 0.3s ease-in-out;*/
-/*    }*/
-
-/*    .slide-up {*/
-/*        animation: slideUp 0.3s ease-out;*/
-/*    }*/
-
-/*    @keyframes fadeIn {*/
-/*        from {*/
-/*            opacity: 0;*/
-/*        }*/
-/*        to {*/
-/*            opacity: 1;*/
-/*        }*/
-/*    }*/
-
-/*    @keyframes slideUp {*/
-/*        from {*/
-/*            opacity: 0;*/
-/*            transform: translateY(20px);*/
-/*        }*/
-/*        to {*/
-/*            opacity: 1;*/
-/*            transform: translateY(0);*/
-/*        }*/
-/*    }*/
-
-/*    !* Responsive adjustments *!*/
-/*    @media (max-width: 768px) {*/
-/*        .inspection-item {*/
-/*            flex-direction: column;*/
-/*            align-items: flex-start;*/
-/*            gap: 0.75rem;*/
-/*        }*/
-
-/*        .inspection-item .issue-btn {*/
-/*            align-self: flex-end;*/
-/*        }*/
-/*    }*/
-/*}*/
+.livewire-tables tbody tr:hover {
+    @apply bg-gray-50;
+}
