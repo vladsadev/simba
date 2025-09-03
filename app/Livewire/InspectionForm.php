@@ -15,9 +15,9 @@ class InspectionForm extends Component
     // Propiedades públicas (reactivas)
     public Equipment $equipment;
     public $observations = '';
-    public $engineHours = 0;
-    public $percussionHours = 0;
-    public $positionHours = 0;
+    public $engineHours = 0.0;
+    public $percussionHours = 0.0;
+    public $positionHours = 0.0;
 
     public $checkedItems = [];
     public $reportedIssues = [];
@@ -44,6 +44,11 @@ class InspectionForm extends Component
         'currentIssue.severidad' => 'required|in:baja,media,alta,critica',
         'currentIssue.descripcion' => 'required|string|min:10',
         'currentIssue.accion_recomendada' => 'required|string',
+
+        'engineHours' => 'required|numeric|min:0',
+        'percussionHours' => 'required|numeric|min:0',
+        'positionHours' => 'required|numeric|min:0',
+        'epp' => 'accepted'
     ];
 
     protected $messages = [
@@ -52,6 +57,11 @@ class InspectionForm extends Component
         'currentIssue.descripcion.required' => 'Debe describir el problema',
         'currentIssue.descripcion.min' => 'La descripción debe tener al menos 10 caracteres',
         'currentIssue.accion_recomendada.required' => 'Debe seleccionar una acción recomendada',
+
+        'engineHours' => 'Debe contener valores positivos y ser numérico',
+        'percussionHours' => 'Debe contener valores positivos y ser numérico',
+        'positionHours' => 'Debe contener valores positivos y ser numérico',
+        'epp' => 'Debes indicar que cuentas con los EPP requeridos'
     ];
 
     // Montar el componente con el equipo
@@ -267,7 +277,7 @@ class InspectionForm extends Component
                 'status' => $this->determineStatus(),
                 'observations' => $this->observations,
                 'engine_hours' => $this->engineHours,
-                'percussion_hours'=>$this->percussionHours,
+                'percussion_hours' => $this->percussionHours,
                 'position_hours' => $this->positionHours,
                 'epp_complete' => $this->epp,
             ];

@@ -125,12 +125,38 @@
 
         {{-- Sección de observaciones,horometros y EPP --}}
         <div class="mt-8 space-y-6 border-t pt-6">
-            {{-- Campo de horometros y de observaciones --}}
+            {{-- Campo de horómetros y de observaciones --}}
             <div>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-3">
-                    <x-forms.input label="Horas del Motor" name="" placeholder="123"/>
-                    <x-forms.input label="Horas de Percusión" name="" placeholder="123"/>
-                    <x-forms.input label="Horas de Posicionamiento" name="" placeholder="123"/>
+                    <x-forms.input
+                        label="Horas del Motor"
+                        id="engineHours"
+                        name="engineHours"
+                        type="number"
+                        step="0.1"
+                        placeholder="Ej. 123.6"
+                        wire:model="engineHours"
+                    />
+
+                    <x-forms.input
+                        label="Horas de Percusión"
+                        id="percussionHours"
+                        name="percussionHours"
+                        type="number"
+                        step="0.1"
+                        placeholder="254.3"
+                        wire:model="percussionHours"
+                    />
+
+                    <x-forms.input
+                        label="Horas de Posicionamiento"
+                        id="positionHours"
+                        name="positionHours"
+                        type="number"
+                        step="0.1"
+                        placeholder="147.2"
+                        wire:model="positionHours"
+                    />
                 </div>
 
                 <label for="observations" class="block text-base font-medium text-gray-700 mb-2">
@@ -156,6 +182,7 @@
                 </label>
             </div>
         </div>
+
 
         {{-- Mensajes de error --}}
         @if($errors->any())
