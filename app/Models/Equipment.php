@@ -30,13 +30,21 @@ class Equipment extends Model
         'max_load',
         'last_maintenance',
         'next_maintenance',
-        'notes'
+        'notes',
+        // Agregar los campos de horómetros
+        'engine_hours',
+        'percussion_hours',
+        'position_hours',
     ];
 
     protected $casts = [
         'year' => 'integer',
         'last_maintenance' => 'date',
         'next_maintenance' => 'date',
+        // Agregar cast para los campos decimales
+        'engine_hours' => 'decimal:1',
+        'percussion_hours' => 'decimal:1',
+        'position_hours' => 'decimal:1',
     ];
 
     /**
@@ -45,18 +53,6 @@ class Equipment extends Model
     public function equipmentType(): BelongsTo
     {
         return $this->belongsTo(EquipmentType::class);
-    }
-
-
-    public function inspections(): HasMany
-    {
-        return $this->hasMany(Inspection::class);
-    }
-
-// Nueva relación
-    public function maintenances(): HasMany
-    {
-        return $this->hasMany(Maintenance::class);
     }
 
     /**
@@ -75,49 +71,6 @@ class Equipment extends Model
     }
 
     /**
-     * ⭐ MÉTODOS CALCULADOS para obtener horas trabajadas
-     */
-    // Total de horas trabajadas (suma de todos los reportes)
-    public function getTotalHoursWorkedAttribute(): float
-    {
-        // Comentado temporalmente si no tienes dailyReports
-        // return $this->dailyReports()->sum('hours_worked');
-        return 0;
-    }
-
-    // Horas trabajadas en un periodo específico
-    public function getHoursWorkedInPeriod($startDate, $endDate): float
-    {
-        // Comentado temporalmente si no tienes dailyReports
-        // return $this->dailyReports()
-        //     ->whereBetween('date', [$startDate, $endDate])
-        //     ->sum('hours_worked');
-        return 0;
-    }
-
-    // Horas trabajadas en el mes actual
-    public function getHoursWorkedThisMonth(): float
-    {
-        // Comentado temporalmente si no tienes dailyReports
-        // return $this->dailyReports()
-        //     ->whereYear('date', now()->year)
-        //     ->whereMonth('date', now()->month)
-        //     ->sum('hours_worked');
-        return 0;
-    }
-
-    // Promedio de horas por día en el último mes
-    public function getAverageHoursPerDay(): float
-    {
-        // Comentado temporalmente si no tienes dailyReports
-        // $reports = $this->dailyReports()
-        //     ->where('date', '>=', now()->subMonth())
-        //     ->get();
-        // return $reports->isEmpty() ? 0 : $reports->avg('hours_worked');
-        return 0;
-    }
-
-    /**
      * Obtiene la última inspección del equipo
      */
     public function getLastInspectionAttribute()
@@ -125,18 +78,11 @@ class Equipment extends Model
         return $this->inspections()->latest('inspection_date')->first();
     }
 
-    /**
-     * Verifica si el equipo necesita inspección
-     */
-    public function needsInspection($daysThreshold = 7): bool
+    // Promedio de horas por día en el último mes
+
+    public function inspections(): HasMany
     {
-        $lastInspection = $this->last_inspection;
-
-        if (!$lastInspection) {
-            return true; // Sin inspecciones
-        }
-
-        return $lastInspection->inspection_date->addDays($daysThreshold) < now();
+        return $this->hasMany(Inspection::class);
     }
 
     /**
@@ -151,13 +97,9 @@ class Equipment extends Model
             ->first();
     }
 
-    /**
-     * Verifica si el equipo necesita mantenimiento próximamente
-     */
-    public function needsMaintenanceSoon($daysThreshold = 30): bool
+    public function maintenances(): HasMany
     {
-        return $this->next_maintenance &&
-            $this->next_maintenance <= now()->addDays($daysThreshold);
+        return $this->hasMany(Maintenance::class);
     }
 
     /**
@@ -243,6 +185,29 @@ class Equipment extends Model
         }
 
         return 'normal';
+    }
+
+    /**
+     * Verifica si el equipo necesita inspección
+     */
+    public function needsInspection($daysThreshold = 7): bool
+    {
+        $lastInspection = $this->last_inspection;
+
+        if (!$lastInspection) {
+            return true; // Sin inspecciones
+        }
+
+        return $lastInspection->inspection_date->addDays($daysThreshold) < now();
+    }
+
+    /**
+     * Verifica si el equipo necesita mantenimiento próximamente
+     */
+    public function needsMaintenanceSoon($daysThreshold = 30): bool
+    {
+        return $this->next_maintenance &&
+            $this->next_maintenance <= now()->addDays($daysThreshold);
     }
 
 }

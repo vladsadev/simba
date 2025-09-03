@@ -55,6 +55,8 @@ class Inspection extends Model
         'controles_perforacion_checked' => 'boolean',
         'bloqueo_energizacion_checked' => 'boolean',
         'paradas_emergencia_final_checked' => 'boolean',
+
+
     ];
 
     /**

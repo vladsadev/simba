@@ -250,6 +250,24 @@ class InspectionForm extends Component
 
     public function submit()
     {
+        // Validaciones existentes...
+        $this->validate([
+            'epp' => 'accepted',
+            'engineHours' => 'required|numeric|min:0',
+            'percussionHours' => 'required|numeric|min:0',
+            'positionHours' => 'required|numeric|min:0',
+        ], [
+            'epp.accepted' => 'Debe confirmar que cuenta con el EPP requerido',
+            'engineHours.required' => 'Las horas del motor son requeridas',
+            'engineHours.numeric' => 'Las horas del motor deben ser un número válido',
+            'engineHours.min' => 'Las horas del motor no pueden ser negativas',
+            'percussionHours.required' => 'Las horas de percusión son requeridas',
+            'percussionHours.numeric' => 'Las horas de percusión deben ser un número válido',
+            'percussionHours.min' => 'Las horas de percusión no pueden ser negativas',
+            'positionHours.required' => 'Las horas de posicionamiento son requeridas',
+            'positionHours.numeric' => 'Las horas de posicionamiento deben ser un número válido',
+            'positionHours.min' => 'Las horas de posicionamiento no pueden ser negativas',
+        ]);
         // Validación personalizada
         if (count($this->checkedItems) === 0 && count($this->reportedIssues) === 0) {
             $this->addError('inspection', 'Debe revisar al menos un elemento o reportar problemas encontrados.');
@@ -269,7 +287,7 @@ class InspectionForm extends Component
         DB::beginTransaction();
 
         try {
-            // Preparar datos para guardar
+            // Preparar datos para guardar la inspección
             $inspectionData = [
                 'equipment_id' => $this->equipment->id,
                 'user_id' => Auth::id(),
@@ -318,6 +336,11 @@ class InspectionForm extends Component
                     'status' => 'abierto'
                 ]);
             }
+            $this->equipment->update([
+                'engine_hours' => max($this->equipment->engine_hours ?? 0, $this->engineHours),
+                'percussion_hours' => max($this->equipment->percussion_hours ?? 0, $this->percussionHours),
+                'position_hours' => max($this->equipment->position_hours ?? 0, $this->positionHours),
+            ]);
 
             DB::commit();
 

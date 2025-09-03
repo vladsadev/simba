@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,8 +17,6 @@ return new class extends Migration
             $table->datetime('inspection_date');
             $table->string('status')->default('completada');
             $table->text('observations')->nullable();
-
-
 
 
             // SECCIÓN 1: REVISIÓN ANTES DE ARRANCAR EL MOTOR
@@ -67,6 +64,13 @@ return new class extends Migration
             $table->boolean('paradas_de_emergencia_checked')->default(false);
 
 
+            // Horómetros
+            $table->decimal('engine_hours', 10, 1);
+            $table->decimal('percussion_hours', 10, 1);
+            $table->decimal('position_hours', 10, 1);
+
+
+            //epp
             $table->boolean('epp_complete')->default(false);
 
             $table->timestamps();

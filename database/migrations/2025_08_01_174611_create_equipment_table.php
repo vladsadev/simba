@@ -52,9 +52,9 @@ return new class extends Migration {
             $table->date('next_maintenance')->nullable();
 
             //Trabajo
-            $table->integer('engine_hours')->nullable();
-            $table->integer('percussion_hours')->nullable();
-            $table->integer('position_hours')->nullable();
+            $table->decimal('engine_hours', 10, 1)->nullable();
+            $table->decimal('percussion_hours', 10, 1)->nullable();
+            $table->decimal('position_hours', 10, 1)->nullable();
 
             //Imagen del equipo
             $table->string('equipment_img_path')->nullable();
