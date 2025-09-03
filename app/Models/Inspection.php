@@ -4,172 +4,125 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Inspection extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'equipment_id',
-        'user_id',
-        'inspection_date',
-        'status',
-        'observations',
-
-        'cuchara_checked',
-        'llantas_checked',
-        'articulacion_checked',
-        'cilindro_checked',
-        'botellones_checked',
-        'zbar_checked',
-        'dogbone_checked',
-        'brazo_checked',
-        'tablero_checked',
-        'extintores_checked',
-        'epp_complete',
-        // Si tienes más campos, agrégalos aquí
-//        'checked_items',  // Si existe
-        ''
-
-//        'total_items',    // Si existe
-    ];
+   protected $guarded = [];
 
     protected $casts = [
         'inspection_date' => 'datetime',
-        'inspection_items' => 'array',
-        'work_hours' => 'decimal:2',
-        'total_items' => 'integer',
-        'checked_items' => 'integer',
+        'epp_complete' => 'boolean',
+
+        // Castear TODOS los campos _checked como boolean
+        'cuchara_checked' => 'boolean',
+        'llantas_checked' => 'boolean',
+        'articulacion_checked' => 'boolean',
+        'cilindro_checked' => 'boolean',
+        'botellones_checked' => 'boolean',
+        'zbar_checked' => 'boolean',
+        'dogbone_checked' => 'boolean',
+        'brazo_checked' => 'boolean',
+        'tablero_checked' => 'boolean',
+        'extintores_checked' => 'boolean',
+
+        // Nuevos campos
+        'nivel_combustible_checked' => 'boolean',
+        'nivel_aceite_motor_checked' => 'boolean',
+        'nivel_refrigerante_checked' => 'boolean',
+        'nivel_aceite_hidraulico_checked' => 'boolean',
+        'purgar_agua_filtro_checked' => 'boolean',
+        'polvo_valvula_vacio_checked' => 'boolean',
+        'correas_alternador_checked' => 'boolean',
+        'presencia_fugas_checked' => 'boolean',
+        'switch_parqueo_checked' => 'boolean',
+        'freno_servicio_checked' => 'boolean',
+        'pedales_freno_checked' => 'boolean',
+        'bocina_claxon_checked' => 'boolean',
+        'luces_delanteras_checked' => 'boolean',
+        'paradas_emergencia_checked' => 'boolean',
+        'carrete_manguera_checked' => 'boolean',
+        'cable_alimentacion_checked' => 'boolean',
+        'carrete_posicionamiento_checked' => 'boolean',
+        'valvula_antiparalelismo_checked' => 'boolean',
+        'protectores_cilindro_checked' => 'boolean',
+        'mangueras_hidraulicas_checked' => 'boolean',
+        'viga_avance_checked' => 'boolean',
+        'cilindro_avance_checked' => 'boolean',
+        'freno_servicio_negociable_checked' => 'boolean',
+        'freno_parqueo_checked' => 'boolean',
+        'controles_perforacion_checked' => 'boolean',
+        'bloqueo_energizacion_checked' => 'boolean',
+        'paradas_emergencia_final_checked' => 'boolean',
     ];
 
     /**
-     * Boot method para eventos del modelo
+     * Relaciones
      */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($inspection) {
-            // Auto-calcular porcentaje y status antes de guardar
-            $inspection->updateStatusFromCompletion();
-        });
-    }
-
-    /**
-     * Método para actualizar el status basado en la completitud
-     */
-    public function updateStatusFromCompletion(): void
-    {
-        if ($this->checked_items === $this->total_items) {
-            $this->status = 'completed';
-        } elseif ($this->checked_items === 0) {
-            $this->status = 'pending';
-        } else {
-            $this->status = 'incomplete';
-        }
-
-    }
-
-
-    /**
-     * Método para calcular el porcentaje de completitud
-     */
-    public function calculateCompletionPercentage(): float
-    {
-
-        // Evitar división por cero
-        if (!$this->total_items || $this->total_items == 0) {
-            return 0;
-        }
-
-        return round(($this->checked_items / $this->total_items) * 100, 2);
-
-    }
-
-    /**
-     * Relación con Equipment
-     */
-    public function equipment(): BelongsTo
+    public function equipment()
     {
         return $this->belongsTo(Equipment::class);
     }
 
-    /**
-     * Scope para filtrar por status
-     */
-    public function scopeByStatus($query, $status)
+    public function user()
     {
-        return $query->where('status', $status);
+        return $this->belongsTo(User::class);
     }
-
-
-    /**
-     * Scope para inspecciones completadas
-     */
-    public function scopeCompleted($query)
-    {
-        return $query->where('status', 'completed');
-    }
-
-    /**
-     * Scope para inspecciones pendientes
-     */
-    public function scopePending($query)
-    {
-        return $query->where('status', 'pending');
-    }
-
-
-    /**
-     * Método para obtener los items aprobados
-     */
-    public function getPassedItems(): array
-    {
-        if (!is_array($this->inspection_items)) {
-            return [];
-        }
-
-        return array_keys(array_filter($this->inspection_items, fn($value) => $value));
-    }
-
-    /**
-     * Método para verificar si la inspección está completa
-     */
-    public function isCompleted(): bool
-    {
-        return $this->status === 'completed';
-    }
-
-    /**
-     * Método para obtener los items fallidos
-     */
-    public function getFailedItems(): array
-    {
-        if (!is_array($this->inspection_items)) {
-            return [];
-        }
-
-        return array_keys(array_filter($this->inspection_items, fn($value) => !$value));
-    }
-
-    public function hasIssues()
-    {
-        return $this->issues()->exists();
-    }
-
-// Útil para saber si tiene problemas
 
     public function issues()
     {
         return $this->hasMany(InspectionIssue::class);
     }
 
-// Para obtener el conteo
+    /**
+     * Scopes
+     */
+    public function scopeCompleted($query)
+    {
+        return $query->where('status', 'completada');
+    }
 
-    public function issuesCount()
+    public function scopePending($query)
+    {
+        return $query->where('status', 'pendiente');
+    }
+
+    /**
+     * Métodos auxiliares
+     */
+    public function isCompleted(): bool
+    {
+        return $this->status === 'completada';
+    }
+
+    public function hasIssues(): bool
+    {
+        return $this->issues()->exists();
+    }
+
+    public function issuesCount(): int
     {
         return $this->issues()->count();
     }
 
+    /**
+     * Obtener el porcentaje de items completados
+     */
+    public function getCompletionPercentage(): float
+    {
+        $totalFields = 0;
+        $checkedFields = 0;
+
+        foreach ($this->casts as $field => $type) {
+            if (str_ends_with($field, '_checked') && $type === 'boolean') {
+                $totalFields++;
+                if ($this->$field === true) {
+                    $checkedFields++;
+                }
+            }
+        }
+
+        return $totalFields > 0 ? round(($checkedFields / $totalFields) * 100, 2) : 0;
+    }
 }

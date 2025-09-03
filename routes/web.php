@@ -39,8 +39,8 @@ Route::middleware([
 
     //Inspecciones
     Route::view('/inspecciones', 'dashboard.reportes');
+    Route::get('/inspecciones/{inspection}', [InspectionController::class, 'show'])->name('inspection.show');
     Route::get('/inspecciones/crear/{equipment}', [InspectionController::class, 'create'])->name('inspection.create');
-    Route::post('/inspecciones', [InspectionController::class, 'store'])->name('inspection.store');
 
     // Inspecciones - Issues
 //    Route::post('/api/inspection-issues/temporary', [InspectionIssueController::class, 'storeTemporary'])

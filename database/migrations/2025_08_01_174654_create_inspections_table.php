@@ -38,30 +38,33 @@ return new class extends Migration
 
 
             // SECCIÓN 2: REVISIÓN DESPUÉS DE ARRANCAR EL MOTOR
-            $table->boolean('presencia_fugas_checked')->default(false);
-            $table->boolean('switch_parqueo_checked')->default(false);
-            $table->boolean('freno_servicio_checked')->default(false);
             $table->boolean('pedales_freno_checked')->default(false);
-            $table->boolean('bocina_claxon_checked')->default(false);
-            $table->boolean('luces_delanteras_checked')->default(false);
-            $table->boolean('paradas_emergencia_checked')->default(false);
-            $table->boolean('carrete_manguera_checked')->default(false);
+            $table->boolean('alarma_arranque_checked')->default(false);
+            $table->boolean('viga_y_brazo_checked')->default(false);
+            $table->boolean('sistema_de_rimado_checked')->default(false);
+            $table->boolean('sistema_de_aire_checked')->default(false);
+            $table->boolean('sistema_de_barrido_checked')->default(false);
+            $table->boolean('booster_de_agua_checked')->default(false);
+            $table->boolean('regulador_de_aire_lub_checked')->default(false);
+            $table->boolean('carrete_manguera_agua_checked')->default(false);
 
             // SECCIÓN 3: INSPECCIÓN GENERAL
-            $table->boolean('cable_alimentacion_checked')->default(false);
-            $table->boolean('carrete_posicionamiento_checked')->default(false);
-            $table->boolean('valvula_antiparalelismo_checked')->default(false);
-            $table->boolean('protectores_cilindro_checked')->default(false);
-            $table->boolean('mangueras_hidraulicas_checked')->default(false);
-            $table->boolean('viga_avance_checked')->default(false);
-            $table->boolean('cilindro_avance_checked')->default(false);
+            $table->boolean('carrete_de_posicionamiento_checked')->default(false);
+            $table->boolean('valvula_a_avance_checked')->default(false);
+            $table->boolean('cable_retroceso_y_tensor_checked')->default(false);
+            $table->boolean('mesa_de_perforadora_checked')->default(false);
+            $table->boolean('dowel_checked')->default(false);
 
             // SECCIÓN 4: TEMA NO NEGOCIABLES
-            $table->boolean('freno_servicio_negociable_checked')->default(false);
+            $table->boolean('freno_de_servicio_checked')->default(false);
             $table->boolean('freno_parqueo_checked')->default(false);
             $table->boolean('controles_perforacion_checked')->default(false);
-            $table->boolean('bloqueo_energizacion_checked')->default(false);
-            $table->boolean('paradas_emergencia_final_checked')->default(false);
+            $table->boolean('luces_delanteras_checked')->default(false);
+            $table->boolean('alarma_de_retroceso_checked')->default(false);
+            $table->boolean('bocina_checked')->default(false);
+            $table->boolean('cinturon_de_seguridad_checked')->default(false);
+            $table->boolean('switch_master_checked')->default(false);
+            $table->boolean('paradas_de_emergencia_checked')->default(false);
 
 
             $table->boolean('epp_complete')->default(false);

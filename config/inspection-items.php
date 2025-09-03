@@ -25,14 +25,16 @@ return [
         'revision_despues_arrancar' => [
             'title' => 'REVISIÓN DESPUÉS DE ARRANCAR EL MOTOR',
             'items' => [
-                'presencia_fugas' => 'Presencia de fugas',
-                'switch_parqueo' => 'Verificar El Switch De Parqueo (Botón De Parqueo)',
-                'freno_servicio' => 'Verificar Freno De Servicio',
                 'pedales_freno' => 'Verificar Funcionamiento De Los Pedales De Freno Y Aceleración',
-                'bocina_claxon' => 'Verificar Funcionamiento De La Bocina (Claxon)',
-                'luces_delanteras' => 'Verificar Luces Delanteras Y Posteriores (Limpiar)',
-                'paradas_emergencia' => 'Verificar funcionalidad de paradas de emergencia',
-                'carrete_manguera' => 'Verificar funcionalidad del Carrete de manguera de agua',
+                'alarma_arranque' => 'Verificar funcionalidad de Alarma de arranque con zumbador',
+                'viga_y_brazo' => 'Verificar funcionalidad de posicionamiento de viga y brazo',
+                'sistema_de_rimado' => 'Verificar funcionalidad del Sistema de Rimado',
+                'sistema_de_aire' => 'Verificar funcionalidad del Sistema de Aire',
+                'sistema_de_barrido' => 'Verificar funcionalidad del  Sistema de Barrido Mixto ',
+                'booster_de_agua' => 'Verificar funcionalidad del  Booster de agua',
+                'regulador_de_aire_lub' => 'Funcionamiento regulador de aire para lubricación',
+                'carrete_manguera_agua' => 'Verificar funcionalidad del Carrete de manguera de agua '
+
             ]
         ],
 
@@ -40,13 +42,11 @@ return [
         'inspeccion_general' => [
             'title' => 'INSPECCIÓN GENERAL',
             'items' => [
-                'cable_alimentacion' => 'Cable de alimentación',
-                'carrete_posicionamiento' => 'Carrete hidráulicos de posicionamiento, sujeción y articulación',
-                'valvula_antiparalelismo' => 'Válvula de antiparalelismo',
-                'protectores_cilindro' => 'Protectores de cilindro',
-                'mangueras_hidraulicas' => 'Mangueras hidráulicas',
-                'viga_avance' => 'Viga de avance',
-                'cilindro_avance' => 'Cilindro hidráulico de avance',
+                'carrete_de_posicionamiento' => 'Verificación de carretes hidráulicos de posicionamiento, sujeción y articulation ',
+                'valvula_a_avance' => 'Verificación válvula de antiparalelismo y avance ',
+                'cable_retroceso_y_tensor' => 'Verificación de cable de tracción, retroceso y tensor de cable de retorno',
+                'mesa_de_perforadora' => 'Mesa de perforadora, deslizaderas de viga y Holder de mesa de perforadora',
+                'dowel' => 'Tope delantero ( dowel)',
             ]
         ],
 
@@ -54,18 +54,22 @@ return [
         'temas_no_negociables' => [
             'title' => 'TEMA NO NEGOCIABLES (ANTES DE MOVER EL EQUIPO)',
             'items' => [
-                'freno_servicio_negociable' => 'Freno de servicio',
-                'freno_parqueo' => 'Freno de parqueo',
+                'freno_de_servicio' => 'Revisión de freno de servicio',
+                'freno_parqueo' => 'Revisión de freno de parqueo',
                 'controles_perforacion' => 'Controles de operación para perforación',
-                'bloqueo_energizacion' => 'Bloqueo de energización (Switch Master)',
-                'paradas_emergencia_final' => 'Paradas de emergencia.',
+                'luces_delanteras' => 'Verificación de luces delanteras',
+                'alarma_de_retroceso' => 'Verificación de alarma de retroceso',
+                'bocina' => 'Verificación de bocina',
+                'cinturon_de_seguridad'=>'Verificación del cinturón de seguridad',
+                'switch_master'=>'Verificación bloqueo de energía (Switch Master)',
+                'paradas_de_emergencia' => 'Verificación de Paradas de emergencia'
             ]
         ],
     ],
 
     // Configuración adicional
     'settings' => [
-        'require_all_items' =>true, // Todos los items son obligatorios
+        'require_all_items' =>false, // Todos los items son obligatorios
         'allow_partial_sections' => false, // No permitir secciones parciales
         'show_progress_by_section' =>true, // Mostrar progreso por sección
     ]

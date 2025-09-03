@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Inspection;
+use Rappasoft\LaravelLivewireTables\Views\Columns\ButtonGroupColumn;
+use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 
 class InspectionTable extends DataTableComponent
 {
@@ -31,17 +33,11 @@ class InspectionTable extends DataTableComponent
             Column::make("Modelo", "equipment.model")->sortable()
                 ->searchable(),
 
-//            Column::make("Inspection date", "inspection_date")->sortable(),
 
-            Column::make("Status", "status")
-                ->sortable(),
+            LinkColumn::make('Acciones')
+                ->title(fn() => 'Ver Inspección')
+                ->location(fn($row) => route('inspection.show', $row)),
 
-//            Column::make("Cuchara", "cuchara_checked")
-//                ->sortable()
-//                ->format(fn($value) => $value ? '✅' : '❌'),
-
-//            BooleanColumn::make("Cuchara 2", "cuchara_checked")
-//                ->sortable(),
         ];
     }
 
@@ -51,10 +47,9 @@ class InspectionTable extends DataTableComponent
         return Inspection::query()
             ->with([
                 'equipment' => function ($query) {
-                    $query->with('equipmentType'); // Para mostrar el tipo de equipo
                     $query->with('equipment'); // Para mostrar el tipo de equipo
+                    $query->with('equipmentType'); // Para mostrar el tipo de equipo
                 },
-//                'user' // Para mostrar el nombre del inspector
             ]);
     }
 

@@ -269,11 +269,23 @@ class InspectionForm extends Component
                 'epp_complete' => $this->epp,
             ];
 
-            // Agregar todos los campos checked dinámicamente
+            // IMPORTANTE: Establecer TODOS los campos booleanos
+            // Primero, establecer todos como false por defecto
+            foreach ($this->inspectionConfig['sections'] as $sectionKey => $section) {
+                foreach ($section['items'] as $itemKey => $itemLabel) {
+                    $columnName = $itemKey . '_checked';
+                    $inspectionData[$columnName] = false; // Por defecto false
+                }
+            }
+
+            // Ahora, establecer como true solo los que están marcados
             foreach ($this->checkedItems as $itemKey) {
                 $columnName = $itemKey . '_checked';
                 $inspectionData[$columnName] = true;
             }
+
+            // Debug para verificar los datos antes de guardar
+            \Log::info('Datos de inspección a guardar:', $inspectionData);
 
             // Crear la inspección
             $inspection = Inspection::create($inspectionData);
