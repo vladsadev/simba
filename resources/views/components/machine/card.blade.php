@@ -25,13 +25,30 @@ if($estado === 'active'){
             <h2 class="text-lg lg:text-xl font-semibold text-gray-900 mb-1">
                 <span class="text-yellow-main font-bold"> {{$machine->code}} </span>
             </h2>
-            <span class="font-bold text-lg">{{$machine->brand}} - {{$machine->model}}</span>
+            <div>
+                <span class="font-bold text-lg">{{$machine->brand}} - {{$machine->model}}</span>
+                <span>
+                    {{$machine->equipmentType->name}}
+                </span>
+            </div>
+
         </div>
 
         <!-- Datos en 1 columna -->
         <hr class="mb-1.5">
         <div class="mb-3 space-y-2">
-            <p class="text-sm text-blue-light">{{$machine->equipmentType->description}}</p>
+            <div class="text-sm text-blue-main">
+                <span class="font-bold">
+                    Tipo de Equipo:
+                </span>
+                {{$machine->equipmentType->name}}
+            </div>
+            <hr class="mb-1.5">
+            <div class="text-sm text-blue-light">
+                <span class="font-bold">
+                    Descripción:
+                </span>
+                 {{$machine->equipmentType->description}}</div>
         </div>
 
         <hr class="mb-1.5">

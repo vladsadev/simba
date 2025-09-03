@@ -37,12 +37,4 @@ class Maintenance extends Model
         return $this->belongsTo(User::class);
     }
 
-
-//    public function markAsStarted(): void
-//    {
-//        $this->update(['started_date' => now()]);
-//        $this->equipment->update(['next_maintenance' => 'next_maintenance_suggested']);
-//        $this->equipment->update(['status' => 'maintenance']);
-//    }
-
 }

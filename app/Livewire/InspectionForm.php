@@ -15,6 +15,10 @@ class InspectionForm extends Component
     // Propiedades públicas (reactivas)
     public Equipment $equipment;
     public $observations = '';
+    public $engineHours = 0;
+    public $percussionHours = 0;
+    public $positionHours = 0;
+
     public $checkedItems = [];
     public $reportedIssues = [];
     public $epp = false;
@@ -77,6 +81,72 @@ class InspectionForm extends Component
     }
 
     // Actualizar progreso de sección
+
+    public function getProgressProperty()
+    {
+        $totalItems = 0;
+        $checkedItems = 0;
+
+        foreach ($this->inspectionConfig['sections'] as $section) {
+            $totalItems += count($section['items']);
+        }
+
+        $checkedItems = count($this->checkedItems);
+
+        return $totalItems > 0 ? round(($checkedItems / $totalItems) * 100) : 0;
+    }
+
+    // Obtener sección de un item
+
+    public function getTotalItemsProperty()
+    {
+        $total = 0;
+        foreach ($this->inspectionConfig['sections'] as $section) {
+            $total += count($section['items']);
+        }
+        return $total;
+    }
+
+    // Propiedad computada para el progreso total
+
+    public function getIssuesCountProperty()
+    {
+        return count($this->reportedIssues);
+    }
+
+    // Propiedad computada para contar items totales
+
+    public function toggleItem($key)
+    {
+        if (in_array($key, $this->checkedItems)) {
+            $this->checkedItems = array_values(array_diff($this->checkedItems, [$key]));
+        } else {
+            $this->checkedItems[] = $key;
+            // Si tenía un problema reportado, lo quitamos
+            unset($this->reportedIssues[$key]);
+        }
+
+        // Actualizar progreso de la sección
+        $sectionKey = $this->getItemSection($key);
+        if ($sectionKey) {
+            $this->updateSectionProgress($sectionKey);
+        }
+    }
+
+    // Propiedad computada para el número de problemas
+
+    private function getItemSection($itemKey)
+    {
+        foreach ($this->inspectionConfig['sections'] as $sectionKey => $section) {
+            if (array_key_exists($itemKey, $section['items'])) {
+                return $sectionKey;
+            }
+        }
+        return null;
+    }
+
+    // Verificar si una sección está completa
+
     private function updateSectionProgress($sectionKey)
     {
         $checked = 0;
@@ -95,79 +165,8 @@ class InspectionForm extends Component
         $this->sectionProgress[$sectionKey]['issues'] = $issues;
     }
 
-    // Obtener sección de un item
-    private function getItemSection($itemKey)
-    {
-        foreach ($this->inspectionConfig['sections'] as $sectionKey => $section) {
-            if (array_key_exists($itemKey, $section['items'])) {
-                return $sectionKey;
-            }
-        }
-        return null;
-    }
-
-    // Propiedad computada para el progreso total
-    public function getProgressProperty()
-    {
-        $totalItems = 0;
-        $checkedItems = 0;
-
-        foreach ($this->inspectionConfig['sections'] as $section) {
-            $totalItems += count($section['items']);
-        }
-
-        $checkedItems = count($this->checkedItems);
-
-        return $totalItems > 0 ? round(($checkedItems / $totalItems) * 100) : 0;
-    }
-
-    // Propiedad computada para contar items totales
-    public function getTotalItemsProperty()
-    {
-        $total = 0;
-        foreach ($this->inspectionConfig['sections'] as $section) {
-            $total += count($section['items']);
-        }
-        return $total;
-    }
-
-    // Propiedad computada para el número de problemas
-    public function getIssuesCountProperty()
-    {
-        return count($this->reportedIssues);
-    }
-
-    // Verificar si una sección está completa
-    public function isSectionComplete($sectionKey)
-    {
-        $section = $this->inspectionConfig['sections'][$sectionKey];
-        foreach ($section['items'] as $itemKey => $itemLabel) {
-            if (!in_array($itemKey, $this->checkedItems) && !isset($this->reportedIssues[$itemKey])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     // Cuando se marca/desmarca un checkbox
-    public function toggleItem($key)
-    {
-        if (in_array($key, $this->checkedItems)) {
-            $this->checkedItems = array_values(array_diff($this->checkedItems, [$key]));
-        } else {
-            $this->checkedItems[] = $key;
-            // Si tenía un problema reportado, lo quitamos
-            unset($this->reportedIssues[$key]);
-        }
 
-        // Actualizar progreso de la sección
-        $sectionKey = $this->getItemSection($key);
-        if ($sectionKey) {
-            $this->updateSectionProgress($sectionKey);
-        }
-    }
-
-    // Abrir modal para reportar problema
     public function openIssueModal($componentKey)
     {
         // Si el item está marcado como OK, lo desmarcamos
@@ -194,6 +193,8 @@ class InspectionForm extends Component
 
         $this->showIssueModal = true;
     }
+
+    // Abrir modal para reportar problema
 
     public function saveIssue()
     {
@@ -237,7 +238,6 @@ class InspectionForm extends Component
         session()->flash('issue_removed', 'Problema eliminado');
     }
 
-    // Enviar formulario completo
     public function submit()
     {
         // Validación personalizada
@@ -266,8 +266,13 @@ class InspectionForm extends Component
                 'inspection_date' => now(),
                 'status' => $this->determineStatus(),
                 'observations' => $this->observations,
+                'engine_hours' => $this->engineHours,
+                'percussion_hours'=>$this->percussionHours,
+                'position_hours' => $this->positionHours,
                 'epp_complete' => $this->epp,
             ];
+
+            dd($inspectionData);
 
             // IMPORTANTE: Establecer TODOS los campos booleanos
             // Primero, establecer todos como false por defecto
@@ -318,7 +323,21 @@ class InspectionForm extends Component
         }
     }
 
+    // Enviar formulario completo
+
+    public function isSectionComplete($sectionKey)
+    {
+        $section = $this->inspectionConfig['sections'][$sectionKey];
+        foreach ($section['items'] as $itemKey => $itemLabel) {
+            if (!in_array($itemKey, $this->checkedItems) && !isset($this->reportedIssues[$itemKey])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // Determinar el estado basado en los problemas
+
     private function determineStatus()
     {
         if (count($this->reportedIssues) === 0) {

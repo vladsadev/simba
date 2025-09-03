@@ -140,7 +140,7 @@
                             @if($typeDetail['last_inspection_hours_ago'])
                                 @if($typeDetail['last_inspection_hours_ago'] < 24)
                                     <div class="text-sm font-medium text-green-600">
-                                        Hace {{ $typeDetail['last_inspection_hours_ago'] }} horas
+                                        Hace {{ number_format($typeDetail['last_inspection_hours_ago'], 2) }} horas
                                     </div>
                                 @elseif($typeDetail['last_inspection_hours_ago'] < 168) {{-- 7 días --}}
                                 <div class="text-sm font-medium text-yellow-600">
@@ -194,7 +194,7 @@
                         </div>
                         <div class="ml-3">
                             <p class="text-sm text-amber-700">
-                                <strong>Atención requerida:</strong>
+                                <strong>Considerar:</strong>
                                 @if($stats['in_maintenance'] > 0)
                                     {{ $stats['in_maintenance'] }} equipo(s) en mantenimiento.
                                 @endif

@@ -98,24 +98,107 @@ class DashboardController extends Controller
      */
     private function getEquipmentTypeIcon(string $typeName): string
     {
-        $iconMap = [
-            'Perforadoras' => 'fa-drill',
-            'De Acarreo' => 'fa-truck-moving',
-            'Excavadoras' => 'fa-excavator',
-            'Cargadoras' => 'fa-truck-loading',
-            'Compactadoras' => 'fa-road',
-            'Grúas' => 'fa-crane',
+        // Mapa de íconos - funciona sin archivo de configuración
+        $typeIcons = [
+            'perforadoras' => 'fas fa-hammer',
+            'perforadora' => 'fas fa-hammer',
+            'drill' => 'fas fa-hammer',
+            'simba' => 'fas fa-hammer',
+            'acarreo' => 'fas fa-truck-moving',
+            'camion' => 'fas fa-truck-moving',
+            'truck' => 'fas fa-truck-moving',
+            'volquete' => 'fas fa-truck-moving',
+            'excavadora' => 'fas fa-excavator',
+            'excavator' => 'fas fa-excavator',
+            'pala' => 'fas fa-excavator',
+            'cargadora' => 'fas fa-truck-loading',
+            'loader' => 'fas fa-truck-loading',
+            'cargador' => 'fas fa-truck-loading',
+            'compactadora' => 'fas fa-road',
+            'compactor' => 'fas fa-road',
+            'rodillo' => 'fas fa-road',
+            'grua' => 'fas fa-crane',
+            'crane' => 'fas fa-crane',
+            'montacarga' => 'fas fa-crane',
+            'bulldozer' => 'fas fa-tractor',
+            'tractor' => 'fas fa-tractor',
+            'motoniveladora' => 'fas fa-tractor',
+            'generador' => 'fas fa-plug',
+            'generator' => 'fas fa-plug',
+            'compresor' => 'fas fa-compress-arrows-alt',
+            'compressor' => 'fas fa-compress-arrows-alt',
         ];
 
-        // Buscar coincidencia parcial en el nombre del tipo
-        foreach ($iconMap as $keyword => $icon) {
-            if (stripos($typeName, $keyword) !== false) {
+        $normalizedTypeName = strtolower(trim($typeName));
+
+        // Buscar coincidencia exacta primero
+        if (isset($typeIcons[$normalizedTypeName])) {
+            return $typeIcons[$normalizedTypeName];
+        }
+
+        // Buscar coincidencia parcial
+        foreach ($typeIcons as $keyword => $icon) {
+            if (stripos($normalizedTypeName, $keyword) !== false) {
                 return $icon;
             }
         }
 
         // Ícono por defecto
-        return 'fa-cog';
+        return 'fas fa-cog';
+    }
+
+    /**
+     * Obtiene el gradiente de color para el tipo de equipo
+     */
+    private function getEquipmentTypeGradient(string $typeName): string
+    {
+        // Gradientes de colores - funciona sin archivo de configuración
+        $gradients = [
+            'perforadoras' => 'from-blue-600/85 to-blue-600',
+            'perforadora' => 'from-blue-600/85 to-blue-600',
+            'drill' => 'from-blue-600/85 to-blue-600',
+            'simba' => 'from-blue-600/85 to-blue-600',
+            'acarreo' => 'from-yellow-600/85 to-yellow-600',
+            'camion' => 'from-yellow-600/85 to-yellow-600',
+            'truck' => 'from-yellow-600/85 to-yellow-600',
+            'volquete' => 'from-yellow-600/85 to-yellow-600',
+            'excavadora' => 'from-green-600/85 to-green-600',
+            'excavator' => 'from-green-600/85 to-green-600',
+            'pala' => 'from-green-600/85 to-green-600',
+            'cargadora' => 'from-purple-600/85 to-purple-600',
+            'loader' => 'from-purple-600/85 to-purple-600',
+            'cargador' => 'from-purple-600/85 to-purple-600',
+            'compactadora' => 'from-gray-600/85 to-gray-600',
+            'compactor' => 'from-gray-600/85 to-gray-600',
+            'rodillo' => 'from-gray-600/85 to-gray-600',
+            'grua' => 'from-red-600/85 to-red-600',
+            'crane' => 'from-red-600/85 to-red-600',
+            'montacarga' => 'from-red-600/85 to-red-600',
+            'bulldozer' => 'from-orange-600/85 to-orange-600',
+            'tractor' => 'from-orange-600/85 to-orange-600',
+            'motoniveladora' => 'from-orange-600/85 to-orange-600',
+            'generador' => 'from-indigo-600/85 to-indigo-600',
+            'generator' => 'from-indigo-600/85 to-indigo-600',
+            'compresor' => 'from-pink-600/85 to-pink-600',
+            'compressor' => 'from-pink-600/85 to-pink-600',
+        ];
+
+        $normalizedTypeName = strtolower(trim($typeName));
+
+        // Buscar coincidencia exacta primero
+        if (isset($gradients[$normalizedTypeName])) {
+            return $gradients[$normalizedTypeName];
+        }
+
+        // Buscar coincidencia parcial
+        foreach ($gradients as $keyword => $gradient) {
+            if (stripos($normalizedTypeName, $keyword) !== false) {
+                return $gradient;
+            }
+        }
+
+        // Gradiente por defecto
+        return 'from-amber-600/85 to-amber-600';
     }
 
     /**
