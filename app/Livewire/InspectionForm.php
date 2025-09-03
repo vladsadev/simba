@@ -272,7 +272,6 @@ class InspectionForm extends Component
                 'epp_complete' => $this->epp,
             ];
 
-            dd($inspectionData);
 
             // IMPORTANTE: Establecer TODOS los campos booleanos
             // Primero, establecer todos como false por defecto

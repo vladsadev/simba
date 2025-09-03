@@ -123,9 +123,9 @@
             </div>
         @endforeach
 
-        {{-- Sección de observaciones y EPP --}}
+        {{-- Sección de observaciones,horometros y EPP --}}
         <div class="mt-8 space-y-6 border-t pt-6">
-            {{-- Campo de observaciones --}}
+            {{-- Campo de horometros y de observaciones --}}
             <div>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-3">
                     <x-forms.input label="Horas del Motor" name="" placeholder="123"/>
