@@ -19,17 +19,17 @@
             <h3 class="text-xl font-bold text-blue-main mb-4">Información Básica del Mantenimiento</h3>
 
             <!-- Información del Equipo (Solo lectura) -->
-            <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Código del Equipo</label>
+                    <span class="font-semibold">Código del Equipo</span>
                     <p class="mt-1 text-sm text-yellow-main font-bold">{{ $equipment->code }}</p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Tipo</label>
+                    <span class="font-semibold">Tipo de Equipo</span>
                     <p class="mt-1 text-sm text-gray-900">{{ $equipment->equipmentType->name }}</p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Marca y Modelo</label>
+                    <span class="font-semibold">Marca y modelo </span>
                     <p class="mt-1 text-sm text-gray-900">{{ $equipment->brand }} - {{ $equipment->model }}</p>
                 </div>
             </div>
@@ -63,10 +63,7 @@
                 />
             </div>
 
-            <x-forms.divider class="bg-yellow-main"/>
-
             <h3 class="text-xl font-bold text-blue-main mb-4">Detalles</h3>
-
             <!-- Descripción -->
             <div class="mb-6">
                 <label for="description" class="block text-sm font-medium text-gray-700 mb-1">
@@ -77,28 +74,20 @@
                     id="description"
                     rows="3"
                     class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Describa el trabajo a realizar..."
+                    placeholder="Describa el trabajo a realizar ej: se cambiará el aceite de motor, filtros, otros, etc."
                 >{{ old('description') }}</textarea>
             </div>
 
+            <x-forms.divider class="bg-yellow-main"/>
             <!-- Duración estimada -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
                 <x-forms.input
-                    label="Duración Estimada (horas)"
+                    label="Duración Estimada para el trabajo (horas)"
                     name="duration_hours"
                     type="number"
                     min="1"
                     placeholder="8"
                     value="{{ old('duration_hours') }}"
-                />
-
-                <!-- Próximo mantenimiento sugerido -->
-                <x-forms.input
-                    label="Próximo Mantenimiento Sugerido"
-                    name="next_maintenance_suggested"
-                    type="date"
-                    value="{{ old('next_maintenance_suggested') }}"
-                    help="Fecha sugerida para el siguiente mantenimiento"
                 />
             </div>
 
@@ -106,15 +95,17 @@
 
             <!-- Observaciones -->
             <div class="mb-6">
-                <label for="observations" class="block text-sm font-medium text-gray-700 mb-1">
-                    Observaciones
+                <label for="observations" class="block text-base font-semibold text-gray-700 mb-1">
+                    Observaciones (opcional)
                 </label>
                 <textarea
                     name="observations"
                     id="observations"
                     rows="3"
-                    class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Observaciones adicionales, instrucciones especiales..."
+                    class="w-full text-left border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    placeholder="Observaciones adicionales, instrucciones especiales
+                    ej: Las ruedas traseras presentan mayor
+                    desgaste se puede considerar el cambio de las mismas "
                 >{{ old('observations') }}</textarea>
             </div>
 

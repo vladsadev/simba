@@ -28,9 +28,6 @@ return new class extends Migration
             // Recursos utilizados
             $table->integer('duration_hours')->nullable(); // Duración en horas
 
-            // Próximo mantenimiento sugerido
-            $table->date('next_maintenance_suggested')->nullable();
-
             $table->timestamps();
 
             // Índices

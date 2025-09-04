@@ -29,8 +29,8 @@ class DashboardController extends Controller
 
         return [
             'total_fleet' => $totalEquipment,
-            'operational' => Equipment::where('status', 'active')->count(),
-            'in_maintenance' => Equipment::where('status', 'maintenance')->count(),
+            'operational' => Equipment::where('status', 'operativa')->count(),
+            'in_maintenance' => Equipment::where('status', 'mantenimiento')->count(),
             'out_of_service' => Equipment::whereIn('status', ['inactive', 'retired'])->count(),
         ];
     }
@@ -201,31 +201,6 @@ class DashboardController extends Controller
         return 'from-amber-600/85 to-amber-600';
     }
 
-    /**
-     * API endpoint para obtener estadísticas en tiempo real (opcional)
-     */
-    public function getStats(Request $request)
-    {
-        return response()->json([
-            'stats' => $this->getDashboardStats(),
-            'equipment_types' => $this->getEquipmentTypeDetails(),
-            'updated_at' => now()->toISOString(),
-        ]);
-    }
-
-    /**
-     * Obtener equipos que requieren mantenimiento próximo
-     */
-    public function getUpcomingMaintenance()
-    {
-        $upcomingMaintenance = Equipment::with('equipmentType')
-            ->whereNotNull('next_maintenance')
-            ->where('next_maintenance', '<=', now()->addDays(30))
-            ->orderBy('next_maintenance', 'asc')
-            ->get();
-
-        return response()->json($upcomingMaintenance);
-    }
 
     /**
      * Obtener equipos sin inspección reciente

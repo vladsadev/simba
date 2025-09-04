@@ -16,71 +16,11 @@ class EquipmentController extends Controller
      */
     public function index()
     {
-        $equipment = Equipment::latest()->with('equipmentType')->paginate(6);
+        $equipment = Equipment::latest()->with(['equipmentType' ])->paginate(6);
 
         return view('equipment.index', [
             'equipment' => $equipment
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $eTypes = EquipmentType::all();
-
-        return view('equipment.create', [
-            'eTypes' => $eTypes
-        ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreEquipmentRequest $request)
-    {
-        try {
-            // Obtener datos validados
-            $validatedData = $request->validated();
-
-            // Manejar la carga del manual PDF
-            if ($request->hasFile('manual_pdf')) {
-                $pdfPath = $request->file('manual_pdf')->store('equipment/manuals', 'public');
-                $validatedData['manual_pdf'] = $pdfPath;
-            }
-
-            // Manejar la carga de la imagen del equipo
-            if ($request->hasFile('equipment_img')) {
-                $imagePath = $request->file('equipment_img')->store('equipment/images', 'public');
-                $validatedData['equipment_img'] = $imagePath;
-            }
-
-            // Crear el equipo con los datos validados
-            $equipment = Equipment::create($validatedData);
-
-            // Redireccionar con mensaje de éxito
-            return redirect()
-                ->route('equipment.index')
-                ->with('success', 'Equipo creado exitosamente');
-
-        } catch (\Exception $e) {
-            // Log del error para debugging
-            \Log::error('Error al crear equipo: ' . $e->getMessage());
-
-            // Si hubo error y se subieron archivos, eliminarlos
-            if (isset($pdfPath)) {
-                Storage::disk('public')->delete($pdfPath);
-            }
-            if (isset($imagePath)) {
-                Storage::disk('public')->delete($imagePath);
-            }
-
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', 'Error al crear el equipo: ' . $e->getMessage());
-        }
     }
 
     /**
@@ -170,6 +110,65 @@ class EquipmentController extends Controller
         }
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreEquipmentRequest $request)
+    {
+        try {
+            // Obtener datos validados
+            $validatedData = $request->validated();
+
+            // Manejar la carga del manual PDF
+            if ($request->hasFile('manual_pdf')) {
+                $pdfPath = $request->file('manual_pdf')->store('equipment/manuals', 'public');
+                $validatedData['manual_pdf'] = $pdfPath;
+            }
+
+            // Manejar la carga de la imagen del equipo
+            if ($request->hasFile('equipment_img')) {
+                $imagePath = $request->file('equipment_img')->store('equipment/images', 'public');
+                $validatedData['equipment_img'] = $imagePath;
+            }
+
+            // Crear el equipo con los datos validados
+            $equipment = Equipment::create($validatedData);
+
+            // Redireccionar con mensaje de éxito
+            return redirect()
+                ->route('equipment.index')
+                ->with('success', 'Equipo creado exitosamente');
+
+        } catch (\Exception $e) {
+            // Log del error para debugging
+            \Log::error('Error al crear equipo: ' . $e->getMessage());
+
+            // Si hubo error y se subieron archivos, eliminarlos
+            if (isset($pdfPath)) {
+                Storage::disk('public')->delete($pdfPath);
+            }
+            if (isset($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Error al crear el equipo: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $eTypes = EquipmentType::all();
+
+        return view('equipment.create', [
+            'eTypes' => $eTypes
+        ]);
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -209,7 +208,6 @@ class EquipmentController extends Controller
             if ($equipment->maintenances()->exists()) {
                 $equipment->maintenances()->delete();
             }
-
 
 
             // Finalmente eliminar el equipo

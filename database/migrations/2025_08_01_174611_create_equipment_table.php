@@ -42,7 +42,7 @@ return new class extends Migration {
 
             // Campos de mantenimiento (SE LLENAN DESPUÉS, no en creación)
             $table->date('last_maintenance')->nullable();
-            $table->date('next_maintenance')->nullable();
+
 
             // Horas de trabajo (SE ACTUALIZAN EN INSPECCIONES, no en creación)
             $table->decimal('engine_hours', 10, 1)->nullable();

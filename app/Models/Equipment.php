@@ -112,12 +112,12 @@ class Equipment extends Model
     /**
      * Scope para equipos con mantenimiento próximo
      */
-    public function scopeUpcomingMaintenance($query, $daysThreshold = 30)
-    {
-        return $query->whereNotNull('next_maintenance')
-            ->where('next_maintenance', '<=', now()->addDays($daysThreshold))
-            ->where('next_maintenance', '>=', now());
-    }
+//    public function scopeUpcomingMaintenance($query, $daysThreshold = 30)
+//    {
+//        return $query->whereNotNull('next_maintenance')
+//            ->where('next_maintenance', '<=', now()->addDays($daysThreshold))
+//            ->where('next_maintenance', '>=', now());
+//    }
 
     /**
      * Obtiene el estado visual del equipo (para el dashboard)

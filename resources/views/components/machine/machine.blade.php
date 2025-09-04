@@ -41,7 +41,8 @@ if($estado === 'active'){
         <div class="flex flex-col gap-2 justify-start items-end text-center">
             <div class="flex gap-2">
 
-                <x-link-btn variant="danger" href="{{route('equipment.confirm-delete',$equipment)}}" class="text-center">Borrar</x-link-btn>
+                <x-link-btn variant="danger" href="{{route('equipment.confirm-delete',$equipment)}}" class="text-center">Borrar
+                </x-link-btn>
 
                 <x-link-btn variant="danger" href="{{route('equipment.edit',$equipment)}}" class="text-center">Editar</x-link-btn>
             </div>
@@ -65,9 +66,9 @@ if($estado === 'active'){
     <!-- Mantenimiento -->
     <div>
         <h3 class="text-xl font-semibold text-gray-800 mb-3">Mantenimiento</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base  text-gray-600">
-            <p><span class="font-semibold">Último Mantenimiento:</span> 2025-04-26</p>
-            <p><span class="font-semibold">Próximo Mantenimiento:</span> 2025-07-07</p>
+        <div class="grid grid-cols-1 text-base  text-gray-600">
+            <p><span class="font-semibold">Último Mantenimiento:</span> {{$equipment->last_maintenance->scheduled_date??'No
+            tiene mantenimiento registrado'}} </p>
         </div>
     </div>
 
@@ -75,7 +76,7 @@ if($estado === 'active'){
     <div>
         <h3 class="text-xl font-semibold text-gray-800 mb-3">Manuales</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
-            <p><span class="font-semibold">:</span> 2025-04-26</p>
+            <a class="text-blue-lighter underline" href="#">Descargar Manual</a>
         </div>
     </div>
 
