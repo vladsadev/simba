@@ -117,7 +117,12 @@ class EquipmentController extends Controller
             if ($request->hasFile('manual_pdf')) {
                 // Eliminar el PDF anterior si existe
                 if ($equipment->manual_pdf) {
-                    Storage::disk('public')->delete($equipment->manual_pdf);
+                    $oldPdfPath = storage_path('app/public/' . $equipment->manual_pdf);
+                    if (file_exists($oldPdfPath)) {
+                        unlink($oldPdfPath);
+                    } else {
+                        Storage::disk('public')->delete($equipment->manual_pdf);
+                    }
                 }
                 $pdfPath = $request->file('manual_pdf')->store('equipment/manuals', 'public');
                 $validatedData['manual_pdf'] = $pdfPath;
@@ -127,7 +132,12 @@ class EquipmentController extends Controller
             if ($request->hasFile('equipment_img')) {
                 // Eliminar la imagen anterior si existe
                 if ($equipment->equipment_img) {
-                    Storage::disk('public')->delete($equipment->equipment_img);
+                    $oldImgPath = storage_path('app/public/' . $equipment->equipment_img);
+                    if (file_exists($oldImgPath)) {
+                        unlink($oldImgPath);
+                    } else {
+                        Storage::disk('public')->delete($equipment->equipment_img);
+                    }
                 }
                 $imagePath = $request->file('equipment_img')->store('equipment/images', 'public');
                 $validatedData['equipment_img'] = $imagePath;
@@ -159,6 +169,7 @@ class EquipmentController extends Controller
                 ->with('error', 'Error al actualizar el equipo: ' . $e->getMessage());
         }
     }
+
 
     /**
      * Remove the specified resource from storage.
