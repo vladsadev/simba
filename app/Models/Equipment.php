@@ -19,15 +19,8 @@ class Equipment extends Model
         'year',
         'status',
         'location',
-        'length',
-        'width',
-        'height',
-        'weight',
         'fuel_type',
-        'engine_power',
         'fuel_capacity',
-        'bucket_capacity',
-        'max_load',
         'last_maintenance',
         'next_maintenance',
         'notes',
@@ -204,10 +197,10 @@ class Equipment extends Model
     /**
      * Verifica si el equipo necesita mantenimiento próximamente
      */
-    public function needsMaintenanceSoon($daysThreshold = 30): bool
-    {
-        return $this->next_maintenance &&
-            $this->next_maintenance <= now()->addDays($daysThreshold);
-    }
+//    public function needsMaintenanceSoon($daysThreshold = 30): bool
+//    {
+//        return $this->next_maintenance &&
+//            $this->next_maintenance <= now()->addDays($daysThreshold);
+//    }
 
 }

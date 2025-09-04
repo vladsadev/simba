@@ -42,7 +42,6 @@ class EquipmentController extends Controller
     {
         $eTypes = EquipmentType::all();
 
-        //  Retornar la vista, no los datos directamente
         return view('equipment.create', [
             'eTypes' => $eTypes
         ]);

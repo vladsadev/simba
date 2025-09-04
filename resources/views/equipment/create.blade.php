@@ -13,7 +13,7 @@
 
     <x-panels.main>
 
-        <x-forms.form method="POST" action="{{route('equipment.store')}}" class="max-w-4xl px-3 md:px-2">
+        <x-forms.form method="POST" action="{{route('equipment.store')}}"  enctype="multipart/form-data" class="max-w-4xl px-3 md:px-2">
             <h3 class="text-xl font-bold text-blue-main">Campos Obligatorios</h3>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <x-forms.input label="Código" name="code" placeholder="EXC-001"/>
@@ -31,30 +31,22 @@
 
             <!-- Tipo de Equipo -->
             <x-forms.select label="Tipo de Equipo" name="equipment_type_id">
-                @foreach($eTypes as $eType)
-                    <option value="{{ $eType->id }}">{{ $eType->name }}</option>
-                @endforeach
+                <option value="De Acarreo">De Acarreo</option>
+                <option value="Perforadora">Perforadora</option>
             </x-forms.select>
-            <x-forms.divider class="bg-yellow-main"/>
-
-            <h3 class="text-xl font-bold text-blue-main">Campos Complementarios</h3>
             <!-- Especificaciones Técnicas -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:my-6">
-                <x-forms.input label="Largo" name="length" placeholder="12.5"/>
-                <x-forms.input label="Ancho" name="width" placeholder="3.2"/>
-                <x-forms.input label="Alto" name="height" placeholder="4.1"/>
-                <x-forms.input label="Peso" name="weight" placeholder="15000"/>
-
-                <x-forms.input label="Potencia del Motor" name="engine_power" placeholder="400"/>
-                <x-forms.input label="Carga Máxima" name="max_load" placeholder="20"/>
-            </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <x-forms.input label="Capacidad de Cuchara" name="bucket_capacity" placeholder="6.5"/>
-                <x-forms.input label="Combustible" name="fuel_type" placeholder="Diesel"/>
+                <x-forms.select label="Tipo de Combustible" name="fuel_type">
+                    <option value="diesel">Diesel</option>
+                    <option value="gasolina">Gasolina</option>
+                    <option value="eléctrico">Eléctrico</option>
+                </x-forms.select>
                 <x-forms.input label="Capacidad de Combustible" name="fuel_capacity" placeholder="400"/>
             </div>
+            <x-forms.input label="Manual" name="manual_pdf" class="border border-slate-600" type="file"/>
+            <x-forms.input label="Imagen del Equipo" name="equipment_img" class="border border-slate-600" type="file"/>
+            <x-forms.divider class="bg-yellow-main"/>
 
-            <x-forms.divider/>
             <x-forms.button class="cursor-pointer">Guardar Equipo</x-forms.button>
         </x-forms.form>
 

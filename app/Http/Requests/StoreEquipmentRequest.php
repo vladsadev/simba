@@ -29,7 +29,6 @@ class StoreEquipmentRequest extends FormRequest
             'year' => 'required|integer|min:1990|max:' . (date('Y') + 1),
             'status' => 'required|in:active,maintenance,inactive,retired',
             'location' => 'nullable|string|max:150',
-            'hours_worked' => 'nullable|numeric|min:0',
         ];
     }
 
@@ -40,7 +39,7 @@ class StoreEquipmentRequest extends FormRequest
     {
         return [
             'equipment_type_id.required' => 'Debe seleccionar un tipo de equipo.',
-            'equipment_type_id.exists' => 'El tipo de equipo seleccionado no es válido.',
+//            'equipment_type_id.exists' => 'El tipo de equipo seleccionado no es válido.',
             'code.required' => 'El código del equipo es obligatorio.',
             'code.unique' => 'Este código de equipo ya existe.',
             'brand.required' => 'La marca es obligatoria.',
@@ -50,8 +49,6 @@ class StoreEquipmentRequest extends FormRequest
             'year.max' => 'El año no puede ser mayor al próximo año.',
             'status.required' => 'Debe seleccionar un estado.',
             'status.in' => 'El estado seleccionado no es válido.',
-            'hours_worked.numeric' => 'Las horas trabajadas deben ser un número.',
-            'hours_worked.min' => 'Las horas trabajadas no pueden ser negativas.',
         ];
     }
 }

@@ -40,23 +40,15 @@ class UpdateEquipmentRequest extends FormRequest
             'status' => 'required|in:active,maintenance,inactive,retired',
             'location' => 'nullable|string|max:150',
 
-            // Especificaciones técnicas (opcionales en update)
-            'length' => 'nullable|numeric|min:0|max:50',
-            'width' => 'nullable|numeric|min:0|max:20',
-            'height' => 'nullable|numeric|min:0|max:20',
-            'weight' => 'nullable|numeric|min:0|max:500',
+
             'fuel_type' => 'nullable|in:diesel,gasolina,electrico,hibrido',
 
             // Capacidades
-            'engine_power' => 'nullable|numeric|min:0|max:2000',
             'fuel_capacity' => 'nullable|numeric|min:0|max:5000',
-            'bucket_capacity' => 'nullable|numeric|min:0|max:50',
-            'max_load' => 'nullable|numeric|min:0|max:200',
 
             // Fechas de mantenimiento
             'last_maintenance' => 'nullable|date|before_or_equal:today',
             'next_maintenance' => 'nullable|date|after:today',
-            'notes' => 'nullable|string|max:1000',
         ];
     }
 
@@ -78,43 +70,10 @@ class UpdateEquipmentRequest extends FormRequest
             'status.required' => 'Debe seleccionar un estado.',
             'status.in' => 'El estado seleccionado no es válido.',
 
-            // Validaciones de especificaciones
-            'length.numeric' => 'El largo debe ser un número válido.',
-            'length.max' => 'El largo no puede ser mayor a 50 metros.',
-            'width.numeric' => 'El ancho debe ser un número válido.',
-            'width.max' => 'El ancho no puede ser mayor a 20 metros.',
-            'height.numeric' => 'La altura debe ser un número válido.',
-            'height.max' => 'La altura no puede ser mayor a 20 metros.',
-            'weight.numeric' => 'El peso debe ser un número válido.',
-            'weight.max' => 'El peso no puede ser mayor a 500 toneladas.',
 
             'fuel_type.in' => 'El tipo de combustible seleccionado no es válido.',
-
-            // Fechas
-            'last_maintenance.date' => 'La fecha de último mantenimiento debe ser válida.',
-            'last_maintenance.before_or_equal' => 'La fecha de último mantenimiento no puede ser futura.',
-            'next_maintenance.date' => 'La fecha de próximo mantenimiento debe ser válida.',
-            'next_maintenance.after' => 'La fecha de próximo mantenimiento debe ser futura.',
-
-            'notes.max' => 'Las notas no pueden exceder 1000 caracteres.',
         ];
     }
 
-    /**
-     * Configure the validator instance.
-     */
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            // Validación personalizada: next_maintenance después de last_maintenance
-            if ($this->last_maintenance && $this->next_maintenance) {
-                if ($this->next_maintenance <= $this->last_maintenance) {
-                    $validator->errors()->add(
-                        'next_maintenance',
-                        'La fecha de próximo mantenimiento debe ser posterior al último mantenimiento.'
-                    );
-                }
-            }
-        });
-    }
+
 }

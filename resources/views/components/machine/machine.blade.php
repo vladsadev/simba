@@ -62,24 +62,6 @@ if($estado === 'active'){
         <x-link-btn href="{{route('inspection.create',$equipment)}}">Realizar Inspección</x-link-btn>
     </div>
 
-    <!-- Ficha técnica -->
-    <div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-3">Ficha Técnica</h3>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm lg:text-base text-gray-700">
-            <p><span class="font-semibold">Largo: </span> {{$equipment->length}} m</p>
-            <p><span class="font-semibold">Ancho: </span> {{$equipment->width}} m</p>
-            <p><span class="font-semibold">Alto: </span> {{$equipment->height}} m</p>
-            <p><span class="font-semibold">Peso: </span> {{$equipment->weight}} </p>
-            <p><span class="font-semibold">Potencia: </span> {{$equipment->engine_power}} HP</p>
-            <p><span class="font-semibold">Combustible: </span> {{$equipment->fuel_type}} </p>
-            <p><span class="font-semibold">Capacidad Combustible: </span> {{$equipment->fuel_capacity}} L</p>
-            <p><span class="font-semibold">Capacidad Cuchara: </span> {{$equipment->bucket_capacity}} m³</p>
-            <p><span class="font-semibold">Carga Máxima: </span> {{$equipment->max_load}} t</p>
-            <p><span class="font-semibold">Total Horas Trabajadas: </span> 5840 h</p>
-            <p><span class="font-semibold">Del último mantenimiento: </span> 240 h</p>
-        </div>
-    </div>
-
     <!-- Mantenimiento -->
     <div>
         <h3 class="text-xl font-semibold text-gray-800 mb-3">Mantenimiento</h3>
@@ -87,11 +69,6 @@ if($estado === 'active'){
             <p><span class="font-semibold">Último Mantenimiento:</span> 2025-04-26</p>
             <p><span class="font-semibold">Próximo Mantenimiento:</span> 2025-07-07</p>
         </div>
-        <p class="mt-3 text-gray-600 text-sm lg:text-base">
-            <span class="font-semibold">Notas:</span> Equipo en condiciones óptimas. En el próximo mantenimiento se recomienda
-            revisión del sistema hidráulico y cambiar las mangueras de presión de ...
-
-        </p>
     </div>
 
     <!-- Manuales-->

@@ -12,9 +12,11 @@ return new class extends Migration {
     {
         Schema::create('equipment_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->enum('name', ['Perforadora', 'De Acarreo']);
+
             $table->text('description');
             $table->timestamps();
+
         });
     }
 

@@ -23,17 +23,6 @@ class EquipmentTypeFactory extends Factory
     }
 
     /**
-     * Indicate that the equipment type is a Camión.
-     */
-//    public function camion(): static
-//    {
-//        return $this->state(fn (array $attributes) => [
-//            'name' => 'Camión',
-//            'description' => 'Vehículo de transporte pesado para el traslado de materiales extraídos.'
-//        ]);
-//    }
-
-    /**
      * Indicate that the equipment type is a Perforadora.
      */
     public function perforadora(): static

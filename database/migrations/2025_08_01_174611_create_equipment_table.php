@@ -26,26 +26,16 @@ return new class extends Migration {
             $table->year('year');
 
             // Estado y ubicación
-            $table->enum('status', ['active', 'maintenance', 'inactive', 'retired'])
-                ->default('active');
-            $table->string('location', 150)->nullable();
+            $table->enum('status', ['operativa', 'mantenimiento', 'inactiva'])
+                ->default('operativa');
+            $table->enum('location', ['Interior mina', 'Exterior mina', 'Área de Mantenimiento', 'Apartada de la Empresa'])
+                ->nullable();
 
-            //  ESPECIFICACIONES TÉCNICAS (nuevos campos) Simba2
-            $table->decimal('length', 5, 2)->nullable()->comment('Largo en metros'); // 12.5m
-            $table->decimal('width', 5, 2)->nullable()->comment('Ancho en metros');  // 12.5m
-            $table->decimal('height', 5, 2)->nullable()->comment('Alto en metros');  // 12.5m
-            $table->decimal('weight', 8, 2)->nullable()->comment('Peso en toneladas'); // 45.0t
 
-            // Combustible como ENUM (más controlado)
-            $table->enum('fuel_type', ['diesel', 'gasolina', 'electrico', 'hibrido'])
+            $table->enum('fuel_type', ['diesel', 'gasolina', 'eléctrico'])
                 ->nullable()
                 ->comment('Tipo de combustible');
-
-            // Capacidades adicionales para equipos mineros
-            $table->decimal('engine_power', 8, 2)->nullable()->comment('Potencia del motor en HP');
             $table->decimal('fuel_capacity', 8, 2)->nullable()->comment('Capacidad de combustible en litros');
-            $table->decimal('bucket_capacity', 8, 2)->nullable()->comment('Capacidad de cuchara en m³');
-            $table->decimal('max_load', 8, 2)->nullable()->comment('Carga máxima en toneladas');
 
             // Mantenimiento
             $table->date('last_maintenance')->nullable();
@@ -57,10 +47,10 @@ return new class extends Migration {
             $table->decimal('position_hours', 10, 1)->nullable();
 
             //Imagen del equipo
-            $table->string('equipment_img_path')->nullable();
+            $table->string('equipment_img')->nullable();
 
             //Manuales del equipo
-            $table->string('pdf_file')->nullable();
+            $table->string('manual_pdf')->nullable();
 
 
             $table->timestamps();

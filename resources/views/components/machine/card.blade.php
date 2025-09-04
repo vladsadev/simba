@@ -27,9 +27,6 @@ if($estado === 'active'){
             </h2>
             <div>
                 <span class="font-bold text-lg">{{$machine->brand}} - {{$machine->model}}</span>
-                <span>
-                    {{$machine->equipmentType->name}}
-                </span>
             </div>
 
         </div>
@@ -48,14 +45,17 @@ if($estado === 'active'){
                 <span class="font-bold">
                     Descripción:
                 </span>
-                 {{$machine->equipmentType->description}}</div>
+                {{$machine->equipmentType->description}}
+            </div>
+            <hr class="mb-1.5">
+            <div class="text-sm text-blue-light">
+                <span class="font-bold">
+                    Ubicación:
+                </span>
+                {{$machine->location}}
+            </div>
         </div>
 
-        <hr class="mb-1.5">
-        <div class="grid grid-cols-1 gap-x-4 gap-y-1 text-xs text-gray-600 mb-2">
-            <x-machine.field name="Último Mantenimiento">{{$machine->lastmaintenance}} </x-machine.field>
-            <x-machine.field name="Próximo Mantenimiento">{{$machine->next_maintenance}} </x-machine.field>
-        </div>
 
         <!-- Botone(s) de acción-->
         <div class="flex justify-end pt-2 flex-wrap gap-2">
