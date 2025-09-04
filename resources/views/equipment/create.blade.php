@@ -9,8 +9,7 @@
     </x-slot>
 
     <x-panels.main>
-        <x-forms.form method="POST" action="{{ route('equipment.store') }}" enctype="multipart/form-data"
-                      class="max-w-4xl px-3 md:px-2">
+        <x-forms.form method="POST" action="{{ route('equipment.store') }}" enctype="multipart/form-data" class="max-w-4xl px-3 md:px-2">
 
             <h3 class="text-xl font-bold text-blue-main mb-4">Campos Obligatorios</h3>
 
@@ -21,7 +20,6 @@
                     name="code"
                     placeholder="EXC-001"
                     required
-                    value="{{old('code')}}"
                 />
 
                 <x-forms.input
@@ -57,12 +55,12 @@
                     <option value="inactiva">Inactiva</option>
                 </x-forms.select>
             </div>
-            {{--            $table->enum('location', ['Interior mina', 'Exterior mina', 'Área de Mantenimiento', 'Apartada de la Empresa'])--}}
 
-            <!-- Location-->
+            <!-- Ubicación -->
             <div class="mb-4">
                 <x-forms.select label="Ubicación" name="location" required>
-                    <option value="Interior mina" selected>Interior Mina</option>
+                    <option value="">Seleccione una ubicación</option>
+                    <option value="Interior mina">Interior Mina</option>
                     <option value="Exterior mina">Exterior Mina</option>
                     <option value="Área de Mantenimiento">Área de Mantenimiento</option>
                     <option value="Apartada de la Empresa">Apartada de la Empresa</option>

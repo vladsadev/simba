@@ -29,9 +29,8 @@ return new class extends Migration {
             $table->enum('status', ['operativa', 'mantenimiento', 'inactiva'])
                 ->default('operativa');
 
-            // Ubicación (OPCIONAL - no está en el formulario)
-            $table->enum('location', ['Interior mina', 'Exterior mina', 'Área de Mantenimiento', 'Apartada de la Empresa'])
-                ->nullable();
+            //Ubicación
+            $table->enum('location', ['Interior mina', 'Exterior mina', 'Área de Mantenimiento', 'Apartada de la Empresa']);
 
             // Combustible (OPCIONAL)
             $table->enum('fuel_type', ['diesel', 'gasolina', 'eléctrico'])

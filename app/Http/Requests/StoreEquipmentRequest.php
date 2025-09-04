@@ -27,7 +27,6 @@ class StoreEquipmentRequest extends FormRequest
             'model' => 'required|string|max:100',
             'year' => 'required|integer|min:1990|max:' . (date('Y') + 1),
             'status' => 'required|in:operativa,mantenimiento,inactiva',
-            'location' => 'nullable|in:Interior mina,Exterior mina,Área de Mantenimiento,Apartada de la Empresa',
 
             // Campos opcionales
             'fuel_type' => 'nullable|in:diesel,gasolina,eléctrico',
@@ -61,6 +60,8 @@ class StoreEquipmentRequest extends FormRequest
             'year.max' => 'El año no puede ser mayor al próximo año.',
             'status.required' => 'Debe seleccionar un estado.',
             'status.in' => 'El estado seleccionado no es válido.',
+            'location.required' => 'Debe seleccionar una ubicación.',
+            'location.in' => 'La ubicación seleccionada no es válida.',
 
             // Campos opcionales
             'fuel_type.in' => 'El tipo de combustible seleccionado no es válido.',

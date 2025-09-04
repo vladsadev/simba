@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipment;
+use App\Models\EquipmentType;
 use App\Http\Requests\StoreEquipmentRequest;
 use App\Http\Requests\UpdateEquipmentRequest;
 use Illuminate\Http\Request;
-
-use App\Models\EquipmentType;
+use Illuminate\Support\Facades\Storage;
 
 class EquipmentController extends Controller
 {
@@ -24,18 +24,6 @@ class EquipmentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreEquipmentRequest $request)
-    {
-        // Crear el equipo con los datos validados
-        $equipment = Equipment::create($request->validated());
-
-        // Redireccionar con mensaje de éxito
-        return redirect()->route('equipment.index')->with('success', 'Equipo creado exitosamente');
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -48,11 +36,58 @@ class EquipmentController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreEquipmentRequest $request)
+    {
+        try {
+            // Obtener datos validados
+            $validatedData = $request->validated();
+
+            // Manejar la carga del manual PDF
+            if ($request->hasFile('manual_pdf')) {
+                $pdfPath = $request->file('manual_pdf')->store('equipment/manuals', 'public');
+                $validatedData['manual_pdf'] = $pdfPath;
+            }
+
+            // Manejar la carga de la imagen del equipo
+            if ($request->hasFile('equipment_img')) {
+                $imagePath = $request->file('equipment_img')->store('equipment/images', 'public');
+                $validatedData['equipment_img'] = $imagePath;
+            }
+
+            // Crear el equipo con los datos validados
+            $equipment = Equipment::create($validatedData);
+
+            // Redireccionar con mensaje de éxito
+            return redirect()
+                ->route('equipment.index')
+                ->with('success', 'Equipo creado exitosamente');
+
+        } catch (\Exception $e) {
+            // Log del error para debugging
+            \Log::error('Error al crear equipo: ' . $e->getMessage());
+
+            // Si hubo error y se subieron archivos, eliminarlos
+            if (isset($pdfPath)) {
+                Storage::disk('public')->delete($pdfPath);
+            }
+            if (isset($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Error al crear el equipo: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Display the specified resource.
      */
     public function show(Equipment $equipment)
     {
-//       dd($equipment);
         return view('equipment.show', compact('equipment'));
     }
 
@@ -75,8 +110,31 @@ class EquipmentController extends Controller
     public function update(UpdateEquipmentRequest $request, Equipment $equipment)
     {
         try {
-            // Actualizar con datos validados
-            $equipment->update($request->validated());
+            // Obtener datos validados
+            $validatedData = $request->validated();
+
+            // Manejar la actualización del manual PDF
+            if ($request->hasFile('manual_pdf')) {
+                // Eliminar el PDF anterior si existe
+                if ($equipment->manual_pdf) {
+                    Storage::disk('public')->delete($equipment->manual_pdf);
+                }
+                $pdfPath = $request->file('manual_pdf')->store('equipment/manuals', 'public');
+                $validatedData['manual_pdf'] = $pdfPath;
+            }
+
+            // Manejar la actualización de la imagen
+            if ($request->hasFile('equipment_img')) {
+                // Eliminar la imagen anterior si existe
+                if ($equipment->equipment_img) {
+                    Storage::disk('public')->delete($equipment->equipment_img);
+                }
+                $imagePath = $request->file('equipment_img')->store('equipment/images', 'public');
+                $validatedData['equipment_img'] = $imagePath;
+            }
+
+            // Actualizar el equipo
+            $equipment->update($validatedData);
 
             // Redireccionar con mensaje de éxito
             return redirect()
@@ -84,7 +142,17 @@ class EquipmentController extends Controller
                 ->with('success', 'Equipo actualizado exitosamente');
 
         } catch (\Exception $e) {
-            // En caso de error, redirigir de vuelta con el error
+            // Log del error
+            \Log::error('Error al actualizar equipo: ' . $e->getMessage());
+
+            // Si hubo error con archivos nuevos, eliminarlos
+            if (isset($pdfPath)) {
+                Storage::disk('public')->delete($pdfPath);
+            }
+            if (isset($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+
             return redirect()
                 ->back()
                 ->withInput()
@@ -111,6 +179,15 @@ class EquipmentController extends Controller
         }
 
         try {
+            // Eliminar archivos asociados
+            if ($equipment->manual_pdf) {
+                Storage::disk('public')->delete($equipment->manual_pdf);
+            }
+            if ($equipment->equipment_img) {
+                Storage::disk('public')->delete($equipment->equipment_img);
+            }
+
+
             // Si el usuario confirmó la eliminación o no hay inspecciones
             if ($hasInspections) {
                 // Eliminar primero las inspecciones asociadas
@@ -121,6 +198,8 @@ class EquipmentController extends Controller
             if ($equipment->maintenances()->exists()) {
                 $equipment->maintenances()->delete();
             }
+
+
 
             // Finalmente eliminar el equipo
             $equipment->delete();
