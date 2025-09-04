@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'password' => '1524780032'
         ]);
 
-        User::factory(10)->create();
+//        User::factory(10)->create();
 
 
         $this->call(EquipmentSeeder::class);

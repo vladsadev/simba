@@ -14,51 +14,52 @@ return new class extends Migration {
         Schema::create('equipment', function (Blueprint $table) {
             $table->id();
 
-            // Relación con tipo de equipo
+            // Relación con tipo de equipo (REQUERIDO)
             $table->foreignIdFor(EquipmentType::class)
                 ->constrained()
                 ->onDelete('restrict');
 
-            // Información básica
+            // Información básica (REQUERIDOS)
             $table->string('code', 20)->unique();
             $table->string('brand', 100);
             $table->string('model', 100);
             $table->year('year');
 
-            // Estado y ubicación
+            // Estado (REQUERIDO con valor por defecto)
             $table->enum('status', ['operativa', 'mantenimiento', 'inactiva'])
                 ->default('operativa');
+
+            // Ubicación (OPCIONAL - no está en el formulario)
             $table->enum('location', ['Interior mina', 'Exterior mina', 'Área de Mantenimiento', 'Apartada de la Empresa'])
                 ->nullable();
 
-
+            // Combustible (OPCIONAL)
             $table->enum('fuel_type', ['diesel', 'gasolina', 'eléctrico'])
                 ->nullable()
                 ->comment('Tipo de combustible');
-            $table->decimal('fuel_capacity', 8, 2)->nullable()->comment('Capacidad de combustible en litros');
+            $table->decimal('fuel_capacity', 8, 2)
+                ->nullable()
+                ->comment('Capacidad de combustible en litros');
 
-            // Mantenimiento
+            // Campos de mantenimiento (SE LLENAN DESPUÉS, no en creación)
             $table->date('last_maintenance')->nullable();
             $table->date('next_maintenance')->nullable();
 
-            //Trabajo
+            // Horas de trabajo (SE ACTUALIZAN EN INSPECCIONES, no en creación)
             $table->decimal('engine_hours', 10, 1)->nullable();
             $table->decimal('percussion_hours', 10, 1)->nullable();
             $table->decimal('position_hours', 10, 1)->nullable();
 
-            //Imagen del equipo
-            $table->string('equipment_img')->nullable();
-
-            //Manuales del equipo
-            $table->string('manual_pdf')->nullable();
-
+            // Archivos del equipo (OPCIONALES)
+            $table->string('equipment_img')->nullable()->comment('Ruta de la imagen del equipo');
+            $table->string('manual_pdf')->nullable()->comment('Ruta del manual PDF del equipo');
 
             $table->timestamps();
 
             // Índices para optimizar consultas
             $table->index(['status', 'equipment_type_id']);
             $table->index('location');
-            $table->index('fuel_type'); // Para filtrar por tipo de combustible
+            $table->index('fuel_type');
         });
     }
 
