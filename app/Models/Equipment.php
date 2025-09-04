@@ -24,7 +24,6 @@ class Equipment extends Model
         'last_maintenance',
         'next_maintenance',
         'notes',
-        // Agregar los campos de horómetros
         'engine_hours',
         'percussion_hours',
         'position_hours',
@@ -34,7 +33,6 @@ class Equipment extends Model
         'year' => 'integer',
         'last_maintenance' => 'date',
         'next_maintenance' => 'date',
-        // Agregar cast para los campos decimales
         'engine_hours' => 'decimal:1',
         'percussion_hours' => 'decimal:1',
         'position_hours' => 'decimal:1',
