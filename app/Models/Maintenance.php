@@ -18,12 +18,10 @@ class Maintenance extends Model
         'description',
         'observations',
         'duration_hours',
-        'next_maintenance_suggested',
     ];
 
     protected $casts = [
         'scheduled_date' => 'date',
-        'next_maintenance_suggested' => 'date',
     ];
 
     // Relaciones
