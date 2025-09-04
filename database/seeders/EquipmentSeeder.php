@@ -19,14 +19,14 @@ class EquipmentSeeder extends Seeder
 
 
         //  Camiones con especificaciones de acarreo
-//        Equipment::factory(2)
-//            ->acarreo()
-//            ->create(['equipment_type_id' => $acarreo->id]);
+        Equipment::factory(2)
+            ->acarreo()
+            ->create(['equipment_type_id' => $acarreo->id]);
 //
 //        //  Perforadoras con especificaciones de perforadora
-//        Equipment::factory(2)
-//            ->perforadora()
-//            ->create(['equipment_type_id' => $perforadora->id]);
+        Equipment::factory(2)
+            ->perforadora()
+            ->create(['equipment_type_id' => $perforadora->id]);
 
     }
 }

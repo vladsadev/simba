@@ -13,92 +13,46 @@
 
     <x-panels.main>
 
-        <x-forms.form method="POST" action="{{ route('equipment.store') }}" enctype="multipart/form-data" class="max-w-4xl px-3 md:px-2">
-
-            <h3 class="text-xl font-bold text-blue-main mb-4">Campos Obligatorios</h3>
-
-            <!-- Información básica -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                <x-forms.input
-                    label="Código"
-                    name="code"
-                    placeholder="EXC-001"
-                    required
-                    value="{{$equipment->equipmentType->name}}"
-                />
-
-                <x-forms.input
-                    label="Marca"
-                    name="brand"
-                    placeholder="Caterpillar"
-                    required
-                />
-
-                <x-forms.input
-                    label="Modelo"
-                    name="model"
-                    placeholder="S7D"
-                    required
-                />
-
-                <x-forms.input
-                    label="Año"
-                    name="year"
-                    type="number"
-                    min="1990"
-                    max="{{ date('Y') + 1 }}"
-                    placeholder="2024"
-                    required
-                />
+        <x-forms.form method="POST" action="{{route('equipment.update',$equipment)}}" class="max-w-4xl px-3 md:px-2">
+            @method('PATCH')
+            <h3 class="text-xl font-bold text-blue-main">Campos Obligatorios</h3>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <x-forms.input label="Código" name="code" placeholder="EXC-001" value="{{$equipment->code}}"/>
+                <x-forms.input label="Marca" name="brand" placeholder="Caterpillar" value="{{$equipment->brand}}"/>
+                <x-forms.input label="Modelo" name="model" placeholder="S7D" value="{{$equipment->model}}"/>
+                <x-forms.input label="Año" name="year" placeholder="2024" value="{{$equipment->year}}"/>
             </div>
 
             <!-- Estado -->
-            <div class="mb-4">
-                <x-forms.select label="Estado" name="status" required>
-                    <option value="operativa" selected>Operativa</option>
-                    <option value="mantenimiento">En Mantenimiento</option>
-                    <option value="inactiva">Inactiva</option>
-                </x-forms.select>
-            </div>
+            <x-forms.select label="Estado" name="status">
+                <option value="active" {{ $equipment->status == 'active' ? 'selected' : '' }}>Operativa</option>
+                <option value="maintenance" {{ $equipment->status == 'maintenance' ? 'selected' : '' }}>En Mantenimiento</option>
+                <option value="inactive" {{ $equipment->status == 'inactive' ? 'selected' : '' }}>Inactiva</option>
+            </x-forms.select>
 
             <!-- Ubicación -->
-            <div class="mb-4">
-                <x-forms.select label="Ubicación" name="location" required>
-                    <option value="">Seleccione una ubicación</option>
-                    <option value="Interior mina">Interior Mina</option>
-                    <option value="Exterior mina">Exterior Mina</option>
-                    <option value="Área de Mantenimiento">Área de Mantenimiento</option>
-                    <option value="Apartada de la Empresa">Apartada de la Empresa</option>
-                </x-forms.select>
-            </div>
+            <x-forms.select label="Ubicación" name="location">
+                <option value="">Seleccione una ubicación</option>
+                <option value="Interior mina" {{ $equipment->location == 'Interior mina' ? 'selected' : '' }}>Interior Mina</option>
+                <option value="Exterior mina" {{ $equipment->location == 'Exterior mina' ? 'selected' : '' }}>Exterior Mina</option>
+                <option value="Área de Mantenimiento" {{ $equipment->location == 'Área de Mantenimiento' ? 'selected' : '' }}>Área de Mantenimiento</option>
+                <option value="Apartada de la Empresa" {{ $equipment->location == 'Apartada de la Empresa' ? 'selected' : '' }}>Apartada de la Empresa</option>
+            </x-forms.select>
 
             <!-- Tipo de Equipo -->
-            <div class="mb-4">
-                <x-forms.select label="Tipo de Equipo" name="equipment_type_id" required>
-                    <option value="">Seleccione un tipo</option>
-                    @foreach($eTypes as $type)
-                        <option value="{{ $type->id }}">{{ $type->name }}</option>
-                    @endforeach
-                </x-forms.select>
-            </div>
+            <x-forms.select label="Tipo de Equipo" name="equipment_type_id">
+                @foreach($eTypes as $eType)
+                    <option value="{{ $eType->id }}" {{ $equipment->equipment_type_id == $eType->id ? 'selected' : '' }}>
+                        {{ $eType->name }}
+                    </option>
+                @endforeach
+            </x-forms.select>
 
-            <!-- Especificaciones Técnicas (Opcionales) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <x-forms.select label="Tipo de Combustible" name="fuel_type">
-                    <option value="">Seleccione (opcional)</option>
-                    <option value="diesel">Diesel</option>
-                    <option value="gasolina">Gasolina</option>
-                    <option value="eléctrico">Eléctrico</option>
-                </x-forms.select>
-
-                <x-forms.input
-                    label="Capacidad de Combustible (Litros)"
-                    name="fuel_capacity"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    placeholder="400"
-                />
+            <!-- Especificaciones Técnicas -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <x-forms.input label="Combustible" name="fuel_type" placeholder="Diesel" value="{{$equipment->fuel_type}}"/>
+                <x-forms.input label="Capacidad de Combustible" name="fuel_capacity" placeholder="400"
+                               value="{{$equipment->fuel_capacity}}"/>
             </div>
 
             <!-- Archivos -->
@@ -122,11 +76,10 @@
                 />
             </div>
 
-            <x-forms.divider class="bg-yellow-main my-6"/>
 
-            <x-forms.button type="submit" class="cursor-pointer">
-                Guardar Equipo
-            </x-forms.button>
+            <x-forms.divider class="bg-yellow-main"/>
+            <x-forms.button>Actualizar Equipo</x-forms.button>
+            <x-link-btn href="{{route('equipment.show',$equipment)}}"> Cancelar</x-link-btn>
         </x-forms.form>
 
     </x-panels.main>
