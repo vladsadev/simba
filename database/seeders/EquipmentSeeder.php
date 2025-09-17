@@ -23,7 +23,7 @@ class EquipmentSeeder extends Seeder
             ->acarreo()
             ->create(['equipment_type_id' => $acarreo->id]);
 //
-//        //  Perforadoras con especificaciones de perforadora
+        //  Perforadoras con especificaciones de perforadora
         Equipment::factory(2)
             ->perforadora()
             ->create(['equipment_type_id' => $perforadora->id]);

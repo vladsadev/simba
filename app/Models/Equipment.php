@@ -110,16 +110,6 @@ class Equipment extends Model
     }
 
     /**
-     * Scope para equipos con mantenimiento próximo
-     */
-//    public function scopeUpcomingMaintenance($query, $daysThreshold = 30)
-//    {
-//        return $query->whereNotNull('next_maintenance')
-//            ->where('next_maintenance', '<=', now()->addDays($daysThreshold))
-//            ->where('next_maintenance', '>=', now());
-//    }
-
-    /**
      * Obtiene el estado visual del equipo (para el dashboard)
      */
     public function getStatusDisplayAttribute(): array
@@ -140,65 +130,13 @@ class Equipment extends Model
                 'color' => 'gray',
                 'icon' => 'fas fa-pause-circle'
             ],
-            'retired' => [
-                'label' => 'Retirado',
-                'color' => 'red',
-                'icon' => 'fas fa-times-circle'
-            ],
         ];
 
         return $statusConfig[$this->status] ?? $statusConfig['inactive'];
     }
 
-    /**
-     * Calcula la prioridad de atención del equipo
-     */
-    public function getAttentionPriorityAttribute(): string
-    {
-        // Fuera de servicio - prioridad crítica
-        if (in_array($this->status, ['inactive', 'retired'])) {
-            return 'critical';
-        }
 
-        // En mantenimiento - prioridad alta
-        if ($this->status === 'maintenance') {
-            return 'high';
-        }
 
-        // Necesita inspección - prioridad media
-        if ($this->needsInspection()) {
-            return 'medium';
-        }
 
-        // Mantenimiento próximo - prioridad baja
-        if ($this->needsMaintenanceSoon()) {
-            return 'low';
-        }
-
-        return 'normal';
-    }
-
-    /**
-     * Verifica si el equipo necesita inspección
-     */
-    public function needsInspection($daysThreshold = 7): bool
-    {
-        $lastInspection = $this->last_inspection;
-
-        if (!$lastInspection) {
-            return true; // Sin inspecciones
-        }
-
-        return $lastInspection->inspection_date->addDays($daysThreshold) < now();
-    }
-
-    /**
-     * Verifica si el equipo necesita mantenimiento próximamente
-     */
-//    public function needsMaintenanceSoon($daysThreshold = 30): bool
-//    {
-//        return $this->next_maintenance &&
-//            $this->next_maintenance <= now()->addDays($daysThreshold);
-//    }
 
 }

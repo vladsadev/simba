@@ -27,18 +27,6 @@
                 {{ number_format($equipment->engine_hours ?? 0, 1) }}
                 <span class="text-base font-normal text-gray-500">hrs</span>
             </div>
-            @if($equipment->engine_hours > 0)
-                <div class="mt-2">
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-blue-600 h-2 rounded-full"
-                             style="width: {{ min(100, ($equipment->engine_hours / 10000) * 100) }}%">
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-1">
-                        {{ number_format((($equipment->engine_hours / 10000) * 100), 1) }}% de 10,000 hrs
-                    </p>
-                </div>
-            @endif
         </div>
 
         <!-- Percusión -->
@@ -53,18 +41,6 @@
                 {{ number_format($equipment->percussion_hours ?? 0, 1) }}
                 <span class="text-base font-normal text-gray-500">hrs</span>
             </div>
-            @if($equipment->percussion_hours > 0)
-                <div class="mt-2">
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-orange-500 h-2 rounded-full"
-                             style="width: {{ min(100, ($equipment->percussion_hours / 10000) * 100) }}%">
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-1">
-                        {{ number_format((($equipment->percussion_hours / 10000) * 100), 1) }}% de 10,000 hrs
-                    </p>
-                </div>
-            @endif
         </div>
 
         <!-- Posicionamiento -->
@@ -80,39 +56,6 @@
                 {{ number_format($equipment->position_hours ?? 0, 1) }}
                 <span class="text-base font-normal text-gray-500">hrs</span>
             </div>
-            @if($equipment->position_hours > 0)
-                <div class="mt-2">
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-purple-500 h-2 rounded-full"
-                             style="width: {{ min(100, ($equipment->position_hours / 10000) * 100) }}%">
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-1">
-                        {{ number_format((($equipment->position_hours / 10000) * 100), 1) }}% de 10,000 hrs
-                    </p>
-                </div>
-            @endif
         </div>
     </div>
-
-    <!-- Alerta de mantenimiento si se acerca a ciertos límites -->
-    @php
-        $maxHours = max($equipment->engine_hours ?? 0, $equipment->percussion_hours ?? 0, $equipment->position_hours ?? 0);
-        $nextMaintenanceAt = 500 * ceil($maxHours / 500); // Siguiente múltiplo de 500
-        $hoursUntilMaintenance = $nextMaintenanceAt - $maxHours;
-    @endphp
-
-    @if($hoursUntilMaintenance <= 50 && $maxHours > 0)
-        <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <div class="flex items-center">
-                <svg class="w-5 h-5 text-yellow-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                </svg>
-                <span class="text-sm text-yellow-800">
-                    Mantenimiento recomendado en aproximadamente <strong>{{ number_format($hoursUntilMaintenance, 1) }} horas</strong>
-                    (al alcanzar {{ number_format($nextMaintenanceAt, 0) }} hrs)
-                </span>
-            </div>
-        </div>
-    @endif
 </div>

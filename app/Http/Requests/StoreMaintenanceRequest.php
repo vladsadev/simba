@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreMaintenanceRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class StoreMaintenanceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; // Ajustar según tu lógica de autorización
+        return true;
     }
 
     /**
@@ -21,28 +22,24 @@ class StoreMaintenanceRequest extends FormRequest
     {
         return [
             // Campos obligatorios
-            'equipment_id' => 'required|exists:equipment,id',
-            'type' => 'required|in:preventivo,correctivo,emergencia,inspeccion',
+            'equipment_id' => [
+                'required',
+                'exists:equipment,id',
+                // Validación personalizada para verificar que el equipo no esté en mantenimiento
+                Rule::exists('equipment', 'id')->where(function ($query) {
+                    return $query->where('status', '!=', 'mantenimiento');
+                }),
+            ],
+            'type' => 'required|in:preventivo,correctivo,emergencia',
             'scheduled_date' => 'required|date|after_or_equal:today',
             'title' => 'required|string|max:255',
 
             // Campos opcionales
-            'started_date' => 'nullable|date|after_or_equal:scheduled_date',
-            'completed_date' => 'nullable|date|after_or_equal:started_date',
             'description' => 'nullable|string|max:2000',
-            'work_performed' => 'nullable|string|max:2000',
             'observations' => 'nullable|string|max:2000',
 
-            // Campos numéricos
-            'cost' => 'nullable|numeric|min:0|max:99999999.99',
-            'duration_hours' => 'nullable|integer|min:1|max:8760', // Max 1 año
-            'hours_interval' => 'nullable|integer|min:1|max:10000',
-
-            // Fechas adicionales
-            'next_maintenance_suggested' => 'nullable|date|after:scheduled_date',
-
-            // Repuestos como texto (se procesará en el controlador)
-            'parts_used_text' => 'nullable|string|max:2000'
+            // Campo numérico
+            'duration_hours' => 'nullable|integer|min:1|max:8760', // Max 1 año en horas
         ];
     }
 
@@ -54,7 +51,7 @@ class StoreMaintenanceRequest extends FormRequest
         return [
             // Campos obligatorios
             'equipment_id.required' => 'Debe seleccionar un equipo.',
-            'equipment_id.exists' => 'El equipo seleccionado no es válido.',
+            'equipment_id.exists' => 'El equipo seleccionado no es válido o ya se encuentra en mantenimiento.',
             'type.required' => 'Debe seleccionar un tipo de mantenimiento.',
             'type.in' => 'El tipo de mantenimiento seleccionado no es válido.',
             'scheduled_date.required' => 'La fecha programada es obligatoria.',
@@ -63,32 +60,25 @@ class StoreMaintenanceRequest extends FormRequest
             'title.required' => 'El título del mantenimiento es obligatorio.',
             'title.max' => 'El título no puede exceder 255 caracteres.',
 
-            // Fechas
-            'started_date.date' => 'La fecha de inicio debe ser una fecha válida.',
-            'started_date.after_or_equal' => 'La fecha de inicio no puede ser anterior a la fecha programada.',
-            'completed_date.date' => 'La fecha de finalización debe ser una fecha válida.',
-            'completed_date.after_or_equal' => 'La fecha de finalización no puede ser anterior a la fecha de inicio.',
+            // Campos opcionales
+            'description.max' => 'La descripción no puede exceder 2000 caracteres.',
+            'observations.max' => 'Las observaciones no pueden exceder 2000 caracteres.',
 
-            // Campos numéricos
-            'cost.numeric' => 'El costo debe ser un número.',
-            'cost.min' => 'El costo no puede ser negativo.',
-            'cost.max' => 'El costo excede el límite máximo permitido.',
+            // Campo numérico
             'duration_hours.integer' => 'La duración debe ser un número entero.',
             'duration_hours.min' => 'La duración debe ser al menos 1 hora.',
             'duration_hours.max' => 'La duración no puede exceder 8760 horas (1 año).',
-            'hours_interval.integer' => 'El intervalo de horas debe ser un número entero.',
-            'hours_interval.min' => 'El intervalo debe ser al menos 1 hora.',
-            'hours_interval.max' => 'El intervalo no puede exceder 10000 horas.',
-
-            // Fechas adicionales
-            'next_maintenance_suggested.date' => 'La fecha del próximo mantenimiento debe ser válida.',
-            'next_maintenance_suggested.after' => 'La fecha del próximo mantenimiento debe ser posterior a la fecha programada.',
-
-            // Texto
-            'description.max' => 'La descripción no puede exceder 2000 caracteres.',
-            'work_performed.max' => 'El trabajo realizado no puede exceder 2000 caracteres.',
-            'observations.max' => 'Las observaciones no pueden exceder 2000 caracteres.',
-            'parts_used_text.max' => 'La lista de repuestos no puede exceder 2000 caracteres.'
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        // Limpiar el campo duration_hours si viene vacío
+        if ($this->duration_hours === '') {
+            $this->merge(['duration_hours' => null]);
+        }
     }
 }

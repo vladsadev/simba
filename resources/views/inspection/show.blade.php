@@ -30,13 +30,15 @@
             <div class="flex justify-between items-center text-white">
                 <h3 class="text-lg font-semibold tracking-wide">Reporte de Inspección General</h3>
                 <div class="text-right">
-                    <div class="text-sm opacity-90">Equipo: {{ $inspection->equipment->code }}</div>
+                    <div class="text-sm opacity-90">Equipo: <span class="text-yellow-main font-semibold text-base">
+                        {{ $inspection->equipment->code }}
+                        </span>
+                    </div>
                     <div class="font-medium">{{ $inspection->equipment->brand }} {{ $inspection->equipment->model }}</div>
                 </div>
             </div>
         </div>
-        <x-inspection.horometer-info :inspection="$inspection" />
-
+        <x-inspection.horometer-info :inspection="$inspection"/>
 
 
         <div class="p-6">
@@ -47,7 +49,7 @@
 
                     {{-- ⚙️ Sección 1: Revisión antes de arrancar --}}
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                        <div class="bg-blue-600 px-6 py-4">
+                        <div class="bg-blue-light px-6 py-4">
                             <h3 class="flex items-center text-lg font-semibold text-white">
                                 <span class="mr-3">⚙️</span> Revisión antes de arrancar
                             </h3>
@@ -108,7 +110,7 @@
 
                     {{-- 🔄 Sección 2: Después de arrancar --}}
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                        <div class="bg-green-600 px-6 py-4">
+                        <div class="bg-blue-light px-6 py-4">
                             <h3 class="flex items-center text-lg font-semibold text-white">
                                 <span class="mr-3">🔄</span> Después de arrancar
                             </h3>
@@ -157,7 +159,7 @@
 
                     {{-- 🛠️ Sección 3: Inspección general --}}
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                        <div class="bg-yellow-600 px-6 py-4">
+                        <div class="bg-blue-light px-6 py-4">
                             <h3 class="flex items-center text-lg font-semibold text-white">
                                 <span class="mr-3">🛠️</span> Inspección general
                             </h3>
@@ -190,7 +192,7 @@
 
                     {{-- ⚙️ Sección 4: Temas no negociables --}}
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                        <div class="bg-red-600 px-6 py-4">
+                        <div class="bg-blue-light px-6 py-4">
                             <h3 class="flex items-center text-lg font-semibold text-white">
                                 <span class="mr-3">⚙️</span> Temas no negociables
                             </h3>
@@ -294,15 +296,18 @@
                                             </div>
 
                                             <div class="text-xs text-gray-500 mt-2 border-t pt-2">
-                                                Reportado el {{ $issue->reported_at->format('d/m/Y H:i') }} por {{ $issue->user->name }}
+                                                Reportado el {{ $issue->reported_at->format('d/m/Y H:i') }}
+                                                por {{ $issue->user->name }}
                                             </div>
                                         </div>
                                     @endforeach
                                 </div>
                             @else
                                 <div class="text-center py-8 text-gray-500">
-                                    <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24"
+                                         stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
                                     <p class="text-lg font-medium">¡Sin averías reportadas!</p>
                                     <p class="text-sm">Esta inspección no registró problemas en ningún componente.</p>
@@ -317,7 +322,7 @@
 
                     {{-- Detalles del equipo --}}
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                        <div class="bg-blue-600 px-4 py-3">
+                        <div class="bg-blue-lighter px-4 py-3">
                             <h3 class="text-white font-semibold">Detalles del Equipo</h3>
                         </div>
                         <div class="p-4 space-y-2 text-sm">
@@ -331,7 +336,7 @@
 
                     {{-- Detalles del inspector --}}
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                        <div class="bg-green-600 px-4 py-3">
+                        <div class="bg-blue-lighter px-4 py-3">
                             <h3 class="text-white font-semibold">Inspector</h3>
                         </div>
                         <div class="p-4 space-y-2 text-sm">
@@ -342,28 +347,31 @@
 
                     {{-- Horómetros --}}
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                        <div class="bg-purple-600 px-4 py-3">
+                        <div class="bg-blue-lighter px-4 py-3">
                             <h3 class="text-white font-semibold">⏱️ Horómetros</h3>
                         </div>
                         <div class="p-4 space-y-3">
                             <div class="flex justify-between items-center">
                                 <span class="text-sm font-medium text-gray-600">Motor:</span>
-                                <span class="font-semibold text-gray-800">{{ number_format($inspection->engine_hours, 1) }}h</span>
+                                <span
+                                    class="font-semibold text-gray-800">{{ number_format($inspection->engine_hours, 1) }}h</span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-sm font-medium text-gray-600">Percusión:</span>
-                                <span class="font-semibold text-gray-800">{{ number_format($inspection->percussion_hours, 1) }}h</span>
+                                <span
+                                    class="font-semibold text-gray-800">{{ number_format($inspection->percussion_hours, 1) }}h</span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-sm font-medium text-gray-600">Posición:</span>
-                                <span class="font-semibold text-gray-800">{{ number_format($inspection->position_hours, 1) }}h</span>
+                                <span
+                                    class="font-semibold text-gray-800">{{ number_format($inspection->position_hours, 1) }}h</span>
                             </div>
                         </div>
                     </div>
 
                     {{-- EPP --}}
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                        <div class="bg-orange-600 px-4 py-3">
+                        <div class="bg-blue-lighter px-4 py-3">
                             <h3 class="text-white font-semibold">👷 Equipo de Protección Personal</h3>
                         </div>
                         <div class="p-4">
@@ -393,9 +401,13 @@
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                         <div class="p-4 space-y-3">
                             <a href="{{ route('equipment.show', $inspection->equipment) }}"
-                               class="w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                               class="w-full inline-flex justify-center items-center px-4 py-2 border hover:bg-blue-main
+                               hover:text-yellow-light
+                               border-gray-300
+                               rounded-lg text-gray-700 bg-white transition-colors">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                                 </svg>
                                 Volver al Equipo
                             </a>
@@ -404,7 +416,8 @@
                                 <a href="{{ route('inspection.edit', $inspection) }}"
                                    class="w-full inline-flex justify-center items-center px-4 py-2 border border-blue-600 rounded-lg text-blue-600 bg-white hover:bg-blue-50 transition-colors">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                     </svg>
                                     Editar Inspección
                                 </a>

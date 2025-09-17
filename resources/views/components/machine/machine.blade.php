@@ -3,7 +3,7 @@
 @php
     $estado= $equipment->status;
 
-if($estado === 'active'){
+if($estado === 'operativa'){
     $classes = 'bg-green-300';
 }else{
 

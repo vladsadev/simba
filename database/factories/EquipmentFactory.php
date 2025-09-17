@@ -24,7 +24,7 @@ class EquipmentFactory extends Factory
             'fuel_capacity' => $this->faker->randomFloat(2, 300, 1000), // Litros
 
             'last_maintenance' => $this->faker->optional()->dateTimeBetween('-6 months', 'now'),
-            'next_maintenance' => $this->faker->optional()->dateTimeBetween('now', '+3 months'),
+//            'next_maintenance' => $this->faker->optional()->dateTimeBetween('now', '+3 months'),
         ];
     }
 

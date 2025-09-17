@@ -80,23 +80,23 @@
     </div>
 
     <!-- Estadísticas adicionales si hay inspección previa -->
-    @if($inspection->previousInspection())
-        <div class="mt-4 pt-4 border-t border-gray-200">
-            <h4 class="text-sm font-medium text-gray-700 mb-2">Promedio diario desde última inspección</h4>
-            <div class="grid grid-cols-3 gap-4 text-center">
-                <div>
-                    <p class="text-xs text-gray-600">Motor</p>
-                    <p class="font-semibold">{{ number_format($inspection->average_hours_per_day['engine'], 1) }} hrs/día</p>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-600">Percusión</p>
-                    <p class="font-semibold">{{ number_format($inspection->average_hours_per_day['percussion'], 1) }} hrs/día</p>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-600">Posicionamiento</p>
-                    <p class="font-semibold">{{ number_format($inspection->average_hours_per_day['position'], 1) }} hrs/día</p>
-                </div>
-            </div>
-        </div>
-    @endif
+{{--    @if($inspection->previousInspection())--}}
+{{--        <div class="mt-4 pt-4 border-t border-gray-200">--}}
+{{--            <h4 class="text-sm font-medium text-gray-700 mb-2">Promedio diario desde última inspección</h4>--}}
+{{--            <div class="grid grid-cols-3 gap-4 text-center">--}}
+{{--                <div>--}}
+{{--                    <p class="text-xs text-gray-600">Motor</p>--}}
+{{--                    <p class="font-semibold">{{ number_format($inspection->average_hours_per_day['engine'], 1) }} hrs/día</p>--}}
+{{--                </div>--}}
+{{--                <div>--}}
+{{--                    <p class="text-xs text-gray-600">Percusión</p>--}}
+{{--                    <p class="font-semibold">{{ number_format($inspection->average_hours_per_day['percussion'], 1) }} hrs/día</p>--}}
+{{--                </div>--}}
+{{--                <div>--}}
+{{--                    <p class="text-xs text-gray-600">Posicionamiento</p>--}}
+{{--                    <p class="font-semibold">{{ number_format($inspection->average_hours_per_day['position'], 1) }} hrs/día</p>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    @endif--}}
 </div>

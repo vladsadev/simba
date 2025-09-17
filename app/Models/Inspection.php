@@ -110,13 +110,13 @@ class Inspection extends Model
     /**
      * Obtener la siguiente inspección para este equipo
      */
-    public function nextInspection()
-    {
-        return self::where('equipment_id', $this->equipment_id)
-            ->where('inspection_date', '>', $this->inspection_date)
-            ->orderBy('inspection_date', 'asc')
-            ->first();
-    }
+//    public function nextInspection()
+//    {
+//        return self::where('equipment_id', $this->equipment_id)
+//            ->where('inspection_date', '>', $this->inspection_date)
+//            ->orderBy('inspection_date', 'asc')
+//            ->first();
+//    }
 
     /**
      * Calcular las horas de motor trabajadas desde la inspección anterior
@@ -250,13 +250,13 @@ class Inspection extends Model
     /**
      * Obtener clase CSS para el estado
      */
-    public function getStatusClassAttribute(): string
-    {
-        return match($this->status) {
-            'completada' => 'bg-green-100 text-green-800',
-            'completada_con_observaciones' => 'bg-yellow-100 text-yellow-800',
-            'requiere_atencion_urgente' => 'bg-red-100 text-red-800',
-            default => 'bg-gray-100 text-gray-800'
-        };
-    }
+//    public function getStatusClassAttribute(): string
+//    {
+//        return match($this->status) {
+//            'completada' => 'bg-green-100 text-green-800',
+//            'completada_con_observaciones' => 'bg-yellow-100 text-yellow-800',
+//            'requiere_atencion_urgente' => 'bg-red-100 text-red-800',
+//            default => 'bg-gray-100 text-gray-800'
+//        };
+//    }
 }
