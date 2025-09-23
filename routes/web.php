@@ -6,7 +6,7 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\InspectionIssueController;
 use App\Http\Controllers\MaintenanceController;
-use App\Models\Equipment;
+use App\Http\Controllers\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,10 +20,12 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/reportes', function () {
-        return view('dashboard.reportes');
-    })->name('reportes');
+    //Users - Roles
+    Route::get('/users', [UserRoleController::class, 'index'])->name('user-role.index');
 
+
+    //Reportes Page en Dashboard
+    Route::view('/reportes', 'dashboard.reportes')->name('reportes');
 
     //Equipos
     Route::get('/catalogo', [EquipmentController::class, 'index'])->name('equipment.index');
@@ -43,13 +45,10 @@ Route::middleware([
     Route::get('/inspecciones/crear/{equipment}', [InspectionController::class, 'create'])->name('inspection.create');
 
     // Inspecciones - Issues
-//    Route::post('/api/inspection-issues/temporary', [InspectionIssueController::class, 'storeTemporary'])
-//        ->name('inspection.issues.temporary');
     Route::post('/api/inspection-issues', [InspectionIssueController::class, 'store'])
         ->name('inspection.issues.store');
 
     // En el grupo de rutas autenticadas, reemplazar las rutas de malla por:
-
 // Malla de Perforaciones
     Route::get('/malla', [DrillingGridController::class, 'index'])->name('malla');
 
