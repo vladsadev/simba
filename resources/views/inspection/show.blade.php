@@ -48,7 +48,7 @@
                 <div class="lg:col-span-2 space-y-8">
 
                     {{-- ⚙️ Sección 1: Revisión antes de arrancar --}}
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-xs border border-gray-200 overflow-hidden">
                         <div class="bg-blue-light px-6 py-4">
                             <h3 class="flex items-center text-lg font-semibold text-white">
                                 <span class="mr-3">⚙️</span> Revisión antes de arrancar
@@ -109,7 +109,7 @@
                     </div>
 
                     {{-- 🔄 Sección 2: Después de arrancar --}}
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-xs border border-gray-200 overflow-hidden">
                         <div class="bg-blue-light px-6 py-4">
                             <h3 class="flex items-center text-lg font-semibold text-white">
                                 <span class="mr-3">🔄</span> Después de arrancar
@@ -158,7 +158,7 @@
                     </div>
 
                     {{-- 🛠️ Sección 3: Inspección general --}}
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-xs border border-gray-200 overflow-hidden">
                         <div class="bg-blue-light px-6 py-4">
                             <h3 class="flex items-center text-lg font-semibold text-white">
                                 <span class="mr-3">🛠️</span> Inspección general
@@ -191,7 +191,7 @@
                     </div>
 
                     {{-- ⚙️ Sección 4: Temas no negociables --}}
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-xs border border-gray-200 overflow-hidden">
                         <div class="bg-blue-light px-6 py-4">
                             <h3 class="flex items-center text-lg font-semibold text-white">
                                 <span class="mr-3">⚙️</span> Temas no negociables
@@ -240,7 +240,7 @@
                     </div>
 
                     {{-- 🚨 Averías Reportadas --}}
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-xs border border-gray-200 overflow-hidden">
                         <div class="bg-red-700 px-6 py-4">
                             <h3 class="flex items-center text-lg font-semibold text-white">
                                 <span class="mr-3">🚨</span>
@@ -321,7 +321,7 @@
                 <div class="space-y-6">
 
                     {{-- Detalles del equipo --}}
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-xs border border-gray-200 overflow-hidden">
                         <div class="bg-blue-lighter px-4 py-3">
                             <h3 class="text-white font-semibold">Detalles del Equipo</h3>
                         </div>
@@ -335,7 +335,7 @@
                     </div>
 
                     {{-- Detalles del inspector --}}
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-xs border border-gray-200 overflow-hidden">
                         <div class="bg-blue-lighter px-4 py-3">
                             <h3 class="text-white font-semibold">Inspector</h3>
                         </div>
@@ -346,7 +346,7 @@
                     </div>
 
                     {{-- Horómetros --}}
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-xs border border-gray-200 overflow-hidden">
                         <div class="bg-blue-lighter px-4 py-3">
                             <h3 class="text-white font-semibold">⏱️ Horómetros</h3>
                         </div>
@@ -370,7 +370,7 @@
                     </div>
 
                     {{-- EPP --}}
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-xs border border-gray-200 overflow-hidden">
                         <div class="bg-blue-lighter px-4 py-3">
                             <h3 class="text-white font-semibold">👷 Equipo de Protección Personal</h3>
                         </div>
@@ -384,7 +384,7 @@
                     </div>
 
                     {{-- Observaciones --}}
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-xs border border-gray-200 overflow-hidden">
                         <div class="bg-gray-600 px-4 py-3">
                             <h3 class="text-white font-semibold">📝 Observaciones</h3>
                         </div>
@@ -398,7 +398,7 @@
                     </div>
 
                     {{-- Botones de acción --}}
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-xs border border-gray-200 overflow-hidden">
                         <div class="p-4 space-y-3">
                             <a href="{{ route('equipment.show', $inspection->equipment) }}"
                                class="w-full inline-flex justify-center items-center px-4 py-2 border hover:bg-blue-main

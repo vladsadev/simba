@@ -4,8 +4,8 @@
     $defaults = [
         'id' => $name,
         'name' => $name,
-//        'class' => 'rounded-xl bg-white/10 border border-white/10 px-5 py-4 w-full'
-        'class' => ' class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6"'
+        'class' => 'px-2 py-2 w-full rounded-xl border focus:border-yellow-main focus:ring-0 placeholder:text-blue-main/25',
+
     ];
 @endphp
 

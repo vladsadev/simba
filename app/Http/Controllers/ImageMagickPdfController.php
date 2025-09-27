@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DrillingGrid;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\File;
 
 class ImageMagickPdfController extends Controller
@@ -28,7 +29,7 @@ class ImageMagickPdfController extends Controller
 
         // Verificar si necesitamos regenerar las imágenes
         if (!File::exists($imagePath) || File::lastModified($pdfPath) > File::lastModified($imagePath)) {
-            $this->convertPdfToImagesWithPhp($pdfPath, $tempDir, $id, $page - 1);
+            $this->convertPdfToImages($pdfPath, $tempDir, $id);
         }
 
         if (!File::exists($imagePath)) {
@@ -42,38 +43,6 @@ class ImageMagickPdfController extends Controller
         ]);
     }
 
-    private function convertPdfToImagesWithPhp($pdfPath, $outputDir, $gridId, $pageIndex)
-    {
-        try {
-            $imagick = new \Imagick();
-
-
-            // Configurar resolución para mejor calidad
-            $imagick->setResolution(150, 150);
-
-            // Leer página específica del PDF
-            $imagick->readImage($pdfPath . '[' . $pageIndex . ']');
-
-            // Configurar formato de salida
-            $imagick->setImageFormat('png');
-            $imagick->setImageBackgroundColor('white');
-            $imagick->setImageAlphaChannel(\Imagick::ALPHACHANNEL_REMOVE);
-
-            // Generar nombre de archivo
-            $outputPath = $outputDir . DIRECTORY_SEPARATOR . 'pdf_' . $gridId . '_page_' . $pageIndex . '.png';
-
-            // Escribir archivo
-            $imagick->writeImage($outputPath);
-            $imagick->destroy();
-
-            return true;
-
-        } catch (\Exception $e) {
-            \Log::error('Error convirtiendo PDF con Imagick: ' . $e->getMessage());
-            return false;
-        }
-    }
-
     public function getPageCount($id)
     {
         $grid = DrillingGrid::findOrFail($id);
@@ -85,20 +54,51 @@ class ImageMagickPdfController extends Controller
         $pdfPath = Storage::disk('public')->path($grid->pdf_file);
 
         try {
-            // Usar la extensión PHP Imagick
-            $imagick = new \Imagick();
-            $imagick->readImage($pdfPath);
-            $pageCount = $imagick->getNumberImages();
-            $imagick->destroy();
+            // Usar ImageMagick para contar páginas
+            $command = sprintf('magick identify -format "%%n\n" "%s"', $pdfPath);
+            $result = Process::run($command);
 
-            return response()->json([
-                'total_pages' => $pageCount > 0 ? $pageCount : 1,
-                'grid_name' => $grid->name
-            ]);
+            if ($result->successful()) {
+                $lines = array_filter(explode("\n", trim($result->output())));
+                $pageCount = count($lines);
+
+                return response()->json([
+                    'total_pages' => $pageCount > 0 ? $pageCount : 1,
+                    'grid_name' => $grid->name
+                ]);
+            }
 
         } catch (\Exception $e) {
-            \Log::error('Error contando páginas con Imagick: ' . $e->getMessage());
-            return response()->json(['total_pages' => 1, 'grid_name' => $grid->name]);
+            \Log::error('Error contando páginas: ' . $e->getMessage());
+        }
+
+        return response()->json(['total_pages' => 1, 'grid_name' => $grid->name]);
+    }
+
+    private function convertPdfToImages($pdfPath, $outputDir, $gridId)
+    {
+        // Usar ImageMagick para convertir todas las páginas
+        $outputPattern = $outputDir . DIRECTORY_SEPARATOR . 'pdf_' . $gridId . '_page_%d.png';
+
+        $command = sprintf(
+            'magick -density 150 -quality 85 "%s" "%s"',
+            $pdfPath,
+            $outputPattern
+        );
+
+        try {
+            $result = Process::run($command);
+
+            if (!$result->successful()) {
+                \Log::error('Error en ImageMagick: ' . $result->errorOutput());
+                throw new \Exception('Conversión falló: ' . $result->errorOutput());
+            }
+
+            return true;
+
+        } catch (\Exception $e) {
+            \Log::error('Error ejecutando ImageMagick: ' . $e->getMessage());
+            throw $e;
         }
     }
 }

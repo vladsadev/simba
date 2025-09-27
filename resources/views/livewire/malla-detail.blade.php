@@ -1,14 +1,14 @@
 <div>
     <!-- Mensaje de éxito -->
     @if (session()->has('message'))
-        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-sm relative" role="alert">
             <span class="block sm:inline">{{ session('message') }}</span>
         </div>
     @endif
 
     <!-- Mensaje de error -->
     @if (session()->has('error'))
-        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-sm relative" role="alert">
             <span class="block sm:inline">{{ session('error') }}</span>
         </div>
     @endif
@@ -22,6 +22,12 @@
                 <!-- Lado Izquierdo - Datos de la Malla -->
                 <div class="w-full lg:max-w-sm lg:flex-auto py-5 px-2 md:px-4 lg:px-0">
                     <h2 class="font-bold text-gray-801 text-xl mb-6">DATOS DE LA MALLA</h2>
+
+
+                    {{--                    <img src="{{Vite::asset('resources/images/simba1.webp')}}"--}}
+                    {{--                         alt="Equipo minero en operación" class="absolute inset-0 -z-20 size-full object-cover"/>--}}
+
+                    <!-- ------- -->
 
                     @if($grid)
                         <!-- Información de la Malla -->
@@ -108,7 +114,7 @@
                 <div class="w-full">
                     <div class="text-center">
                         @if($grid)
-                            <div class="pdf-secure-viewer bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg px-6 py-2
+                            <div class="pdf-secure-viewer bg-linear-to-br from-gray-50 to-gray-100 rounded-lg px-6 py-2
                             shadow-lg">
                                 <!-- Header del visor -->
                                 <div class="mb-4 text-center">
@@ -121,9 +127,9 @@
 
                                 <!-- Controles de navegación -->
                                 <div
-                                    class="controls mb-6 flex items-center justify-between bg-white rounded-xl px-6 py-4 shadow-sm border">
+                                    class="controls mb-6 flex items-center justify-between bg-white rounded-xl px-6 py-4 shadow-xs border">
                                     <button onclick="prevPage()" id="prevBtn"
-                                            class="flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-sm">
+                                            class="flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-xs">
                                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                   d="M15 19l-7-7 7-7"></path>
@@ -145,7 +151,7 @@
                                                    onkeypress="if(event.key==='Enter') goToPage(this.value)">
                                             <button onclick="goToPage(document.getElementById('pageInput').value)"
                                                     class="px-3 py-1 bg-blue-main text-white rounded-md text-sm hover:bg-blue-700
-                                                    transition-colors shadow-sm">
+                                                    transition-colors shadow-xs">
                                                 Ir
                                             </button>
                                         </div>
@@ -161,7 +167,7 @@
                                                 </svg>
                                             </button>
                                             <span id="zoomLevel"
-                                                  class="text-xs text-gray-500 min-w-[3rem] text-center">100%</span>
+                                                  class="text-xs text-gray-500 min-w-12 text-center">100%</span>
                                             <button onclick="zoomIn()"
                                                     class="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-md transition-colors"
                                                     title="Acercar">
@@ -174,7 +180,7 @@
                                     </div>
 
                                     <button onclick="nextPage()" id="nextBtn"
-                                            class="flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-sm">
+                                            class="flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-xs">
                                         Siguiente
                                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -198,7 +204,7 @@
                                     <div class="flex items-center justify-center min-h-[550px]" id="imageWrapper">
                                         <img id="pdfImage"
                                              src="{{ route('malla.pdf.image', ['id' => $grid->id, 'page' => 1]) }}"
-                                             class="max-w-full h-auto object-contain shadow-lg rounded transition-transform duration-200"
+                                             class="max-w-full h-auto object-contain shadow-lg rounded-sm transition-transform duration-200"
                                              oncontextmenu="return false;"
                                              ondragstart="return false;"
                                              onload="hideLoading()"
@@ -218,7 +224,7 @@
                                         <h4 class="text-lg font-semibold text-gray-800 mb-2">Error al cargar la página</h4>
                                         <p class="text-gray-600 mb-4">No se pudo mostrar la página del PDF</p>
                                         <button onclick="retryLoad()"
-                                                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
+                                                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-xs">
                                             Reintentar
                                         </button>
                                     </div>
@@ -409,7 +415,7 @@
                                     setTimeout(() => notification.classList.add('translate-y-0'), 100);
 
                                     setTimeout(() => {
-                                        notification.classList.add('translate-y-[-100%]', 'opacity-0');
+                                        notification.classList.add('-translate-y-full', 'opacity-0');
                                         setTimeout(() => notification.remove(), 300);
                                     }, 3000);
                                 }
@@ -547,6 +553,8 @@
 
             </div>
         </div>
+        <!-- Drilling parameters -->
+
     </x-panels.main>
 
     <!-- Modal de Edición/Creación -->
@@ -580,7 +588,7 @@
                             <input type="text"
                                    wire:model.defer="name"
                                    id="name"
-                                   class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                   class="w-full rounded-md border-gray-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500"
                                    placeholder="Malla 2025-08-22 01:47">
                             @error('name')
                             <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
@@ -596,7 +604,7 @@
                                    wire:model="pdfFile"
                                    id="pdfFile"
                                    accept=".pdf"
-                                   class="w-full rounded-md border-2 p-1 shadow-sm focus:border-indigo-500 bg-gray-200
+                                   class="w-full rounded-md border-2 p-1 shadow-xs focus:border-indigo-500 bg-gray-200
                                    focus:ring-indigo-500 cursor-pointer">
 
                             @if($existingPdfFile && !$pdfFile)
@@ -679,7 +687,7 @@
                     </p>
                     <div class="bg-red-50 border border-red-200 rounded-md p-4">
                         <div class="flex">
-                            <svg class="w-5 h-5 text-red-400 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+                            <svg class="w-5 h-5 text-red-400 mr-2 mt-0.5 shrink-0" fill="none" stroke="currentColor"
                                  viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>

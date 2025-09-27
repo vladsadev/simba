@@ -73,7 +73,7 @@
                     name="description"
                     id="description"
                     rows="3"
-                    class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    class="w-full border-gray-300 rounded-lg shadow-xs focus:border-blue-500 focus:ring-blue-500"
                     placeholder="Describa el trabajo a realizar ej: se cambiará el aceite de motor, filtros, otros, etc."
                 >{{ old('description') }}</textarea>
             </div>
@@ -102,7 +102,7 @@
                     name="observations"
                     id="observations"
                     rows="3"
-                    class="w-full text-left border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    class="w-full text-left border-gray-300 rounded-lg shadow-xs focus:border-blue-500 focus:ring-blue-500"
                     placeholder="Observaciones adicionales, instrucciones especiales
                     ej: Las ruedas traseras presentan mayor
                     desgaste se puede considerar el cambio de las mismas "

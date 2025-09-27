@@ -14,14 +14,14 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Componente</label>
                     <input type="text" id="modalComponent" name="componente"
-                           class="w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
+                           class="w-full rounded-md border-gray-300 shadow-xs focus:border-red-500 focus:ring-red-500"
                            readonly>
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Problema</label>
                     <select name="tipo_problema"
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                            class="w-full rounded-md border-gray-300 shadow-xs focus:border-red-500 focus:ring-red-500">
                         <option>Fuga de aceite</option>
                         <option>Desgaste excesivo</option>
                         <option>Ruido anormal</option>
@@ -35,7 +35,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Severidad</label>
                     <select name="severidad"
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                            class="w-full rounded-md border-gray-300 shadow-xs focus:border-red-500 focus:ring-red-500">
                         <option value="baja">Baja - Operación normal</option>
                         <option value="media">Media - Requiere atención</option>
                         <option value="alta">Alta - Reparación urgente</option>
@@ -46,14 +46,14 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Descripción del Problema</label>
                     <textarea name="descripcion" rows="3"
-                              class="w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
+                              class="w-full rounded-md border-gray-300 shadow-xs focus:border-red-500 focus:ring-red-500"
                               placeholder="Describa detalladamente el problema encontrado..." required></textarea>
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Acción Recomendada</label>
                     <select name="accion_recomendada"
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                            class="w-full rounded-md border-gray-300 shadow-xs focus:border-red-500 focus:ring-red-500">
                         <option>Agendar mantenimiento preventivo</option>
                         <option>Reparación inmediata</option>
                         <option>Reemplazo de componente</option>

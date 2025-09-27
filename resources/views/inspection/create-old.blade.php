@@ -54,7 +54,7 @@
                                         <input type="checkbox"
                                                id="{{ $key }}"
                                                name="{{ $key }}"
-                                               class="inspection-check w-5 h-5 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500"
+                                               class="inspection-check w-5 h-5 text-yellow-600 border-gray-300 rounded-sm focus:ring-yellow-500"
                                                data-item="{{ $item }}">
                                         <label for="{{ $key }}" class="text-gray-700 font-medium">{{ $item }}</label>
                                     </div>
@@ -149,7 +149,7 @@
                     <textarea id="observaciones"
                               name="observaciones"
                               rows="3"
-                              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500"
+                              class="block w-full rounded-md border-gray-300 shadow-xs focus:border-yellow-500 focus:ring-yellow-500"
                               placeholder="Ingrese observaciones adicionales sobre la inspección..."></textarea>
                 </div>
 

@@ -13,16 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->withPersonalTeam()->create();
 
-        User::factory()->withPersonalTeam()->create([
-            'name' => 'Pepe',
-            'email' => 'pepe@pp.com',
-            'password' => '1524780032'
-        ]);
 
         User::factory(10)->create();
 
+        User::factory()->create([
+            'name' => 'Pepe',
+            'email' => 'pepe@pp.com',
+            'password' => '1524780032',
+            'is_admin' => 1
+        ]);
 
         $this->call(EquipmentSeeder::class);
 

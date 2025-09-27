@@ -1,9 +1,3 @@
-{{--<a--}}
-{{--    {{$attributes([--}}
-{{--    'class'=>' bg-yellow-main hover:bg-blue-main cursor-pointer px-4 py-2.5 text-sm lg:text-md font-semibold rounded-md--}}
-{{--    text-white transition-colors duration-300 '])}}>--}}
-{{--    {{$slot}}--}}
-{{--</a>--}}
 @props([
     'variant' => 'primary',
     'size' => 'md',
@@ -20,7 +14,7 @@
         'action' => 'bg-blue',
         'danger' => 'bg-red-600 hover:bg-blue-main text-white',
         'db' => 'bg-rose-900 hover:bg-gray-600 text-white',
-        'outline' => 'border-2 border-yellow-main text-yellow-main hover:bg-yellow-main hover:text-white',
+        'outline-solid' => 'border-2 border-yellow-main text-yellow-main hover:bg-yellow-main hover:text-white',
         'ghost' => 'text-yellow-main hover:bg-yellow-main hover:text-white',
     ];
 

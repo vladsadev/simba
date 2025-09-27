@@ -1,5 +1,5 @@
 <!-- resources/views/components/equipment/horometer-status.blade.php -->
-<div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg shadow-sm border border-blue-200 p-6">
+<div class="bg-linear-to-r from-blue-50 to-indigo-50 rounded-lg shadow-xs border border-blue-200 p-6">
     <div class="flex items-center justify-between mb-4">
         <h3 class="text-xl font-bold text-gray-800 flex items-center">
             <svg class="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

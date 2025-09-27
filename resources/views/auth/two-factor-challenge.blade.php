@@ -1,7 +1,7 @@
 <x-guest-layout>
-    <x-auth.authentication-card>
+    <x-authentication-card>
         <x-slot name="logo">
-            <x-auth.authentication-card-logo />
+            <x-authentication-card-logo />
         </x-slot>
 
         <div x-data="{ recovery: false }">
@@ -19,15 +19,13 @@
                 @csrf
 
                 <div class="mt-4" x-show="! recovery">
-                    <x-auth.label for="code" value="{{ __('Code') }}" />
-                    <x-auth.input id="code" class="block mt-1 w-full" type="text" inputmode="numeric" name="code" autofocus
-                              x-ref="code" autocomplete="one-time-code" />
+                    <x-label for="code" value="{{ __('Code') }}" />
+                    <x-input id="code" class="block mt-1 w-full" type="text" inputmode="numeric" name="code" autofocus x-ref="code" autocomplete="one-time-code" />
                 </div>
 
                 <div class="mt-4" x-cloak x-show="recovery">
-                    <x-auth.label for="recovery_code" value="{{ __('Recovery Code') }}" />
-                    <x-auth.input id="recovery_code" class="block mt-1 w-full" type="text" name="recovery_code"
-                              x-ref="recovery_code" autocomplete="one-time-code" />
+                    <x-label for="recovery_code" value="{{ __('Recovery Code') }}" />
+                    <x-input id="recovery_code" class="block mt-1 w-full" type="text" name="recovery_code" x-ref="recovery_code" autocomplete="one-time-code" />
                 </div>
 
                 <div class="flex items-center justify-end mt-4">
@@ -56,5 +54,5 @@
                 </div>
             </form>
         </div>
-    </x-auth.authentication-card>
+    </x-authentication-card>
 </x-guest-layout>

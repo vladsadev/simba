@@ -1,6 +1,6 @@
 <div>
     <!-- Generate API Token -->
-    <x-auth.form-section submit="createApiToken">
+    <x-form-section submit="createApiToken">
         <x-slot name="title">
             {{ __('Create API Token') }}
         </x-slot>
@@ -12,15 +12,15 @@
         <x-slot name="form">
             <!-- Token Name -->
             <div class="col-span-6 sm:col-span-4">
-                <x-.auth.label for="name" value="{{ __('Token Name') }}" />
-                <x-auth.input id="name" type="text" class="mt-1 block w-full" wire:model="createApiTokenForm.name" autofocus />
-                <x-auth.input-error for="name" class="mt-2" />
+                <x-label for="name" value="{{ __('Token Name') }}" />
+                <x-input id="name" type="text" class="mt-1 block w-full" wire:model="createApiTokenForm.name" autofocus />
+                <x-input-error for="name" class="mt-2" />
             </div>
 
             <!-- Token Permissions -->
             @if (Laravel\Jetstream\Jetstream::hasPermissions())
                 <div class="col-span-6">
-                    <x-auth.label for="permissions" value="{{ __('Permissions') }}" />
+                    <x-label for="permissions" value="{{ __('Permissions') }}" />
 
                     <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                         @foreach (Laravel\Jetstream\Jetstream::$permissions as $permission)
@@ -43,7 +43,7 @@
                 {{ __('Create') }}
             </x-button>
         </x-slot>
-    </x-auth.form-section>
+    </x-form-section>
 
     @if ($this->user->tokens->isNotEmpty())
         <x-section-border />
@@ -104,7 +104,7 @@
                 {{ __('Please copy your new API token. For your security, it won\'t be shown again.') }}
             </div>
 
-            <x-auth.input x-ref="plaintextToken" type="text" readonly :value="$plainTextToken"
+            <x-input x-ref="plaintextToken" type="text" readonly :value="$plainTextToken"
                 class="mt-4 bg-gray-100 px-4 py-2 rounded-xs font-mono text-sm text-gray-500 w-full break-all"
                 autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                 @showing-token-modal.window="setTimeout(() => $refs.plaintextToken.select(), 250)"

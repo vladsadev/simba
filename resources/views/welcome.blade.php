@@ -1,22 +1,5 @@
 <x-guest-layout>
 
-    <!-- Header -->
-    <header class="absolute inset-x-0 top-0 z-50">
-        <nav aria-label="Global" class="flex items-center justify-center p-6 lg:px-8">
-            <div class="flex lg:flex-1">
-                <a href="#" class="-m-1.5 p-1.5">
-                    <span class="sr-only">PAN AMERICAN SILVER</span>
-                    <x-application-logo class="block h-7 lg:h-8 2xl:h-10 w-auto"/>
-                </a>
-            </div>
-            <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                <a href="{{ route('register') }}" class="text-sm/6 font-semibold text-white hover:text-gray-200 transition-colors
-                duration-200 drop-shadow-lg">
-                    Registrarse <span aria-hidden="true">&rarr;</span>
-                </a>
-            </div>
-        </nav>
-    </header>
 
     <main>
         <!-- Hero section -->
@@ -29,7 +12,7 @@
             <div class="absolute inset-0 -z-10 bg-black/60"></div>
 
             <!-- Gradient overlay for additional depth -->
-            <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
+            <div class="absolute inset-0 -z-10 bg-linear-to-t from-black/80 via-black/40 to-black/20"></div>
 
             <div aria-hidden="true"
                  class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
@@ -73,7 +56,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                         <!-- Excavadoras -->
                         <div
-                            class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                            class="bg-white/10 backdrop-blur-xs rounded-lg p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
                             <div class="text-center">
                                 <div class="w-12 h-12 mx-auto mb-3 bg-yellow-500 rounded-full flex items-center justify-center">
                                     <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -88,7 +71,7 @@
 
                         <!-- Camiones -->
                         <div
-                            class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                            class="bg-white/10 backdrop-blur-xs rounded-lg p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
                             <div class="text-center">
                                 <div class="w-12 h-12 mx-auto mb-3 bg-yellow-500 rounded-full flex items-center justify-center">
                                     <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -103,7 +86,7 @@
 
                         <!-- Perforadoras -->
                         <div
-                            class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                            class="bg-white/10 backdrop-blur-xs rounded-lg p-4 border border-white/20 hover:bg-white/15 transition-all duration-300">
                             <div class="text-center">
                                 <div class="w-12 h-12 mx-auto mb-3 bg-yellow-500 rounded-full flex items-center justify-center">
                                     <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">

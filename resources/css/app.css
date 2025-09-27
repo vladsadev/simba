@@ -1,12 +1,17 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@plugin '@tailwindcss/forms';
+@source "../**/*.blade.php";
+@source "../**/*.js"
+; @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 @source'./vendor/rappasoft/laravel-livewire-tables/resources/views/*.blade.php';
 @source'./vendor/rappasoft/laravel-livewire-tables/resources/views/**/*.blade.php';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/laravel/jetstream/**/*.blade.php';
 @source '../../storage/framework/views/*.php';
+
+@plugin "daisyui";
+
 
 @theme {
     --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
@@ -33,4 +38,3 @@
 [x-cloak] {
     display: none;
 }
-

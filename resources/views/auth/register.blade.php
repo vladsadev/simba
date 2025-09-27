@@ -1,7 +1,7 @@
 <x-guest-layout>
-    <x-auth.authentication-card>
+    <x-authentication-card>
         <x-slot name="logo">
-            <x-auth.authentication-card-logo class="h-10"/>
+            <x-authentication-card-logo />
         </x-slot>
 
         <x-validation-errors class="mb-4" />
@@ -10,33 +10,28 @@
             @csrf
 
             <div>
-                <x-auth.label for="name" value="{{ __('Name') }}" />
-                <x-auth.input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
-                               autofocus
-                          autocomplete="name" />
+                <x-label for="name" value="{{ __('Name') }}" />
+                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             </div>
 
             <div class="mt-4">
-                <x-auth.label for="email" value="{{ __('Email') }}" />
-                <x-auth.input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
-                          autocomplete="username" />
+                <x-label for="email" value="{{ __('Email') }}" />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             </div>
 
             <div class="mt-4">
-                <x-auth.label for="password" value="{{ __('Password') }}" />
-                <x-auth.input id="password" class="block mt-1 w-full" type="password" name="password" required
-                          autocomplete="new-password" />
+                <x-label for="password" value="{{ __('Password') }}" />
+                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             </div>
 
             <div class="mt-4">
-                <x-auth.label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-auth.input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation"
-                          required autocomplete="new-password" />
+                <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
+                <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
-                    <x-forms.label for="terms">
+                    <x-label for="terms">
                         <div class="flex items-center">
                             <x-checkbox name="terms" id="terms" required />
 
@@ -47,7 +42,7 @@
                                 ]) !!}
                             </div>
                         </div>
-                    </x-forms.label>
+                    </x-label>
                 </div>
             @endif
 
@@ -61,5 +56,5 @@
                 </x-button>
             </div>
         </form>
-    </x-auth.authentication-card>
+    </x-authentication-card>
 </x-guest-layout>

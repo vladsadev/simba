@@ -137,7 +137,7 @@
                     <p class="text-sm text-gray-600 mb-2">Imagen actual:</p>
                     <img src="{{ Storage::url($equipment->equipment_img) }}"
                          alt="Imagen del equipo"
-                         class="h-32 w-auto rounded shadow-sm">
+                         class="h-32 w-auto rounded-sm shadow-xs">
                 </div>
             @endif
 

@@ -1,6 +1,6 @@
 <x-guest-layout>
 
-    <div class="flex min-h-full">
+    <div class="flex h-dvh">
 
         <!-- Left Side - Form -->
         <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
@@ -25,15 +25,15 @@
                             <div class="mt-2">
                                 <x-auth.label for="email" value="{{ __('Email') }}"/>
                                 <x-auth.input id="email" class="block mt-1 w-full" type="email" name="email"
-                                               :value="old('email')"
-                                               required autofocus autocomplete="username"/>
+                                              :value="old('email')"
+                                              required autofocus autocomplete="username"/>
                             </div>
                         </div>
 
                         <div>
                             <x-auth.label for="password" value="{{ __('Password') }}"/>
                             <x-auth.input id="password" class="block mt-1 w-full" type="password" name="password" required
-                                           autocomplete="current-password"/>
+                                          autocomplete="current-password"/>
 
                         </div>
 

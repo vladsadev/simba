@@ -176,7 +176,7 @@
                     type="checkbox"
                     id="epp"
                     wire:model="epp"
-                    class="h-5 w-5 text-blue-600 rounded focus:ring-blue-500 border-gray-300">
+                    class="h-5 w-5 text-blue-600 rounded-sm focus:ring-blue-500 border-gray-300">
                 <label for="epp" class="text-gray-700 font-medium cursor-pointer select-none">
                     Confirmo que cuento con el EPP completo y en buen estado
                 </label>
@@ -188,7 +188,7 @@
         @if($errors->any())
             <div class="mt-4 bg-red-50 border-l-4 border-red-400 p-4">
                 <div class="flex">
-                    <div class="flex-shrink-0">
+                    <div class="shrink-0">
                         <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
                                   d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
@@ -214,7 +214,7 @@
         {{-- Botones de acción --}}
         <div class="mt-8 flex items-center justify-between">
             <a href="{{ route('equipment.show', $equipment) }}"
-               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -223,7 +223,7 @@
             </a>
 
             <button type="submit"
-                    class="inline-flex items-center px-6 py-3 border border-transparent rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="inline-flex items-center px-6 py-3 border border-transparent rounded-lg shadow-xs text-white bg-blue-600 hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     wire:loading.attr="disabled">
                 <span wire:loading.remove>
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
