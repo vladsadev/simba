@@ -50,11 +50,16 @@
                     {{--                    required--}}
                 />
             </div>
+            <x-forms.input
+                label="Ocupación"
+                name="occupation"
+                placeholder="Operador de Maquinaria Pesada"
+            />
 
             <x-forms.divider class="bg-yellow-main my-6"/>
 
-            <x-forms.select label="Nivel Permisos" name="role" required class="mb-6">
-                <option value="administrador">Administrador</option>
+            <x-forms.select label="Nivel Permisos" name="role" required class="mb-8">
+                <option value="admin">Administrador</option>
                 <option value="user" selected>Usuario</option>
             </x-forms.select>
 

@@ -20,7 +20,7 @@
 <body class="font-sans antialiased">
 <x-banner/>
 
-<div class="min-h-screen bg-gray-100">
+<div class="min-h-screen bg-blue-main/15 dark:bg-gray-400">
     @livewire('navigation-menu')
 
     <!-- Success Toast -->

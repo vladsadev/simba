@@ -107,9 +107,13 @@
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
-                            <x-dropdown-link href="{{ route('user-role.index') }}">
-                                Usuarios
-                            </x-dropdown-link>
+                            @if(auth()->user()->is_admin)
+
+                                <x-dropdown-link href="{{ route('user-role.index') }}">
+                                    Usuarios
+                                </x-dropdown-link>
+
+                            @endif
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                 <x-dropdown-link href="{{ route('api-tokens.index') }}">
@@ -178,9 +182,14 @@
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link href="{{ route('user-role.index') }}" :active="request()->routeIs('user-role.index')">
-                    Usuarios
-                </x-responsive-nav-link>
+
+                @can('admin-access')
+
+                    <x-responsive-nav-link href="{{ route('user-role.index') }}" :active="request()->routeIs('user-role.index')">
+                        Usuarios
+                    </x-responsive-nav-link>
+                @endcan
+
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                     <x-responsive-nav-link href="{{ route('api-tokens.index') }}"

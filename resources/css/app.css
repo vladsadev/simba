@@ -22,7 +22,22 @@
     --color-blue-main: #18344E;
     --color-blue-light: #304D6D;
     --color-blue-lighter: #2a4dc2;
+    --animate-fade-out: fade-out 3.5s ease-in-out forwards;
 
+
+
+    @keyframes fade-out {
+
+        0%,
+        70% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+            pointer-events: none;
+        }
+    }
 }
 
 @layer base {
@@ -33,6 +48,10 @@
     ::file-selector-button {
         border-color: var(--color-gray-200, currentcolor);
     }
+
+    /*body{*/
+    /*    background: black;*/
+    /*}*/
 }
 
 [x-cloak] {

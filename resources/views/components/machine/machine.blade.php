@@ -11,7 +11,7 @@ if($estado === 'operativa'){
 }
 @endphp
 
-        <!-- Imagen principal -->
+    <!-- Imagen principal -->
 <div class="relative">
     <img src="{{Vite::asset('resources/images/simba1.webp')}}" alt="SIMBA S7D" class="w-full h-72 object-cover">
     <span class="absolute top-4 left-4 text-blue-main text-sm md:text-base font-semibold px-4 py-1 rounded-full
@@ -40,11 +40,15 @@ if($estado === 'operativa'){
         <!--Botones de Acción Administrativa -->
         <div class="flex flex-col gap-2 justify-start items-end text-center">
             <div class="flex gap-2">
+                @can('admin-access')
 
-                <x-link-btn variant="danger" href="{{route('equipment.confirm-delete',$equipment)}}" class="text-center">Borrar
-                </x-link-btn>
+                    <x-link-btn variant="danger" href="{{route('equipment.confirm-delete',$equipment)}}" class="text-center">
+                        Borrar
+                    </x-link-btn>
 
-                <x-link-btn variant="danger" href="{{route('equipment.edit',$equipment)}}" class="text-center">Editar</x-link-btn>
+                    <x-link-btn variant="danger" href="{{route('equipment.edit',$equipment)}}" class="text-center">Editar
+                    </x-link-btn>
+                @endcan
             </div>
 
 

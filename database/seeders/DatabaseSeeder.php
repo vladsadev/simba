@@ -23,6 +23,12 @@ class DatabaseSeeder extends Seeder
             'password' => '1524780032',
             'is_admin' => 1
         ]);
+        User::factory()->create([
+            'name' => 'Carlangas',
+            'email' => 'cc@cc.com',
+            'password' => '1524780032',
+            'is_admin' =>1
+        ]);
 
         $this->call(EquipmentSeeder::class);
 

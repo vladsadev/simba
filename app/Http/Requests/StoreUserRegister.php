@@ -22,12 +22,11 @@ class StoreUserRegister extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required'],
+            'name' => ['required', 'string', 'max:20', 'min:3'],
             'email' => ['required', 'email', 'max:254'],
-            'occupation' => ['nullable'],
-            'password' => ['required','confirmed'],
-            'is_admin' => ['boolean'],
-            'super_admin' => ['boolean'],
+            'occupation' => ['required', 'string'],
+            'password' => ['required', 'confirmed'],
+            'role' => ['required', 'in:user,admin']
         ];
     }
 }

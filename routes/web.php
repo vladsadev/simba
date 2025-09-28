@@ -20,30 +20,38 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    //Users - Roles
-    Route::get('/users', [UserRoleController::class, 'index'])->name('user-role.index');
-    Route::get('/user/create', [UserRoleController::class, 'create'])->name('user-role.create');
-    Route::get('/users/{user}/edit', [UserRoleController::class, 'edit'])->name('user-role.edit');
-    Route::post('/users', [UserRoleController::class, 'store'])->name('user-role.store');
-    Route::patch('/users/{user}/edit', [UserRoleController::class, 'update'])->name('user-role.update');
-    Route::delete('/users/{user}', [UserRoleController::class, 'destroy'])->name('user-role.destroy');
+    Route::middleware('can:admin-access,can:super-admin')->group(function () {
+        //Users - Roles
+        Route::get('/users', [UserRoleController::class, 'index'])->name('user-role.index');
+        Route::get('/user/create', [UserRoleController::class, 'create'])->name('user-role.create');
+        Route::get('/users/{user}/edit', [UserRoleController::class, 'edit'])->name('user-role.edit');
+        Route::post('/users', [UserRoleController::class, 'store'])->name('user-role.store');
+        Route::patch('/users/{user}/edit', [UserRoleController::class, 'update'])->name('user-role.update');
+        Route::delete('/users/{user}', [UserRoleController::class, 'destroy'])->name('user-role.destroy');
+    });
 
     //Reportes Page en Dashboard
     Route::view('/reportes', 'dashboard.reportes')->name('reportes');
 
     //Equipos
     Route::get('/catalogo', [EquipmentController::class, 'index'])->name('equipment.index');
-    Route::get('/catalogo/crear', [EquipmentController::class, 'create'])->name('equipment.create');
-    Route::get('/catalogo/{equipment}/edit', [EquipmentController::class, 'edit'])->name('equipment.edit');
+
+    Route::middleware('can:admin-access')->group(function () {
+        Route::get('/catalogo/crear', [EquipmentController::class, 'create'])->name('equipment.create');
+        Route::get('/catalogo/{equipment}/edit', [EquipmentController::class, 'edit'])->name('equipment.edit');
+        Route::patch('/catalog/{equipment}', [EquipmentController::class, 'update'])->name('equipment.update');
+        Route::delete('/catalog/{equipment}', [EquipmentController::class, 'destroy'])->name('equipment.destroy');
+        Route::get('/catalogo/{equipment}/delete-confirm', [EquipmentController::class, 'confirmDelete'])->name('equipment.confirm-delete');
+    });
+
     Route::get('/catalogo/{equipment}', [EquipmentController::class, 'show'])->name('equipment.show');
-    Route::get('/catalogo/{equipment}/delete-confirm', [EquipmentController::class, 'confirmDelete'])->name('equipment.confirm-delete');
     Route::post('/catalogo', [EquipmentController::class, 'store'])->name('equipment.store');
-    Route::patch('/catalog/{equipment}', [EquipmentController::class, 'update'])->name('equipment.update');
-    Route::delete('/catalog/{equipment}', [EquipmentController::class, 'destroy'])->name('equipment.destroy');
 
     //Inspecciones
     Route::view('/inspecciones', 'dashboard.reportes');
     Route::get('/inspecciones/{inspection}', [InspectionController::class, 'show'])->name('inspection.show');
+
+
     Route::get('/inspecciones/crear/{equipment}', [InspectionController::class, 'create'])->name('inspection.create');
 
     // Inspecciones - Issues
@@ -67,7 +75,10 @@ Route::middleware([
     Route::get('maintenances/{maintenance}', [MaintenanceController::class, 'show'])->name('maintenances.show');
     Route::get('maintenances/{maintenance}/edit', [MaintenanceController::class, 'edit'])->name('maintenances.edit');
     Route::patch('maintenances/{maintenance}', [MaintenanceController::class, 'update'])->name('maintenances.update');
-    Route::delete('maintenances/{maintenance}', [MaintenanceController::class, 'destroy'])->name('maintenances.destroy');
+
+    Route::middleware('can:admin-access')->group(function () {
+        Route::delete('maintenances/{maintenance}', [MaintenanceController::class, 'destroy'])->name('maintenances.destroy');
+    });
 
     // Rutas adicionales para cambios de estado
     Route::patch('maintenances/{maintenance}/start', [MaintenanceController::class, 'start'])->name('maintenances.start');

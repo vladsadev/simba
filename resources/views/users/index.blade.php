@@ -46,8 +46,9 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <x-table-user-item> {{$user->occupation?? '-'}}</x-table-user-item>
-                                    <x-table-user-item> {{$user->is_admin == 1?'Administrador':'Usuario'}}</x-table-user-item>
+                                    <x-table-user-item> {{$user->occupation ?? '-'}}</x-table-user-item>
+                                    <x-table-user-item> {{($user->is_super_admin && $user->is_admin)? 'Super Admin' :
+                                    ($user->is_admin ?'Administrador':'Usuario' )}}</x-table-user-item>
                                     <x-table-user-item> {{$user->updated_at->diffForHumans()??'-'}}</x-table-user-item>
                                     <td class="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6 lg:pr-8">
                                         <x-link-btn size="sm" href="{{route('user-role.edit',$user)}}">Editar</x-link-btn>

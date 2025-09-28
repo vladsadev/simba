@@ -6,9 +6,11 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Catálogo de equipos') }}
             </h2>
-            <x-link-btn href="{{route('equipment.create')}}">
-                Agregar Equipo
-            </x-link-btn>
+            @can('admin-access')
+                <x-link-btn href="{{route('equipment.create')}}">
+                    Agregar Equipo
+                </x-link-btn>
+            @endcan
         </div>
     </x-slot>
 
