@@ -77,27 +77,46 @@ class UserRoleController extends Controller
     {
         $validated = request()->validate([
             'name' => ['sometimes', 'string', 'max:255'],
-            'email' => ['sometimes', 'email', 'max:254'],
-            'password' => ['sometimes', 'nullable'],
-            'occupation' => ['sometimes', 'string'],
-            'is_admin' => ['sometimes', 'in:user,admin'],
+            'email' => ['sometimes', 'email', 'max:254', 'unique:users,email,' . $user->id],
+            'password' => ['sometimes', 'nullable', 'min:8'],
+            'password_confirmation' => ['sometimes', 'nullable', 'same:password'],
+            'occupation' => ['sometimes', 'string', 'max:255'],
+            'role' => ['sometimes', 'in:user,admin'], // Cambiado de is_admin a role
         ]);
 
-        // Si el password viene, lo encriptamos
-        if (!empty($validated['password'])) {
-            $validated['password'] = bcrypt($validated['password']);
-        } else {
-            unset($validated['password']);
+        // Preparar los datos para actualizar
+        $dataToUpdate = [];
+
+        // Solo agregar los campos que están presentes en el request validado
+        if (array_key_exists('name', $validated) && !empty($validated['name'])) {
+            $dataToUpdate['name'] = $validated['name'];
         }
 
-        // Convertir role a boolean solo si viene
-        if (array_key_exists('role', $validated)) {
-            $validated['is_admin'] = $validated['role'] === 'admin';
-            unset($validated['role']);
+        if (array_key_exists('email', $validated) && !empty($validated['email'])) {
+            $dataToUpdate['email'] = $validated['email'];
         }
-        $user->update(request()->all());
+
+        if (array_key_exists('occupation', $validated) && !empty($validated['occupation'])) {
+            $dataToUpdate['occupation'] = $validated['occupation'];
+        }
+
+        // Manejar el password solo si viene y no está vacío
+        if (array_key_exists('password', $validated) && !empty($validated['password'])) {
+            $dataToUpdate['password'] = bcrypt($validated['password']);
+        }
+
+        // Convertir role a is_admin boolean solo si viene
+        if (array_key_exists('role', $validated)) {
+            $dataToUpdate['is_admin'] = $validated['role'] === 'admin';
+        }
+
+        // Actualizar solo los campos que están en $dataToUpdate
+        if (!empty($dataToUpdate)) {
+            $user->update($dataToUpdate);
+        }
+
         return redirect()
             ->route('user-role.index')
-            ->with('success', 'Actualización correcta');
+            ->with('success', 'Usuario actualizado correctamente');
     }
 }

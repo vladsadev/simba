@@ -67,7 +67,7 @@
             </x-forms.select>
 
             <x-forms.button type="submit" class="cursor-pointer lg:mt-8">
-                Registrar Usuario
+                Actualizar Usuario
             </x-forms.button>
         </x-forms.form>
 

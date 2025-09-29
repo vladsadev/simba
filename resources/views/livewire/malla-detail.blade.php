@@ -16,18 +16,12 @@
     <x-panels.main>
         <div class="mx-auto bg-white max-w-7xl px-6 lg:px-8 py-6 lg:py-8">
             <div
-                class="mx-auto items-center flex max-w-3xl flex-col-reverse justify-between gap-16 lg:mx-0 lg:max-w-none
+                    class="mx-auto items-center flex max-w-3xl flex-col-reverse justify-between gap-16 lg:mx-0 lg:max-w-none
                 lg:flex-row">
 
                 <!-- Lado Izquierdo - Datos de la Malla -->
                 <div class="w-full lg:max-w-sm lg:flex-auto py-5 px-2 md:px-4 lg:px-0">
                     <h2 class="font-bold text-gray-801 text-xl mb-6">DATOS DE LA MALLA</h2>
-
-
-                    {{--                    <img src="{{Vite::asset('resources/images/simba1.webp')}}"--}}
-                    {{--                         alt="Equipo minero en operación" class="absolute inset-0 -z-20 size-full object-cover"/>--}}
-
-                    <!-- ------- -->
 
                     @if($grid)
                         <!-- Información de la Malla -->
@@ -120,14 +114,14 @@
                                 <div class="mb-4 text-center">
                                     <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ $grid->name }}</h3>
                                     <div
-                                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                         🔒 Visualización Segura - Impresión Deshabilitada
                                     </div>
                                 </div>
 
                                 <!-- Controles de navegación -->
                                 <div
-                                    class="controls mb-6 flex items-center justify-between bg-white rounded-xl px-6 py-4 shadow-xs border">
+                                        class="controls mb-6 flex items-center justify-between bg-white rounded-xl px-6 py-4 shadow-xs border">
                                     <button onclick="prevPage()" id="prevBtn"
                                             class="flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-xs">
                                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -199,7 +193,7 @@
 
                                 <!-- Contenedor de la imagen del PDF -->
                                 <div
-                                    class="pdf-image-container bg-white rounded-xl shadow-inner p-5 min-h-[600px] max-h-[800px]
+                                        class="pdf-image-container bg-white rounded-xl shadow-inner p-5 min-h-[600px] max-h-[800px]
                                      overflow-auto border" id="imageContainer">
                                     <div class="flex items-center justify-center min-h-[550px]" id="imageWrapper">
                                         <img id="pdfImage"
@@ -553,7 +547,10 @@
 
             </div>
         </div>
+
+        <hr class="text-yellow-main my-4">
         <!-- Drilling parameters -->
+        @include('partial.drilling-parameters')
 
     </x-panels.main>
 
