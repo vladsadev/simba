@@ -14,6 +14,13 @@ class MaintenanceTable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id');
+        // Configuración para mejor presentación visual
+//        $this->setDefaultSort('inspection_date', 'desc');
+
+        $this->setPerPageAccepted([5, 10, 15, -1]);
+        $this->resetPage();
+        $this->setPerPage(5);
+
     }
 
     public function columns(): array
@@ -24,25 +31,21 @@ class MaintenanceTable extends DataTableComponent
             Column::make("Cod Equipo", "equipment.code")->sortable()
                 ->searchable(),
 
+            Column::make("Fecha", "scheduled_date")
+                ->format(fn($value) => \Carbon\Carbon::parse($value)->format('d-m-Y'))
+                ->sortable(),
+            Column::make("Título", "title")
+                ->sortable(),
             Column::make("Tip de Mantenimiento", "type")
                 ->sortable(),
 
-            Column::make("Título", "title")
-                ->sortable(),
-
-            Column::make("Fecha", "scheduled_date")
-                ->format(fn($value) => \Carbon\Carbon::parse($value)->format('Y-m-d'))
-                ->sortable(),
+            Column::make("Detalle", "description")->sortable()
+                ->searchable(),
+            Column::make("T. Requerido", "duration_hours")->sortable()
+                ->searchable(),
             // Información del usuario responsable
-//            Column::make("Inspector", "user.name")->sortable()
-//                ->searchable(),
-//            LinkColumn::make('Acciones')
-//                ->title(fn() => 'Ver Mantenimiento')
-//                ->location(fn($row) => route('maintenances.show', $row->id))
-//                ->attributes(fn($row) => [
-//                    'class' => 'bg-yellow-main hover:bg-blue-main cursor-pointer px-4 py-2.5 text-sm font-semibold rounded-md text-white transition-colors duration-300 inline-flex items-center justify-center',
-//                ]),
-
+            Column::make("Inspector", "user.name")->sortable()
+                ->searchable(),
         ];
     }
 

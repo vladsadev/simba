@@ -50,7 +50,7 @@ class MaintenanceController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'No se puede programar el mantenimiento. El equipo ya se encuentra en mantenimiento.');
+                ->with('fail', 'No se puede programar el mantenimiento. El equipo ya se encuentra en mantenimiento.');
         }
 
         // Obtener los datos validados
@@ -75,7 +75,7 @@ class MaintenanceController extends Controller
             return redirect()
                 ->route('equipment.index')
 //                ->route('maintenances.show', $maintenance)
-                ->with('success', 'Mantenimiento programado exitosamente. El equipo ha sido marcado como "En Mantenimiento".');
+                ->with('success', 'Mantenimiento programado exitosamente.');
 
         } catch (\Exception $e) {
             return redirect()

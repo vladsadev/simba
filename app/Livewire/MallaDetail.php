@@ -37,6 +37,8 @@ class MallaDetail extends Component
         'pdfFile.max' => 'El archivo no puede exceder 10MB.',
     ];
 
+
+
     public function mount()
     {
         $this->loadGrid();

@@ -14,6 +14,12 @@
     @endif
 
     <x-panels.main>
+        <button
+            onclick="if(!confirm('¿Estás seguro de borrar los registros seleccionados?')) return false;"
+            wire:click="deleteSelected"
+            class="btn btn-danger">
+            Borrar seleccionados
+        </button>
         <div class="mx-auto bg-white max-w-7xl px-6 lg:px-8 py-6 lg:py-8">
             <div
                 class="mx-auto items-center flex max-w-3xl flex-col-reverse justify-between gap-16 lg:mx-0 lg:max-w-none

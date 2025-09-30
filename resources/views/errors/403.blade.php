@@ -7,7 +7,7 @@
 
     <div class="flex flex-col items-center justify-center min-h-screen text-center">
         <h3 class="text-6xl font-bold text-red-600">403</h3>
-        <p class="mt-4 text-xl">Lo sentimos, no tienes permiso para acceder a esta página.</p>
+        <p class="mt-4 text-xl">Lo sentimos, no tienes permiso para acceder al contenido solicitado o realizar dicha acción .</p>
 
         <div class="space-y-2 space-x-2 mt-5">
             <x-link-btn href="{{url()->previous()}}"> Volver a la página previa</x-link-btn>

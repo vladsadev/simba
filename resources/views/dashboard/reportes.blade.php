@@ -8,7 +8,12 @@
     </x-slot>
 
     <x-panels.main>
-
+        <button
+            onclick="if(!confirm('¿Estás seguro de borrar los registros seleccionados?')) return false;"
+            wire:click="deleteSelected"
+            class="btn btn-danger">
+            Borrar seleccionados
+        </button>
         <h3 class="font-semibold text-2xl text-gray-800 leading-tight mb-4">
             {{ ('Inspecciones') }}
         </h3>

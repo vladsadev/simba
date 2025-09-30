@@ -115,6 +115,9 @@ class EquipmentController extends Controller
      */
     public function store(StoreEquipmentRequest $request)
     {
+
+//        dd($request->all());
+
         try {
             // Obtener datos validados
             $validatedData = $request->validated();

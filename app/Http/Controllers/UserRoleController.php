@@ -11,9 +11,6 @@ class UserRoleController extends Controller
     //
     public function index()
     {
-//        if (!auth()->user()->is_admin) {
-//            abort(403);
-//        }
 
         $users = User::all();
 

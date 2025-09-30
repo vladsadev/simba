@@ -26,6 +26,10 @@
     <!-- Success Toast -->
     @include('partial.general-notification')
 
+    <script>
+        Livewire.on('error', msg => alert(msg))
+    </script>
+
     <!-- Page Heading -->
     @if (isset($header))
         <header class="bg-white shadow-2xs">
