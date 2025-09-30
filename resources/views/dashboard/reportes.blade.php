@@ -13,7 +13,16 @@
             {{ ('Inspecciones') }}
         </h3>
 
-        @livewire('inspection-table')
+        <div x-data="{
+            showDeleteConfirm(count) {
+                if (confirm(`¿Estás seguro de eliminar ${count} registro(s)?\n\nEsta acción no se puede deshacer.`)) {
+                    $wire.call('deleteConfirmed');
+                }
+            }
+        }"
+             @show-delete-confirmation.window="showDeleteConfirm($event.detail.count)">
+            @livewire('inspection-table')
+        </div>
 
         <hr class="my-4">
 
@@ -23,21 +32,4 @@
         @livewire('maintenance-table')
 
     </x-panels.main>
-
-    @push('scripts')
-        <script>
-            // Sintaxis correcta para Livewire 3
-            document.addEventListener('livewire:initialized', () => {
-                // Escuchar el evento de confirmación
-                Livewire.on('show-delete-confirmation', (event) => {
-                    const count = event.count || event[0]?.count || 0;
-
-                    if (confirm(`¿Estás seguro de eliminar ${count} registro(s)?\n\nEsta acción no se puede deshacer.`)) {
-                        // Llamar al método deleteConfirmed del componente
-                        Livewire.find('{{ $this->getId() }}')?.call('deleteConfirmed');
-                    }
-                });
-            });
-        </script>
-    @endpush
 </x-app-layout>
