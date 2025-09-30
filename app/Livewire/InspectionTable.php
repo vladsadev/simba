@@ -9,35 +9,35 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Exceptions\DataTableConfigurationException;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Inspection;
-
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 
 class InspectionTable extends DataTableComponent
 {
-
     protected $model = Inspection::class;
+
+    public $showDeleteConfirmation = false;
+    public $itemsToDelete = [];
+
+    public function bulkActions(): array
+    {
+        return [
+            'confirmDelete' => 'Eliminar seleccionados',
+            'exportSelected' => 'Exportar'
+        ];
+    }
 
     public function configure(): void
     {
         $this->setPrimaryKey('id');
-
-        // Configuración para mejor presentación visual
         $this->setDefaultSort('inspection_date', 'desc');
-
         $this->setPerPageAccepted([5, 10, 15, -1]);
         $this->resetPage();
         $this->setPerPage(5);
-
-        $this->setBulkActions([
-            'deleteSelected' => 'Borrar',
-            'exportSelected' => 'Exportar'
-        ]);
     }
 
     public function columns(): array
     {
         return [
-            // ID oculto pero disponible para las rutas
             Column::make('id', 'id')->hideIf(true),
 
             Column::make("Cod Equipo", "equipment.code")
@@ -60,7 +60,6 @@ class InspectionTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
 
-            // Columna de acciones con botón estilizado
             LinkColumn::make('Acciones')
                 ->title(fn() => 'Ver Inspección')
                 ->location(fn($row) => route('inspection.show', $row->id))
@@ -79,39 +78,46 @@ class InspectionTable extends DataTableComponent
             ]);
     }
 
-    public function deleteSelected()
+    // Método intermedio que dispara el evento de confirmación
+    public function confirmDelete()
     {
-
-
-        if (\Gate::allows('admin-access')) {
-            if ($this->getSelected()) {
-
-                $this->emit('error','Estas seguro?');
-
-                $inspections = Inspection::whereIn('id', $this->getSelected())->delete();
-                $this->clearSelected();
-                return redirect()
-                    ->route('reportes')
-                    ->with('success', 'Registros borrados correctamente.');
-            }
+        if (!\Gate::allows('admin-access')) {
+            session()->flash('fail', 'No tienes los permisos necesarios');
+            return;
         }
 
-        $this->clearSelected();
-        return redirect()
-            ->route('reportes')
-            ->with('fail', 'No tienes los permisos necesarios');
+        if ($this->getSelectedCount() === 0) {
+            session()->flash('fail', 'No hay elementos seleccionados');
+            return;
+        }
+
+        $this->itemsToDelete = $this->getSelected();
+        $this->dispatch('confirmDeleteInspections', count: $this->getSelectedCount());
+    }
+
+    // Método que realmente elimina
+    public function deleteSelected()
+    {
+        if (!\Gate::allows('admin-access')) {
+            session()->flash('fail', 'No tienes los permisos necesarios');
+            return;
+        }
+
+        if (count($this->itemsToDelete) > 0) {
+            Inspection::whereIn('id', $this->itemsToDelete)->delete();
+            $this->clearSelected();
+            $this->itemsToDelete = [];
+
+            session()->flash('success', 'Registros borrados correctamente.');
+        }
     }
 
     public function exportSelected()
     {
         if ($this->getSelected()) {
-
             $inspections = Inspection::whereIn('id', $this->getSelected())->get();
             return Excel::download(new InspectionExport($inspections), 'inspections.xlsx');
-
         }
-
-
+        return '';
     }
-
 }

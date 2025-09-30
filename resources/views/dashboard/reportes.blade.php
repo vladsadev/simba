@@ -8,15 +8,11 @@
     </x-slot>
 
     <x-panels.main>
-        <button
-            onclick="if(!confirm('¿Estás seguro de borrar los registros seleccionados?')) return false;"
-            wire:click="deleteSelected"
-            class="btn btn-danger">
-            Borrar seleccionados
-        </button>
+
         <h3 class="font-semibold text-2xl text-gray-800 leading-tight mb-4">
             {{ ('Inspecciones') }}
         </h3>
+
         @livewire('inspection-table')
 
         <hr class="my-4">
@@ -27,4 +23,16 @@
         @livewire('maintenance-table')
 
     </x-panels.main>
+
+    @push('scripts')
+        <script>
+            document.addEventListener('livewire:initialized', () => {
+                Livewire.on('confirmDeleteInspections', (event) => {
+                    if (confirm(`¿Estás seguro de eliminar ${event.count} registro(s)? Esta acción no se puede deshacer.`)) {
+                        Livewire.dispatch('deleteSelected');
+                    }
+                });
+            });
+        </script>
+    @endpush
 </x-app-layout>

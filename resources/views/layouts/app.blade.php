@@ -26,9 +26,6 @@
     <!-- Success Toast -->
     @include('partial.general-notification')
 
-    <script>
-        Livewire.on('error', msg => alert(msg))
-    </script>
 
     <!-- Page Heading -->
     @if (isset($header))
@@ -48,5 +45,19 @@
 @stack('modals')
 
 @livewireScripts
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Interceptar el click en el botón de bulk action
+            Livewire.on('bulkActionExecuting', (action) => {
+                if (action === 'deleteSelected') {
+                    return confirm('¿Estás seguro de eliminar los registros seleccionados?');
+                }
+            });
+        });
+    </script>
+@endpush
+
 </body>
 </html>
