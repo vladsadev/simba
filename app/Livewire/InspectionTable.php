@@ -9,16 +9,21 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Exceptions\DataTableConfigurationException;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Inspection;
+
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 
 class InspectionTable extends DataTableComponent
 {
+
     protected $model = Inspection::class;
 
     public function configure(): void
     {
         $this->setPrimaryKey('id');
+
+        // Configuración para mejor presentación visual
         $this->setDefaultSort('inspection_date', 'desc');
+
         $this->setPerPageAccepted([5, 10, 15, -1]);
         $this->resetPage();
         $this->setPerPage(5);
@@ -32,6 +37,7 @@ class InspectionTable extends DataTableComponent
     public function columns(): array
     {
         return [
+            // ID oculto pero disponible para las rutas
             Column::make('id', 'id')->hideIf(true),
 
             Column::make("Cod Equipo", "equipment.code")
@@ -54,6 +60,7 @@ class InspectionTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
 
+            // Columna de acciones con botón estilizado
             LinkColumn::make('Acciones')
                 ->title(fn() => 'Ver Inspección')
                 ->location(fn($row) => route('inspection.show', $row->id))
@@ -74,25 +81,37 @@ class InspectionTable extends DataTableComponent
 
     public function deleteSelected()
     {
-        if (!\Gate::allows('admin-access')) {
-            session()->flash('fail', 'No tienes los permisos necesarios');
-            return;
+        // aquí no borramos todavía, solo pedimos confirmación
+        $this->dispatch('confirmDelete', count($this->getSelected()));
+    }
+
+    public function deleteConfirmed()
+    {
+        if (\Gate::allows('admin-access')) {
+            if ($this->getSelected()) {
+                Inspection::whereIn('id', $this->getSelected())->delete();
+                $this->clearSelected();
+
+                session()->flash('success', 'Registros borrados correctamente.');
+                return redirect()->route('reportes');
+            }
         }
 
-        if ($this->getSelectedCount() > 0) {
-            Inspection::whereIn('id', $this->getSelected())->delete();
-            $this->clearSelected();
-
-            session()->flash('success', 'Registros borrados correctamente.');
-        }
+        $this->clearSelected();
+        session()->flash('fail', 'No tienes los permisos necesarios');
+        return redirect()->route('reportes');
     }
 
     public function exportSelected()
     {
         if ($this->getSelected()) {
+
             $inspections = Inspection::whereIn('id', $this->getSelected())->get();
             return Excel::download(new InspectionExport($inspections), 'inspections.xlsx');
+
         }
-        return '';
+
+
     }
+
 }

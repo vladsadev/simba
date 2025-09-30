@@ -25,29 +25,14 @@
 
     @push('scripts')
         <script>
-            // Esperar a que el DOM y Livewire estén listos
-            document.addEventListener('DOMContentLoaded', function() {
-                // Usar delegación de eventos para capturar clicks en botones de bulk actions
-                document.addEventListener('click', function(e) {
-                    // Buscar si el click fue en un botón de bulk action "deleteSelected"
-                    const button = e.target.closest('button[wire\\:click*="deleteSelected"]');
-
-                    if (button) {
-                        // Prevenir la ejecución inmediata
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
-
-                        // Mostrar confirmación
-                        if (confirm('¿Estás seguro de eliminar los registros seleccionados?\n\nEsta acción no se puede deshacer.')) {
-                            // Si confirma, ejecutar la acción manualmente
-                            const componentId = button.closest('[wire\\:id]').getAttribute('wire:id');
-                            Livewire.find(componentId).call('deleteSelected');
-                        }
-
-                        return false;
+            document.addEventListener('livewire:load', () => {
+                Livewire.on('confirmDelete', (count) => {
+                    if (confirm(`¿Estás seguro de eliminar ${count} registro(s)?\n\nEsta acción no se puede deshacer.`)) {
+                        Livewire.dispatch('call', { method: 'deleteConfirmed' });
                     }
-                }, true); // Usar capture phase para interceptar antes
+                });
             });
         </script>
     @endpush
+
 </x-app-layout>
