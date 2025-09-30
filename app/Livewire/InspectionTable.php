@@ -15,14 +15,6 @@ class InspectionTable extends DataTableComponent
 {
     protected $model = Inspection::class;
 
-    public function bulkActions(): array
-    {
-        return [
-            'confirmDelete' => 'Eliminar seleccionados',
-            'exportSelected' => 'Exportar'
-        ];
-    }
-
     public function configure(): void
     {
         $this->setPrimaryKey('id');
@@ -30,6 +22,11 @@ class InspectionTable extends DataTableComponent
         $this->setPerPageAccepted([5, 10, 15, -1]);
         $this->resetPage();
         $this->setPerPage(5);
+
+        $this->setBulkActions([
+            'deleteSelected' => 'Borrar',
+            'exportSelected' => 'Exportar'
+        ]);
     }
 
     public function columns(): array
@@ -75,26 +72,13 @@ class InspectionTable extends DataTableComponent
             ]);
     }
 
-    // Método que se llama cuando se selecciona "Eliminar seleccionados"
-    public function confirmDelete()
+    public function deleteSelected()
     {
         if (!\Gate::allows('admin-access')) {
             session()->flash('fail', 'No tienes los permisos necesarios');
             return;
         }
 
-        if ($this->getSelectedCount() === 0) {
-            session()->flash('fail', 'No hay elementos seleccionados');
-            return;
-        }
-
-        // Disparar evento usando sintaxis de Livewire 3
-        $this->dispatch('show-delete-confirmation', count: $this->getSelectedCount());
-    }
-
-    // Método que realmente elimina los registros
-    public function deleteConfirmed()
-    {
         if ($this->getSelectedCount() > 0) {
             Inspection::whereIn('id', $this->getSelected())->delete();
             $this->clearSelected();
