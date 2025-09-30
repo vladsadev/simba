@@ -26,10 +26,15 @@
 
     @push('scripts')
         <script>
+            // Sintaxis correcta para Livewire 3
             document.addEventListener('livewire:initialized', () => {
-                Livewire.on('confirmDeleteInspections', (event) => {
-                    if (confirm(`¿Estás seguro de eliminar ${event.count} registro(s)? Esta acción no se puede deshacer.`)) {
-                        Livewire.dispatch('deleteSelected');
+                // Escuchar el evento de confirmación
+                Livewire.on('show-delete-confirmation', (event) => {
+                    const count = event.count || event[0]?.count || 0;
+
+                    if (confirm(`¿Estás seguro de eliminar ${count} registro(s)?\n\nEsta acción no se puede deshacer.`)) {
+                        // Llamar al método deleteConfirmed del componente
+                        Livewire.find('{{ $this->getId() }}')?.call('deleteConfirmed');
                     }
                 });
             });

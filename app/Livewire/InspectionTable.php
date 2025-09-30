@@ -15,9 +15,6 @@ class InspectionTable extends DataTableComponent
 {
     protected $model = Inspection::class;
 
-    public $showDeleteConfirmation = false;
-    public $itemsToDelete = [];
-
     public function bulkActions(): array
     {
         return [
@@ -78,7 +75,7 @@ class InspectionTable extends DataTableComponent
             ]);
     }
 
-    // Método intermedio que dispara el evento de confirmación
+    // Método que se llama cuando se selecciona "Eliminar seleccionados"
     public function confirmDelete()
     {
         if (!\Gate::allows('admin-access')) {
@@ -91,22 +88,16 @@ class InspectionTable extends DataTableComponent
             return;
         }
 
-        $this->itemsToDelete = $this->getSelected();
-        $this->dispatch('confirmDeleteInspections', count: $this->getSelectedCount());
+        // Disparar evento usando sintaxis de Livewire 3
+        $this->dispatch('show-delete-confirmation', count: $this->getSelectedCount());
     }
 
-    // Método que realmente elimina
-    public function deleteSelected()
+    // Método que realmente elimina los registros
+    public function deleteConfirmed()
     {
-        if (!\Gate::allows('admin-access')) {
-            session()->flash('fail', 'No tienes los permisos necesarios');
-            return;
-        }
-
-        if (count($this->itemsToDelete) > 0) {
-            Inspection::whereIn('id', $this->itemsToDelete)->delete();
+        if ($this->getSelectedCount() > 0) {
+            Inspection::whereIn('id', $this->getSelected())->delete();
             $this->clearSelected();
-            $this->itemsToDelete = [];
 
             session()->flash('success', 'Registros borrados correctamente.');
         }
