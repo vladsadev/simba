@@ -41,7 +41,6 @@ if($estado === 'operativa'){
         <div class="flex flex-col gap-2 justify-start items-end text-center">
             <div class="flex gap-2">
                 @can('admin-access')
-
                     <x-link-btn variant="danger" href="{{route('equipment.confirm-delete',$equipment)}}" class="text-center">
                         Borrar
                     </x-link-btn>
@@ -80,7 +79,15 @@ if($estado === 'operativa'){
     <div>
         <h3 class="text-xl font-semibold text-gray-800 mb-3">Manuales</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
-            <a class="text-blue-lighter underline" href="#">Descargar Manual</a>
+            @if($equipment->manual_pdf)
+                <a class="text-blue-600 hover:text-blue-800 underline"
+                   href="{{ route('equipment.manual', $equipment->id) }}"
+                   target="_blank">
+                    Ver Manual
+                </a>
+            @else
+                <p class="text-gray-400">No hay manual disponible</p>
+            @endif
         </div>
     </div>
 

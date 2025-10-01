@@ -23,16 +23,4 @@
 
     </x-panels.main>
 
-    @push('scripts')
-        <script>
-            document.addEventListener('livewire:load', () => {
-                Livewire.on('confirmDelete', (count) => {
-                    if (confirm(`¿Estás seguro de eliminar ${count} registro(s)?\n\nEsta acción no se puede deshacer.`)) {
-                        Livewire.dispatch('call', { method: 'deleteConfirmed' });
-                    }
-                });
-            });
-        </script>
-    @endpush
-
 </x-app-layout>

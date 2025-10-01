@@ -11,9 +11,9 @@ class InspectionIssue extends Model
         'user_id',
         'component',
         'issue_type',
-        'severity',
+//        'severity',
         'description',
-        'recommended_action',
+//        'recommended_action',
         'reported_at',
         'resolved_at',
         'status'

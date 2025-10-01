@@ -9,61 +9,70 @@
     </x-slot>
 
     <x-panels.main>
-        <x-forms.form method="POST" action="{{ route('equipment.store') }}" enctype="multipart/form-data" class="max-w-4xl px-3 md:px-2">
+        <x-forms.form method="POST" action="{{ route('equipment.store') }}" enctype="multipart/form-data"
+                      class="max-w-4xl px-3 md:px-2">
 
             <h3 class="text-xl font-bold text-blue-main mb-4">Campos Obligatorios</h3>
 
             <!-- Información básica -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                 <x-forms.input
-                    label="Código"
-                    name="code"
-                    placeholder="EXC-001"
-                    required
+                        label="Código"
+                        name="code"
+                        placeholder="EXC-001"
+                        required
                 />
 
                 <x-forms.input
-                    label="Marca"
-                    name="brand"
-                    placeholder="Caterpillar"
-                    required
+                        label="Marca"
+                        name="brand"
+                        placeholder="Caterpillar"
+                        value="{{old('brand')}}"
+                        required
                 />
 
                 <x-forms.input
-                    label="Modelo"
-                    name="model"
-                    placeholder="S7D"
-                    required
+                        label="Modelo"
+                        name="model"
+                        placeholder="S7D"
+                        value="{{old('model')}}"
+                        required
                 />
 
                 <x-forms.input
-                    label="Año"
-                    name="year"
-                    type="number"
-                    min="1990"
-                    max="{{ date('Y') + 1 }}"
-                    placeholder="2024"
-                    required
+                        label="Año"
+                        name="year"
+                        type="number"
+                        min="1990"
+                        max="{{ date('Y') + 1 }}"
+                        value="{{old('year')}}"
+                        placeholder="2024"
+                        required
                 />
             </div>
 
-            <!-- Estado -->
             <div class="mb-4">
                 <x-forms.select label="Estado" name="status" required>
-                    <option value="operativa" selected>Operativa</option>
-                    <option value="mantenimiento">En Mantenimiento</option>
-                    <option value="inactiva">Inactiva</option>
+                    <option value="operativa" {{ old('status') == 'operativa' ? 'selected' : '' }}>Operativa</option>
+                    <option value="mantenimiento" {{ old('status') == 'mantenimiento' ? 'selected' : '' }}>En Mantenimiento
+                    </option>
+                    <option value="inactiva" {{ old('status') == 'inactiva' ? 'selected' : '' }}>Inactiva</option>
                 </x-forms.select>
             </div>
+
 
             <!-- Ubicación -->
             <div class="mb-4">
                 <x-forms.select label="Ubicación" name="location" required>
                     <option value="">Seleccione una ubicación</option>
-                    <option value="Interior mina">Interior Mina</option>
-                    <option value="Exterior mina">Exterior Mina</option>
-                    <option value="Área de Mantenimiento">Área de Mantenimiento</option>
-                    <option value="Apartada de la Empresa">Apartada de la Empresa</option>
+                    <option value="Interior mina" {{old('location')=='Interior mina'? 'selected':''}}>Interior Mina</option>
+                    <option value="Exterior mina" {{old('location')=='Exterior mina'? 'selected':''}} >Exterior Mina</option>
+                    <option value="Área de Mantenimiento" {{old('location')=='Área de Mantenimiento'? 'selected':''}} >Área de
+                        Mantenimiento
+                    </option>
+                    <option value="Apartada de la Empresa" {{old('location')=='Apartada de la Empresa'? 'selected':''}} >Apartada de la
+                        Empresa
+                    </option>
                 </x-forms.select>
             </div>
 

@@ -35,7 +35,7 @@ class InspectionForm extends Component
         'tipo_problema' => '',
         'severidad' => 'media',
         'descripcion' => '',
-        'accion_recomendada' => 'Monitoreo continuo'
+//        'accion_recomendada' => 'Monitoreo continuo'
     ];
 
     // Reglas de validación
@@ -43,7 +43,7 @@ class InspectionForm extends Component
         'currentIssue.tipo_problema' => 'required|string',
         'currentIssue.severidad' => 'required|in:baja,media,alta,critica',
         'currentIssue.descripcion' => 'required|string|min:10',
-        'currentIssue.accion_recomendada' => 'required|string',
+//        'currentIssue.accion_recomendada' => 'required|string',
 
         'engineHours' => 'required|numeric|min:0',
         'percussionHours' => 'required|numeric|min:0',
@@ -203,9 +203,9 @@ class InspectionForm extends Component
     {
         $this->validate([
             'currentIssue.tipo_problema' => 'required|string',
-            'currentIssue.severidad' => 'required|in:baja,media,alta,critica',
-            'currentIssue.descripcion' => 'required|string|min:10',
-            'currentIssue.accion_recomendada' => 'required|string',
+//            'currentIssue.severidad' => 'required|in:baja,media,alta,critica',
+//            'currentIssue.descripcion' => 'required|string|min:10',
+//            'currentIssue.accion_recomendada' => 'required|string',
         ]);
 
         // Guardar el problema
@@ -243,8 +243,6 @@ class InspectionForm extends Component
         }
     }
 
-    // MÉTODO PRINCIPAL DE ENVÍO - ACTUALIZADO CON EL NUEVO ENFOQUE
-//    public function submitInspection()
     public function submit()
     {
         // Validaciones
@@ -335,9 +333,7 @@ class InspectionForm extends Component
                     'user_id' => Auth::id(),
                     'component' => $issue['component'],
                     'issue_type' => $issue['tipo_problema'],
-                    'severity' => $issue['severidad'],
                     'description' => $issue['descripcion'],
-                    'recommended_action' => $issue['accion_recomendada'],
                     'reported_at' => now(),
                     'status' => 'abierto'
                 ]);

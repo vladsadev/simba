@@ -44,6 +44,9 @@ Route::middleware([
         Route::get('/catalogo/{equipment}/delete-confirm', [EquipmentController::class, 'confirmDelete'])->name('equipment.confirm-delete');
     });
 
+    Route::get('/equipment/{equipment}/manual', [EquipmentController::class, 'showManual'])
+        ->name('equipment.manual');
+
     Route::get('/catalogo/{equipment}', [EquipmentController::class, 'show'])->name('equipment.show');
     Route::post('/catalogo', [EquipmentController::class, 'store'])->name('equipment.store');
 

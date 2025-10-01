@@ -279,43 +279,18 @@
                     {{-- Tipo de problema --}}
                     <div>
                         <label for="issue_type" class="block text-sm font-medium text-gray-700 mb-1">
-                            Tipo de Problema <span class="text-red-500">*</span>
+                            Tipo de problema(estado del estado componente)<span class="text-red-500">*</span>
                         </label>
                         <select id="issue_type"
                                 wire:model="currentIssue.tipo_problema"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                        @error('currentIssue.tipo_problema') border-red-500 @enderror">
                             <option value="">Seleccione...</option>
-                            <option value="desgaste">Desgaste excesivo</option>
-                            <option value="fuga">Fuga detectada</option>
-                            <option value="ruido">Ruido anormal</option>
-                            <option value="vibracion">Vibración excesiva</option>
-                            <option value="sobrecalentamiento">Sobrecalentamiento</option>
-                            <option value="falta_lubricacion">Falta de lubricación</option>
-                            <option value="dano_visible">Daño visible</option>
-                            <option value="mal_funcionamiento">Mal funcionamiento</option>
-                            <option value="otro">Otro</option>
+                            <option value="bueno">Bueno</option>
+                            <option value="malo">Malo</option>
+                            <option value="no_aplica">No Aplica</option>
                         </select>
                         @error('currentIssue.tipo_problema')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    {{-- Severidad --}}
-                    <div>
-                        <label for="severity" class="block text-sm font-medium text-gray-700 mb-1">
-                            Severidad <span class="text-red-500">*</span>
-                        </label>
-                        <select id="severity"
-                                wire:model="currentIssue.severidad"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                                       @error('currentIssue.severidad') border-red-500 @enderror">
-                            <option value="baja">Baja - Monitorear</option>
-                            <option value="media">Media - Atención en próximo mantenimiento</option>
-                            <option value="alta">Alta - Requiere atención pronta</option>
-                            <option value="critica">Crítica - Detener operación</option>
-                        </select>
-                        @error('currentIssue.severidad')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
@@ -336,26 +311,6 @@
                         @enderror
                     </div>
 
-                    {{-- Acción recomendada --}}
-                    <div>
-                        <label for="action" class="block text-sm font-medium text-gray-700 mb-1">
-                            Acción Recomendada <span class="text-red-500">*</span>
-                        </label>
-                        <select id="action"
-                                wire:model="currentIssue.accion_recomendada"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                                       @error('currentIssue.accion_recomendada') border-red-500 @enderror">
-                            <option value="Monitoreo continuo">Monitoreo continuo</option>
-                            <option value="Mantenimiento preventivo">Mantenimiento preventivo</option>
-                            <option value="Reparación menor">Reparación menor</option>
-                            <option value="Reparación mayor">Reparación mayor</option>
-                            <option value="Reemplazo de componente">Reemplazo de componente</option>
-                            <option value="Parada inmediata">Parada inmediata del equipo</option>
-                        </select>
-                        @error('currentIssue.accion_recomendada')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
                 </div>
 
                 {{-- Botones del modal --}}

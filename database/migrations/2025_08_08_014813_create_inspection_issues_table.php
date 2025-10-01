@@ -17,9 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('component');
             $table->string('issue_type');
-            $table->enum('severity', ['baja', 'media', 'alta', 'critica']);
             $table->text('description');
-            $table->string('recommended_action');
             $table->timestamp('reported_at');
             $table->timestamp('resolved_at')->nullable();
             $table->enum('status', ['abierto', 'en_proceso', 'resuelto'])->default('abierto');

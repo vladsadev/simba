@@ -111,10 +111,10 @@
             @if($equipment->manual_pdf)
                 <div class="mb-4 p-3 bg-gray-50 rounded-lg">
                     <p class="text-sm text-gray-600 mb-2">Manual actual:</p>
-                    <a href="{{ Storage::url($equipment->manual_pdf) }}"
-                       target="_blank"
-                       class="text-blue-600 hover:text-blue-800 underline">
-                        Ver Manual PDF
+                    <a class="text-blue-600 hover:text-blue-800 underline"
+                       href="{{ route('equipment.manual', $equipment->id) }}"
+                       target="_blank">
+                        Ver Manual
                     </a>
                 </div>
             @endif

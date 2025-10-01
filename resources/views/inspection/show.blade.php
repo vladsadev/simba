@@ -291,10 +291,6 @@
                                                 <strong>Descripción:</strong> {{ $issue->description }}
                                             </div>
 
-                                            <div class="text-sm text-gray-600">
-                                                <strong>Acción recomendada:</strong> {{ $issue->recommended_action }}
-                                            </div>
-
                                             <div class="text-xs text-gray-500 mt-2 border-t pt-2">
                                                 Reportado el {{ $issue->reported_at->format('d/m/Y H:i') }}
                                                 por {{ $issue->user->name }}

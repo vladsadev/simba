@@ -27,6 +27,9 @@ class Equipment extends Model
         'engine_hours',
         'percussion_hours',
         'position_hours',
+        'manual_pdf',
+        'equipment_img'
+
     ];
 
     protected $casts = [
@@ -134,9 +137,6 @@ class Equipment extends Model
 
         return $statusConfig[$this->status] ?? $statusConfig['inactive'];
     }
-
-
-
 
 
 }

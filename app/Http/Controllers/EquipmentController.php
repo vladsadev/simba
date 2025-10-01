@@ -237,4 +237,26 @@ class EquipmentController extends Controller
 
         return view('equipment.confirm-delete', compact('equipment', 'inspectionCount', 'maintenanceCount'));
     }
+
+    public function showManual(Equipment $equipment)
+    {
+        if (!$equipment->manual_pdf) {
+            abort(404, 'Manual no disponible');
+        }
+
+        // Obtener la ruta completa del archivo
+        $filePath = storage_path('app/' . $equipment->manual_pdf);
+
+        // Verificar que el archivo existe
+        if (!file_exists($filePath)) {
+            abort(404, 'Archivo no encontrado');
+        }
+
+        // Retornar el archivo para visualizarlo en el navegador
+        return response()->file($filePath, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="manual_' . $equipment->id . '.pdf"'
+        ]);
+    }
+
 }

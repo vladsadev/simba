@@ -19,7 +19,8 @@
         "livewire/livewire": "^3.6.4",
         "maatwebsite/excel": "^3.1",
         "rappasoft/laravel-livewire-tables": "^3.7",
-        "spatie/pdf-to-image": "^1.2"
+        "spatie/pdf-to-image": "^1.2",
+        "sweetalert2/laravel": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",

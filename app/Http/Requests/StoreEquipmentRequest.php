@@ -22,7 +22,7 @@ class StoreEquipmentRequest extends FormRequest
         return [
             // Campos obligatorios
             'equipment_type_id' => 'required|exists:equipment_types,id',
-            'code' => 'required|string|max:20|unique:equipment,code',
+            'code' => 'required|string|max:20|min:3|uppercase|unique:equipment,code',
             'brand' => 'required|string|max:100',
             'model' => 'required|string|max:100',
             'year' => 'required|integer|min:1990|max:' . (date('Y') + 1),

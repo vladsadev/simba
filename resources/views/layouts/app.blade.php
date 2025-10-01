@@ -22,7 +22,7 @@
 
 <div class="min-h-screen bg-blue-main/15 dark:bg-gray-400">
     @livewire('navigation-menu')
-
+    @include('sweetalert2::index')
     <!-- Success Toast -->
     @include('partial.general-notification')
 
@@ -46,6 +46,14 @@
 
 @livewireScripts
 
+<script>
+    Livewire.on('confirmDelete', (count) => {
+        if (confirm(`¿Estás seguro de eliminar ${count[0]} registro(s)?\n\nEsta acción no se puede deshacer.`)) {
+            // Emitir el evento de confirmación
+            Livewire.dispatch('deleteConfirmed');
+        }
+    });
+</script>
 
 
 </body>

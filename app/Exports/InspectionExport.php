@@ -4,24 +4,38 @@ namespace App\Exports;
 
 use App\Models\Inspection;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class InspectionExport implements FromCollection
+class InspectionExport implements FromCollection, WithHeadings
 {
-
-    public $inspections;
+    protected $inspections;
 
     public function __construct($inspections)
     {
         $this->inspections = $inspections;
     }
 
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
     public function collection()
     {
-//        return Inspection::all();
-        return $this->inspections;
+        return $this->inspections->map(function ($inspection) {
+            return [
+                $inspection->id,
+                $inspection->inspection_date,
+                $inspection->status,
+                $inspection->created_at,
+                $inspection->updated_at,
+            ];
+        });
+    }
+
+    public function headings(): array
+    {
+        return [
+            'ID',
+            'Fecha de Inspección',
+            'Estado',
+            'Creado en',
+            'Actualizado en',
+        ];
     }
 }
