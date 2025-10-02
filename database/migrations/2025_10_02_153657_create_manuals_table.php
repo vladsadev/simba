@@ -4,19 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('equipment_types', function (Blueprint $table) {
+        Schema::create('manuals', function (Blueprint $table) {
             $table->id();
-            $table->enum('name', ['Perforación', 'De Acarreo']);
-
-            $table->text('description');
+            $table->string('name');
+            $table->string('type');
             $table->timestamps();
-
         });
     }
 
@@ -25,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('equipment_types');
+        Schema::dropIfExists('manuals');
     }
 };

@@ -28,7 +28,7 @@ class EquipmentTypeFactory extends Factory
     public function perforadora(): static
     {
         return $this->state(fn (array $attributes) => [
-            'name' => 'Perforadora',
+            'name' => 'Perforación',
             'description' => 'Equipo especializado en perforación de barrenos para voladuras y exploración.'
         ]);
     }

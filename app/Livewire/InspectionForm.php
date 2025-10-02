@@ -367,18 +367,7 @@ class InspectionForm extends Component
 
             // Mensaje de éxito detallado
             $successMessage = 'Inspección guardada exitosamente. ';
-            if ($hoursWorkedEngine > 0 || $hoursWorkedPercussion > 0 || $hoursWorkedPosition > 0) {
-                $successMessage .= sprintf(
-                    'Horas registradas - Motor: %.1f (+%.1f), Percusión: %.1f (+%.1f), Posicionamiento: %.1f (+%.1f)',
-                    $this->engineHours,
-                    $hoursWorkedEngine,
-                    $this->percussionHours,
-                    $hoursWorkedPercussion,
-                    $this->positionHours,
-                    $hoursWorkedPosition
-                );
-            }
-
+            
             session()->flash('success', $successMessage);
 
             return redirect()->route('equipment.show', $this->equipment);

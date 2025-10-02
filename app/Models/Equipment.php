@@ -67,28 +67,11 @@ class Equipment extends Model
     /**
      * Obtiene la última inspección del equipo
      */
-    public function getLastInspectionAttribute()
-    {
-        return $this->inspections()->latest('inspection_date')->first();
-    }
 
-    // Promedio de horas por día en el último mes
 
     public function inspections(): HasMany
     {
         return $this->hasMany(Inspection::class);
-    }
-
-    /**
-     * -------
-     * Obtiene el último mantenimiento del equipo
-     */
-    public function getLastMaintenanceAttribute()
-    {
-        return $this->maintenances()
-            ->where('scheduled_date', '<=', now())
-            ->latest('scheduled_date')
-            ->first();
     }
 
     public function maintenances(): HasMany

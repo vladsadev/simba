@@ -6,6 +6,7 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\InspectionIssueController;
 use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\ManualController;
 use App\Http\Controllers\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,11 +45,14 @@ Route::middleware([
         Route::get('/catalogo/{equipment}/delete-confirm', [EquipmentController::class, 'confirmDelete'])->name('equipment.confirm-delete');
     });
 
-    Route::get('/equipment/{equipment}/manual', [EquipmentController::class, 'showManual'])
-        ->name('equipment.manual');
-
     Route::get('/catalogo/{equipment}', [EquipmentController::class, 'show'])->name('equipment.show');
     Route::post('/catalogo', [EquipmentController::class, 'store'])->name('equipment.store');
+
+    // Manuals
+    Route::get('/manuales', [ManualController::class, 'index'])->name('manual.index');
+    Route::get('/manuales/crear', [ManualController::class, 'create'])->name('manual.create');
+    Route::post('/manual/', [ManualController::class, 'store'])->name('manual.store');
+
 
     //Inspecciones
     Route::view('/inspecciones', 'dashboard.reportes');

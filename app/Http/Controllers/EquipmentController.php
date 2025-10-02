@@ -53,21 +53,6 @@ class EquipmentController extends Controller
             // Obtener datos validados
             $validatedData = $request->validated();
 
-            // Manejar la actualización del manual PDF
-            if ($request->hasFile('manual_pdf')) {
-                // Eliminar el PDF anterior si existe
-                if ($equipment->manual_pdf) {
-                    $oldPdfPath = storage_path('app/public/' . $equipment->manual_pdf);
-                    if (file_exists($oldPdfPath)) {
-                        unlink($oldPdfPath);
-                    } else {
-                        Storage::disk('public')->delete($equipment->manual_pdf);
-                    }
-                }
-                $pdfPath = $request->file('manual_pdf')->store('equipment/manuals', 'public');
-                $validatedData['manual_pdf'] = $pdfPath;
-            }
-
             // Manejar la actualización de la imagen
             if ($request->hasFile('equipment_img')) {
                 // Eliminar la imagen anterior si existe
@@ -121,12 +106,6 @@ class EquipmentController extends Controller
         try {
             // Obtener datos validados
             $validatedData = $request->validated();
-
-            // Manejar la carga del manual PDF
-            if ($request->hasFile('manual_pdf')) {
-                $pdfPath = $request->file('manual_pdf')->store('equipment/manuals', 'public');
-                $validatedData['manual_pdf'] = $pdfPath;
-            }
 
             // Manejar la carga de la imagen del equipo
             if ($request->hasFile('equipment_img')) {
@@ -238,25 +217,5 @@ class EquipmentController extends Controller
         return view('equipment.confirm-delete', compact('equipment', 'inspectionCount', 'maintenanceCount'));
     }
 
-    public function showManual(Equipment $equipment)
-    {
-        if (!$equipment->manual_pdf) {
-            abort(404, 'Manual no disponible');
-        }
-
-        // Obtener la ruta completa del archivo
-        $filePath = storage_path('app/' . $equipment->manual_pdf);
-
-        // Verificar que el archivo existe
-        if (!file_exists($filePath)) {
-            abort(404, 'Archivo no encontrado');
-        }
-
-        // Retornar el archivo para visualizarlo en el navegador
-        return response()->file($filePath, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="manual_' . $equipment->id . '.pdf"'
-        ]);
-    }
 
 }

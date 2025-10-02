@@ -51,7 +51,6 @@ return new class extends Migration {
 
             // Archivos del equipo (OPCIONALES)
             $table->string('equipment_img')->nullable()->comment('Ruta de la imagen del equipo');
-            $table->string('manual_pdf')->nullable()->comment('Ruta del manual PDF del equipo');
 
             $table->timestamps();
 

@@ -25,21 +25,6 @@ class MaintenanceController extends Controller
         return view('maintenances.show', compact('maintenance'));
     }
 
-    public function create(Equipment $equipment)
-    {
-        // Verificar que el equipo no esté ya en mantenimiento
-        if ($equipment->status === 'mantenimiento') {
-            return redirect()
-                ->route('equipment.show', $equipment)
-                ->with('error', 'No se puede programar un mantenimiento. El equipo ya se encuentra en mantenimiento.');
-        }
-
-        return view('maintenances.create', [
-            'equipment' => $equipment,
-            'user' => Auth::user()
-        ]);
-    }
-
     public function store(StoreMaintenanceRequest $request): RedirectResponse
     {
         // Obtener el equipo para verificar su estado
@@ -50,7 +35,7 @@ class MaintenanceController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('fail', 'No se puede programar el mantenimiento. El equipo ya se encuentra en mantenimiento.');
+                ->with('fail', 'El equipo ya se encuentra en mantenimiento.');
         }
 
         // Obtener los datos validados
@@ -71,6 +56,11 @@ class MaintenanceController extends Controller
 
             // Actualizar el estado del equipo a "mantenimiento"
             $equipment->update(['status' => 'mantenimiento']);
+            // Actualizar el ultimo mantenimiento del equipo
+            $equipment->update(
+                [
+                    'last_maintenance' => $validated['scheduled_date']
+                ]);
 
             return redirect()
                 ->route('equipment.index')
@@ -85,14 +75,29 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function edit(Maintenance $maintenance): View
+    public function create(Equipment $equipment)
     {
-        return view('maintenances.edit', compact('maintenance'));
+        // Verificar que el equipo no esté ya en mantenimiento
+        if ($equipment->status === 'mantenimiento') {
+            return redirect()
+                ->route('equipment.show', $equipment)
+                ->with('fail', 'El equipo ya se encuentra en mantenimiento.');
+        }
+
+        return view('maintenances.create', [
+            'equipment' => $equipment,
+            'user' => Auth::user()
+        ]);
     }
 
     public function update(UpdateMaintenanceRequest $request, Maintenance $maintenance)
     {
         // Implementar lógica de actualización según necesidades
+    }
+
+    public function edit(Maintenance $maintenance): View
+    {
+        return view('maintenances.edit', compact('maintenance'));
     }
 
     public function destroy(Maintenance $maintenance): RedirectResponse

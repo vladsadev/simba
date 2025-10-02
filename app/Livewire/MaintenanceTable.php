@@ -31,7 +31,7 @@ class MaintenanceTable extends DataTableComponent
             Column::make("Cod Equipo", "equipment.code")->sortable()
                 ->searchable(),
 
-            Column::make("Fecha", "scheduled_date")
+            Column::make("Fecha Programada", "scheduled_date")
                 ->format(fn($value) => \Carbon\Carbon::parse($value)->format('d-m-Y'))
                 ->sortable(),
             Column::make("Título", "title")

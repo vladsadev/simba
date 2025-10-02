@@ -8,5 +8,8 @@
     Reportes
 </x-responsive-nav-link>
 <x-responsive-nav-link href="{{ route('malla') }}" :active="request()->routeIs('malla')">
-   Malla de Perforaciones
+   Malla
+</x-responsive-nav-link>
+<x-responsive-nav-link href="{{ route('manual.index') }}" :active="request()->routeIs('manual.index')">
+   Manuales
 </x-responsive-nav-link>

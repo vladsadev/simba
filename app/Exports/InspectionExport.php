@@ -15,15 +15,20 @@ class InspectionExport implements FromCollection, WithHeadings
         $this->inspections = $inspections;
     }
 
+    public function query()
+    {
+        return Inspection::query()->with('user');
+    }
+
     public function collection()
     {
         return $this->inspections->map(function ($inspection) {
             return [
-                $inspection->id,
                 $inspection->inspection_date,
+                $inspection->user->name,
                 $inspection->status,
-                $inspection->created_at,
-                $inspection->updated_at,
+                $inspection->observations,
+                $inspection->nivel_combustible_checked ? 'Checked' : 'Con observación'
             ];
         });
     }
@@ -31,11 +36,11 @@ class InspectionExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'ID',
             'Fecha de Inspección',
+            'Inspector',
             'Estado',
-            'Creado en',
-            'Actualizado en',
+            'Observaciones',
+            'Nivel de combustible'
         ];
     }
 }

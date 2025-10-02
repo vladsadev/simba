@@ -46,12 +46,10 @@ class UpdateEquipmentRequest extends FormRequest
             'fuel_capacity' => 'nullable|numeric|min:0|max:99999.99',
 
             // Archivos opcionales (en actualización)
-            'manual_pdf' => 'nullable|file|mimes:pdf|max:10240', // Max 10MB
             'equipment_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120', // Max 5MB
 
             // Fechas de mantenimiento (pueden actualizarse)
             'last_maintenance' => 'nullable|date|before_or_equal:today',
-            'next_maintenance' => 'nullable|date|after:today',
         ];
     }
 

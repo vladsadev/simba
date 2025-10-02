@@ -17,37 +17,37 @@
             <!-- Información básica -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                 <x-forms.input
-                        label="Código"
-                        name="code"
-                        placeholder="EXC-001"
-                        required
+                    label="Código"
+                    name="code"
+                    placeholder="EXC-001"
+                    required
                 />
 
                 <x-forms.input
-                        label="Marca"
-                        name="brand"
-                        placeholder="Caterpillar"
-                        value="{{old('brand')}}"
-                        required
+                    label="Marca"
+                    name="brand"
+                    placeholder="Caterpillar"
+                    value="{{old('brand')}}"
+                    required
                 />
 
                 <x-forms.input
-                        label="Modelo"
-                        name="model"
-                        placeholder="S7D"
-                        value="{{old('model')}}"
-                        required
+                    label="Modelo"
+                    name="model"
+                    placeholder="S7D"
+                    value="{{old('model')}}"
+                    required
                 />
 
                 <x-forms.input
-                        label="Año"
-                        name="year"
-                        type="number"
-                        min="1990"
-                        max="{{ date('Y') + 1 }}"
-                        value="{{old('year')}}"
-                        placeholder="2024"
-                        required
+                    label="Año"
+                    name="year"
+                    type="number"
+                    min="1990"
+                    max="{{ date('Y') + 1 }}"
+                    value="{{old('year')}}"
+                    placeholder="2024"
+                    required
                 />
             </div>
 
@@ -70,7 +70,8 @@
                     <option value="Área de Mantenimiento" {{old('location')=='Área de Mantenimiento'? 'selected':''}} >Área de
                         Mantenimiento
                     </option>
-                    <option value="Apartada de la Empresa" {{old('location')=='Apartada de la Empresa'? 'selected':''}} >Apartada de la
+                    <option value="Apartada de la Empresa" {{old('location')=='Apartada de la Empresa'? 'selected':''}} >Apartada
+                        de la
                         Empresa
                     </option>
                 </x-forms.select>
@@ -102,17 +103,6 @@
                     step="0.01"
                     min="0"
                     placeholder="400"
-                />
-            </div>
-
-            <!-- Archivos -->
-            <div class="mb-4">
-                <x-forms.input
-                    label="Manual (PDF)"
-                    name="manual_pdf"
-                    type="file"
-                    accept=".pdf"
-                    class="border border-slate-600"
                 />
             </div>
 

@@ -11,7 +11,7 @@ if($estado === 'operativa'){
 }
 @endphp
 
-    <!-- Imagen principal -->
+        <!-- Imagen principal -->
 <div class="relative">
     <img src="{{Vite::asset('resources/images/simba1.webp')}}" alt="SIMBA S7D" class="w-full h-72 object-cover">
     <span class="absolute top-4 left-4 text-blue-main text-sm md:text-base font-semibold px-4 py-1 rounded-full
@@ -70,25 +70,17 @@ if($estado === 'operativa'){
     <div>
         <h3 class="text-xl font-semibold text-gray-800 mb-3">Mantenimiento</h3>
         <div class="grid grid-cols-1 text-base  text-gray-600">
-            <p><span class="font-semibold">Último Mantenimiento:</span> {{$equipment->last_maintenance->scheduled_date??'No
-            tiene mantenimiento registrado'}} </p>
+
+            <p><span class="font-semibold">Último Mantenimiento:</span> {{ $equipment->last_maintenance?
+            $equipment->last_maintenance->format('d-m-Y'):'No Hay registro de Mantenimientos previos'}}
+
         </div>
     </div>
 
     <!-- Manuales-->
-    <div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-3">Manuales</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
-            @if($equipment->manual_pdf)
-                <a class="text-blue-600 hover:text-blue-800 underline"
-                   href="{{ route('equipment.manual', $equipment->id) }}"
-                   target="_blank">
-                    Ver Manual
-                </a>
-            @else
-                <p class="text-gray-400">No hay manual disponible</p>
-            @endif
-        </div>
-    </div>
+    {{--    <div>--}}
+    {{--        <h3 class="text-xl font-semibold text-gray-800 mb-3">Manuales</h3>--}}
+    {{--        --}}
+    {{--    </div>--}}
 
 </div>

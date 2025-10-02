@@ -49,17 +49,18 @@
                     label="Fecha Programada"
                     name="scheduled_date"
                     type="date"
-                    value="{{ old('scheduled_date', now()->format('Y-m-d')) }}"
+                    value="{{ old('scheduled_date', now()->setTimezone('America/La_Paz')->format('Y-m-d')) }}"
                     required
                 />
+
             </div>
 
             <!-- Título del mantenimiento -->
             <div class="mb-6">
                 <x-forms.input
-                    label="Título del Mantenimiento"
-                    name="title"
-                    value="{{ old('title') }}"
+                        label="Título del Mantenimiento"
+                        name="title"
+                        value="{{ old('title') }}"
                 />
             </div>
 
@@ -70,11 +71,11 @@
                     Descripción del Mantenimiento
                 </label>
                 <textarea
-                    name="description"
-                    id="description"
-                    rows="3"
-                    class="w-full border-gray-300 rounded-lg shadow-xs focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Describa el trabajo a realizar ej: se cambiará el aceite de motor, filtros, otros, etc."
+                        name="description"
+                        id="description"
+                        rows="3"
+                        class="w-full border-gray-300 rounded-lg shadow-xs focus:border-blue-500 focus:ring-blue-500"
+                        placeholder="Describa el trabajo a realizar ej: se cambiará el aceite de motor, filtros, otros, etc."
                 >{{ old('description') }}</textarea>
             </div>
 
@@ -82,12 +83,12 @@
             <!-- Duración estimada -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
                 <x-forms.input
-                    label="Duración Estimada para el trabajo (horas)"
-                    name="duration_hours"
-                    type="number"
-                    min="1"
-                    placeholder="8"
-                    value="{{ old('duration_hours') }}"
+                        label="Duración Estimada para el trabajo (horas)"
+                        name="duration_hours"
+                        type="number"
+                        min="1"
+                        placeholder="8"
+                        value="{{ old('duration_hours') }}"
                 />
             </div>
 
@@ -99,11 +100,11 @@
                     Observaciones (opcional)
                 </label>
                 <textarea
-                    name="observations"
-                    id="observations"
-                    rows="3"
-                    class="w-full text-left border-gray-300 rounded-lg shadow-xs focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Observaciones adicionales, instrucciones especiales
+                        name="observations"
+                        id="observations"
+                        rows="3"
+                        class="w-full text-left border-gray-300 rounded-lg shadow-xs focus:border-blue-500 focus:ring-blue-500"
+                        placeholder="Observaciones adicionales, instrucciones especiales
                     ej: Las ruedas traseras presentan mayor
                     desgaste se puede considerar el cambio de las mismas "
                 >{{ old('observations') }}</textarea>
@@ -121,7 +122,7 @@
             <!-- Botones de acción -->
             <div class="flex justify-end space-x-3">
                 <x-link-btn
-                    href="{{ route('equipment.show', $equipment) }}"
+                        href="{{ route('equipment.show', $equipment) }}"
                     class="bg-gray-500 hover:bg-gray-600"
                 >
                     Cancelar
