@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('manuals', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('type');
+            $table->enum('description', [
+                'Partes',
+                'Diagrama',
+                'Seguridad',
+                'Operación',
+                'Mantenimiento'
+            ]);
+            $table->string('manual_pdf');
+
             $table->timestamps();
         });
     }

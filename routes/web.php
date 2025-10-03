@@ -52,7 +52,9 @@ Route::middleware([
     Route::get('/manuales', [ManualController::class, 'index'])->name('manual.index');
     Route::get('/manuales/crear', [ManualController::class, 'create'])->name('manual.create');
     Route::post('/manual/', [ManualController::class, 'store'])->name('manual.store');
-
+    Route::get('/manuales/{manual}', [ManualController::class, 'show'])->name('manual.show');
+    Route::delete('/manuales/{manual}', [ManualController::class, 'destroy'])->name('manual.destroy');
+    Route::get('/manuales/{manual}/download', [ManualController::class, 'download'])->name('manual.download');
 
     //Inspecciones
     Route::view('/inspecciones', 'dashboard.reportes');

@@ -16,8 +16,21 @@ class ManualController extends Controller
 
     public function create()
     {
+        $equipments = [
+            [
+                'type' => 'De acarreo',
+                'models' => ['ST7', 'ST2G', 'MT2010 ', 'MT2200'],
+                'description' => ['partes', 'diagrama', 'seguridad', 'operación', 'mantenimiento']
+            ],
+            [
+                'type' => 'Perforación',
+                'models' => ['SIMBA S7 D', 'BOOMER S1 D', 'BOOMER T1 D'],
+                'description' => ['partes', 'diagrama', 'seguridad', 'operación', 'mantenimiento']
+            ],
+        ];
 
-        return view('manuals.create');
+
+        return view('manuals.create', compact('equipments'));
     }
 
     public function store(StoreManualRequest $request)
