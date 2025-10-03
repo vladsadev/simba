@@ -51,7 +51,7 @@ class InspectionTable extends DataTableComponent
             Column::make("Fecha y Hora", "inspection_date")
                 ->format(fn($value) => Carbon::parse($value)->format('d-m-Y H:i'))
                 ->sortable()
-                ->searchable(), // Agregar searchable aquí también
+                ->searchable(),
 
             Column::make("Tipo de Equipo", "equipment.equipmentType.name")
                 ->sortable()

@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Agregar Manual') }}
             </h2>
-            <x-link-btn href="{{ route('equipment.index') }}">Volver</x-link-btn>
+            <x-link-btn href="{{ route('manual.index') }}">Volver</x-link-btn>
         </div>
     </x-slot>
 
@@ -15,8 +15,7 @@
             {{-- Título mejorado con indicador de campos requeridos --}}
             <div class="mb-6">
                 <h3 class="text-xl font-bold text-blue-main mb-2">Información del Manual</h3>
-                <p class="text-sm text-gray-500 font-semibold">Los campos marcados con <span class="text-red-500">*</span> son
-                    obligatorios</p>
+                <p class="text-sm text-gray-500">Los campos marcados con <span class="text-red-500">*</span> son obligatorios</p>
             </div>
 
             {{-- Información básica con select dinámicos --}}
@@ -84,7 +83,6 @@
                 </div>
 
                 {{-- Campos adicionales opcionales --}}
-
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Versión del Manual (Opcional)
@@ -97,6 +95,8 @@
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     >
                 </div>
+
+
             </div>
 
             {{-- Área mejorada de carga de archivos --}}
@@ -113,8 +113,8 @@
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                         <div class="flex text-sm text-gray-600">
-                            <label for="manual_pdf" class="relative cursor-pointer px-1 bg-white rounded-md font-semibold
-                            text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                            <label for="manual_pdf"
+                                   class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                                 <span>Cargar archivo</span>
                                 <input
                                     id="manual_pdf"
@@ -126,9 +126,9 @@
                                     onchange="displayFileName(this)"
                                 >
                             </label>
-                            <p class="pl-1 font-bold">o arrastrar y soltar</p>
+                            <p class="pl-1">o arrastrar y soltar</p>
                         </div>
-                        <p class="text-sm text-gray-500">Solo archivos PDF hasta 100MB</p>
+                        <p class="text-xs text-gray-500">Solo archivos PDF hasta 50MB</p>
                         <p id="file-name" class="text-sm text-gray-900 mt-2 hidden"></p>
                     </div>
                 </div>
@@ -152,12 +152,13 @@
 
             {{-- Botones de acción mejorados --}}
             <div class="flex items-center justify-between pt-6 border-t border-gray-200">
-                <x-link-btn
+                <button
                     type="button"
-                    onclick="window.location.href='{{ route('manual.index') }}'"
+                    onclick="window.location.href='{{ route('equipment.index') }}'"
+                    class="text-sm text-gray-600 hover:text-gray-900"
                 >
                     Cancelar
-                </x-link-btn>
+                </button>
 
                 <x-forms.button type="submit" class="cursor-pointer">
                     Guardar Manual
@@ -256,8 +257,8 @@
                 const fileSize = (input.files[0].size / 1048576).toFixed(2); // Convertir a MB
 
                 // Validar tamaño
-                if (input.files[0].size > 10485760) { // 10MB en bytes
-                    alert('El archivo es demasiado grande. El tamaño máximo permitido es 10MB.');
+                if (input.files[0].size > 52428800) { // 50MB en bytes
+                    alert('El archivo es demasiado grande. El tamaño máximo permitido es 50MB.');
                     input.value = '';
                     fileNameElement.classList.add('hidden');
                     return;

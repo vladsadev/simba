@@ -15,9 +15,8 @@
 
     <x-panels.main>
 
-        @livewire('inspection-table')
+        @livewire('manual-table')
 
-        <hr class="my-4">
 
 
     </x-panels.main>

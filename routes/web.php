@@ -48,24 +48,14 @@ Route::middleware([
     Route::get('/catalogo/{equipment}', [EquipmentController::class, 'show'])->name('equipment.show');
     Route::post('/catalogo', [EquipmentController::class, 'store'])->name('equipment.store');
 
-    // Manuals
-    Route::get('/manuales', [ManualController::class, 'index'])->name('manual.index');
-    Route::get('/manuales/crear', [ManualController::class, 'create'])->name('manual.create');
-    Route::post('/manual/', [ManualController::class, 'store'])->name('manual.store');
-    Route::get('/manuales/{manual}', [ManualController::class, 'show'])->name('manual.show');
-    Route::delete('/manuales/{manual}', [ManualController::class, 'destroy'])->name('manual.destroy');
-    Route::get('/manuales/{manual}/download', [ManualController::class, 'download'])->name('manual.download');
+    // Manuales
+    Route::resource('manual', ManualController::class);
+    Route::get('manual/{manual}/download', [ManualController::class, 'download'])->name('manual.download');
 
     //Inspecciones
     Route::view('/inspecciones', 'dashboard.reportes');
     Route::get('/inspecciones/{inspection}', [InspectionController::class, 'show'])->name('inspection.show');
-
-
     Route::get('/inspecciones/crear/{equipment}', [InspectionController::class, 'create'])->name('inspection.create');
-
-    // Inspecciones - Issues
-//    Route::post('/api/inspection-issues', [InspectionIssueController::class, 'store'])
-//        ->name('inspection.issues.store');
 
     // Malla de Perforaciones
     Route::get('/malla', [DrillingGridController::class, 'index'])->name('malla');
