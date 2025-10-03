@@ -13,40 +13,12 @@ use Illuminate\Support\Str;
 class ManualController extends Controller
 {
     /**
-     * Array con la configuración de equipos
-     */
-    private function getEquipments()
-    {
-        return [
-            [
-                'type' => 'De acarreo',
-                'models' => ['ST7', 'ST2G', 'MT2010', 'MT2200'],
-                'description' => ['partes', 'diagrama', 'seguridad', 'operación', 'mantenimiento']
-            ],
-            [
-                'type' => 'Perforación',
-                'models' => ['SIMBA S7 D', 'BOOMER S1 D', 'BOOMER T1 D'],
-                'description' => ['partes', 'diagrama', 'seguridad', 'operación', 'mantenimiento']
-            ],
-        ];
-    }
-
-    /**
      * Display a listing of the resource.
      */
     public function index()
     {
         // Los manuales se cargarán via Livewire DataTable
         return view('manuals.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $equipments = $this->getEquipments();
-        return view('manuals.create', compact('equipments'));
     }
 
     /**
@@ -59,7 +31,7 @@ class ManualController extends Controller
 
             // Obtener el array de equipos para mapear el índice al nombre real
             $equipments = $this->getEquipments();
-            $equipmentIndex = (int) $request->equipment_type;
+            $equipmentIndex = (int)$request->equipment_type;
 
             // Validar que el índice existe
             if (!isset($equipments[$equipmentIndex])) {
@@ -185,6 +157,34 @@ class ManualController extends Controller
     }
 
     /**
+     * Array con la configuración de equipos
+     */
+    private function getEquipments()
+    {
+        return [
+            [
+                'type' => 'De acarreo',
+                'models' => ['ST7', 'ST2G', 'MT2010', 'MT2200'],
+                'description' => ['partes', 'diagrama', 'seguridad', 'operación', 'mantenimiento']
+            ],
+            [
+                'type' => 'Perforación',
+                'models' => ['SIMBA S7 D', 'BOOMER S1 D', 'BOOMER T1 D'],
+                'description' => ['partes', 'diagrama', 'seguridad', 'operación', 'mantenimiento']
+            ],
+        ];
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $equipments = $this->getEquipments();
+        return view('manuals.create', compact('equipments'));
+    }
+
+    /**
      * Display the specified resource.
      */
     public function show(Manual $manual)
@@ -223,15 +223,6 @@ class ManualController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Manual $manual)
-    {
-        // Implementar lógica de actualización si es necesaria
-        // Similar al store pero permitiendo actualizar el archivo opcionalmente
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Manual $manual)
@@ -249,7 +240,9 @@ class ManualController extends Controller
             ]);
 
             // Opcionalmente, eliminar el archivo físico
-            // Storage::disk('public')->delete($filePath);
+            Storage::disk('public')->delete($filePath);
+
+            $manual->delete();
 
             DB::commit();
 
@@ -269,5 +262,14 @@ class ManualController extends Controller
                 ->back()
                 ->with('error', 'Error al eliminar el manual.');
         }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Manual $manual)
+    {
+        // Implementar lógica de actualización si es necesaria
+        // Similar al store pero permitiendo actualizar el archivo opcionalmente
     }
 }
