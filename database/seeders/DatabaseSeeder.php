@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\EquipmentType;
 use App\Models\User;
 
 use Illuminate\Database\Seeder;
@@ -15,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
 
 
-        User::factory(10)->create();
+//        User::factory(10)->create();
 
         User::factory()->create([
             'name' => 'Pepe',
@@ -27,10 +28,12 @@ class DatabaseSeeder extends Seeder
             'name' => 'Carlangas',
             'email' => 'cc@cc.com',
             'password' => '1524780032',
-            'is_admin' =>1
+            'is_admin' => 1
         ]);
 
-        $this->call(EquipmentSeeder::class);
+//        $this->call(EquipmentSeeder::class);
+        EquipmentType::factory()->acarreo()->create();
+        EquipmentType::factory()->perforadora()->create();
 
     }
 }
