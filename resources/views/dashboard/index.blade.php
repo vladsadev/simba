@@ -217,7 +217,7 @@
         @endif
 
         <div class="border border-yellow-main mt-5 mb-3"></div>
-
+        <!-- Sección para la importación y exportación  -->
         <div class="mx-auto max-w-7xl">
             <h2 class="text-xl font-bold text-gray-800 mb-4">Importar y Exportar Inspecciones</h2>
             <p class="italic">Considerar que la importación será exitosa si y solo si los equipos existen y coinciden .</p>
