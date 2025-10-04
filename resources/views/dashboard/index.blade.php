@@ -220,12 +220,11 @@
 
         <div class="mx-auto max-w-7xl">
             <h2 class="text-xl font-bold text-gray-800 mb-4">Importar y Exportar Inspecciones</h2>
-            <p class="italic">Considerar que la importación será exitosa si y solo si los equipos existen y coinciden entre las
-                versiones, la local y la desplegada en el servidor.</p>
+            <p class="italic">Considerar que la importación será exitosa si y solo si los equipos existen y coinciden .</p>
 
             <div class="py-4 space-x-2.5">
-                <x-link-btn>Exportar</x-link-btn>
-                <x-link-btn variant="outline-solid">Importar</x-link-btn>
+                <x-link-btn href="#">Exportar</x-link-btn>
+                <x-link-btn href="" variant="outline-solid">Importar</x-link-btn>
             </div>
 
         </div>
